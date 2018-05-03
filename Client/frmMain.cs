@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Client {
 	public partial class frmMain : Form {
-		int sector = 0, col = 3, row = 7, shipAngle = 0, boxCount = 10;
+		int sector = 0, col = 3, row = 7, shipAngle = 0, boxCount = 10, shields = 30;
 		bool gameOn = false, shieldOn = false;
 		UdpUser client = null;
 		Pen gridPen = new Pen(System.Drawing.Color.White, 1);
