@@ -15,50 +15,9 @@ namespace UPDServer
         public string Message;
     }
 
-    abstract class UdpBase
-    {
-        protected UdpClient Client;
-
-        protected UdpBase()
-        {
-            Client = new UdpClient();
-        }
-
-        public async Task<Received> Receive()
-        {
-            var result = await Client.ReceiveAsync();
-            return new Received()
-            {
-                Message = Encoding.ASCII.GetString(result.Buffer, 0, result.Buffer.Length),
-                Sender = result.RemoteEndPoint
-            };
-        }
-    }
-
-    class UdpListener : UdpBase
-    {
-        private IPEndPoint _listenOn;
-
-        public UdpListener() : this(new IPEndPoint(IPAddress.Any, 32123)) { }
-
-        public UdpListener(IPEndPoint endpoint)
-        {
-            _listenOn = endpoint;
-            Client = new UdpClient(_listenOn);
-        }
-
-        public void Reply(string message, IPEndPoint endpoint)
-        {
-            var datagram = Encoding.ASCII.GetBytes(message);
-            Client.Send(datagram, datagram.Length, endpoint);
-        }
-
-    }
-
-
     class Program
     {
-        static Player p1 = new Player(); //Add paarameters later
+        static Player p1 = new Player(""); //Add parameters later
 
         static void Main(string[] args)
         {
@@ -87,12 +46,12 @@ namespace UPDServer
                     if (!connections.ContainsKey(received.Sender.Address.MapToIPv4().ToString()))
                     {
                         connections.Add(received.Sender.Address.MapToIPv4().ToString(), received.Sender);
-                        p1 = new Player(); //add parameters later
-                        p1.sector = rnd.Next(0, 63);
-                        p1.col = rnd.Next(0, 9);
-                        p1.row = rnd.Next(0, 9);
+                        p1 = new Player(""); //add parameters later
+                        p1.Sector = rnd.Next(0, 63);
+                        p1.Column = rnd.Next(0, 9);
+                        p1.Row = rnd.Next(0, 9);
                         players.Add(received.Sender.Address.MapToIPv4().ToString(), p1);
-                        server.Reply(String.Format("connected:true:{0}:{1}:{2}", p1.sector, p1.col, p1.row), received.Sender);
+                        server.Reply(String.Format("connected:true:{0}:{1}:{2}", p1.Sector, p1.Column, p1.Row), received.Sender);
                     }
 
 
@@ -121,12 +80,12 @@ namespace UPDServer
                         if (parts[0].Equals("mov"))
                         {
 
-                            if (parts[1].Equals("n")) p.row--;
-                            else if (parts[1].Equals("s")) p.row++;
-                            else if (parts[1].Equals("e")) p.col++;
-                            else if (parts[1].Equals("w")) p.col--;
+                            if (parts[1].Equals("n")) p.Row--;
+                            else if (parts[1].Equals("s")) p.Row++;
+                            else if (parts[1].Equals("e")) p.Column++;
+                            else if (parts[1].Equals("w")) p.Column--;
 
-                            server.Reply(String.Format("loc:{0}:{1}:{2}:{3}", p.sector, p.col, p.row, parts[1]), received.Sender);
+                            server.Reply(String.Format("loc:{0}:{1}:{2}:{3}", p.Sector, p.Column, p.Row, parts[1]), received.Sender);
                         }
                         else if (parts[0].Equals("r"))
                         {
@@ -183,7 +142,7 @@ namespace UPDServer
                         else if (parts[0].Equals("h"))
                         {
                             p.setLocation();
-                            server.Reply(String.Format("loc:{0}:{1}:{2}:{3}", p.sector, p.col, p.row, parts[1]), received.Sender);
+                            server.Reply(String.Format("loc:{0}:{1}:{2}:{3}", p.Sector, p.Column, p.Row, parts[1]), received.Sender);
                         }
                     }
                 }

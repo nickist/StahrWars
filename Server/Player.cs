@@ -15,8 +15,11 @@ namespace UPDServer {
         private int torpedoes;
         private int phasors;
         private int fuelPods;
-        private string password;
         private string oriantation;
+
+        public void setLocation() {
+
+        }
 
         public Player(string name) {
             Name = name;
@@ -126,17 +129,6 @@ namespace UPDServer {
                 fuelPods = value;
             }
         }
-
-        public string Password {
-            get {
-                return password;
-            }
-
-            set {
-                password = value;
-            }
-        }
-
         public string Oriantation {
             get {
                 return oriantation;
