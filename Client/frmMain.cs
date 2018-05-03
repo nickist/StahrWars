@@ -249,14 +249,21 @@ namespace Client {
 
         #region ====================================================================================== <Shields>
 
-        private void switchShields() {
+        private void switchShields()
+        {
             if (!gameOn) return;
-            shieldOn = !shieldOn;
-            client.Send("s" + (shieldOn ? "1" : "0"));
-            lblShielsUp.ForeColor = (shieldOn ? Color.Green : Color.Red);
-            lblShielsUp.Text = (shieldOn ? "ON" : "OFF");
-            panCanvas.Refresh();
-            picShields.Refresh();
+            if (shields == 0) return;
+            else
+            {
+                shieldOn = !shieldOn;
+                client.Send("s" + (shieldOn ? "1" : "0"));
+                lblShielsUp.ForeColor = (shieldOn ? Color.Green : Color.Red);
+                lblShielsUp.Text = (shieldOn ? "ON" : "OFF");
+                panCanvas.Refresh();
+                picShields.Refresh();
+                shields--;
+            }
+
         }
 
         private void picShields_Click(object sender, EventArgs e) {
