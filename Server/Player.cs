@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net;
 
 namespace UPDServer {
     class Player
@@ -10,6 +7,7 @@ namespace UPDServer {
 
         private string name;
         private int sector;
+        private IPEndPoint connection;
         private int column; 
         private int row;
         private int health;
@@ -20,116 +18,133 @@ namespace UPDServer {
         private string password;
         private string oriantation;
 
-      
-
-       public Player(string name, String password) {
-            setName(name);
-            setHealth(100);
-            setSheilds(15);
-            setFuelPods(50);
-            setTorpedoes(10);
-            setPhasors(50);
-            setPassword(password);
-
+        public Player(string name) {
+            Name = name;
+            Health = 100;
+            Sheilds = 15;
+            FuelPods = 50;
+            Torpedoes = 10;
+            Phasors = 50;
         }
 
-        public void setSector(int sector) {
-            this.sector = sector;
+        public string Name {
+            get {
+                return name;
+            }
+
+            set {
+                name = value;
+            }
         }
 
-        public int getSector() {
-            return sector;
+        public int Sector {
+            get {
+                return sector;
+            }
+
+            set {
+                sector = value;
+            }
         }
 
-        public void setColumn(int column) {
-            this.column = column;
+        public IPEndPoint Connection {
+            get {
+                return connection;
+            }
+
+            set {
+                connection = value;
+            }
         }
 
-        public int getColumn() {
-            return column;
+        public int Column {
+            get {
+                return column;
+            }
+
+            set {
+                column = value;
+            }
         }
 
-        public void setRow(int row) {
-            this.row = row;
+        public int Row {
+            get {
+                return row;
+            }
+
+            set {
+                row = value;
+            }
         }
 
-        public int getRow() {
-            return row;
+        public int Health {
+            get {
+                return health;
+            }
+
+            set {
+                health = value;
+            }
         }
 
-        public void setOriantation(string oriantation) {
-            this.oriantation = oriantation;
+        public int Sheilds {
+            get {
+                return sheilds;
+            }
+
+            set {
+                sheilds = value;
+            }
         }
 
-        public string getOriantation() {
-            return oriantation;
+        public int Torpedoes {
+            get {
+                return torpedoes;
+            }
+
+            set {
+                torpedoes = value;
+            }
         }
 
-        public void setName(string name) {
-            this.name = name;
+        public int Phasors {
+            get {
+                return phasors;
+            }
+
+            set {
+                phasors = value;
+            }
         }
 
-        public string getName() {
-            return name;
+        public int FuelPods {
+            get {
+                return fuelPods;
+            }
+
+            set {
+                fuelPods = value;
+            }
         }
 
-        public void setPassword(String password) {
-            this.password = password;
+        public string Password {
+            get {
+                return password;
+            }
+
+            set {
+                password = value;
+            }
         }
 
-        public string getPassword() {
-            return password;
-        }
+        public string Oriantation {
+            get {
+                return oriantation;
+            }
 
-            // return sector:column:row
-        public string getLocation() {
-            return sector +":"+ column +":"+ row + ""; 
-        }
-
-        public void updateLocation(int column, int row, int sector) {
-            this.column = column;
-            this.row = row;
-            this.sector = sector;
-        }
-
-        public void setHealth(int health) {
-            this.health = health;
-        }
-
-        public int getHealth() {
-            return health;
-        }
-
-        public void setSheilds(int sheilds) {
-            this.sheilds = sheilds;
-        }
-
-        public int getSheilds() {
-            return sheilds;
-        }
-
-        public void setFuelPods(int fuelPods) {
-            this.fuelPods = fuelPods;
-        }
-
-        public int getFuelPods() {
-            return fuelPods;
-        }
-
-        public void setTorpedoes (int torpedoes) {
-            this.torpedoes = torpedoes;
-        }
-
-        public int getTorpedoes() {
-            return torpedoes;
-        }
-
-        public void setPhasors(int phasors) {
-            this.phasors = phasors;
-        }
-
-        public int getPhasors() {
-            return phasors;
+            set {
+                oriantation = value;
+            }
         }
     }
 }

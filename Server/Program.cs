@@ -11,7 +11,7 @@ namespace UPDServer {
     }
 
     class Program {
-        static Player p1 = new Player("","");
+        static Player p1 = new Player("");
 
         static void Main(string[] args) {
             //create a new server
@@ -37,12 +37,12 @@ namespace UPDServer {
                     // Only add new connections to the list of clients
                     if (!connections.ContainsKey(received.Sender.Address.MapToIPv4().ToString())) {
                         connections.Add(received.Sender.Address.MapToIPv4().ToString(), received.Sender);
-                        p1 = new Player("","");
-                        p1.setSector(rnd.Next(0, 63));
-                        p1.setColumn(rnd.Next(0, 9));
-                        p1.setRow(rnd.Next(0, 9));
+                        p1 = new Player("");
+                        p1.Sector = rnd.Next(0, 63);
+                        p1.Column = rnd.Next(0, 9);
+                        p1.Row = rnd.Next(0, 9);
                         players.Add(received.Sender.Address.MapToIPv4().ToString(), p1);
-                        server.Reply(String.Format("connected:true:{0}:{1}:{2}", p1.getSector(), p1.getColumn(), p1.getRow() ), received.Sender);
+                        server.Reply(String.Format("connected:true:{0}:{1}:{2}", p1.Sector, p1.Column, p1.Row ), received.Sender);
                     }
 
 
@@ -64,12 +64,12 @@ namespace UPDServer {
                         Player p;
                         players.TryGetValue(received.Sender.Address.MapToIPv4().ToString(), out p);
 
-                        if (parts[1].Equals("n")) p.setRow(p.getRow() - 1);
-                        else if (parts[1].Equals("s")) p.setRow(p.getRow() + 1);
-                        else if (parts[1].Equals("e")) p.setColumn(p.getColumn() + 1);
-                        else if (parts[1].Equals("w")) p.setColumn(p.getColumn() - 1);
+                        if (parts[1].Equals("n")) p.Row--;
+                        else if (parts[1].Equals("s")) p.Row++;
+                        else if (parts[1].Equals("e")) p.Column++;
+                        else if (parts[1].Equals("w")) p.Column--;
 
-                        server.Reply(String.Format("loc:{0}:{1}:{2}:{3}", p.getSector(), p.getColumn(), p.getRow(), parts[1]), received.Sender);
+                        server.Reply(String.Format("loc:{0}:{1}:{2}:{3}", p.Sector, p.Column, p.Row, parts[1]), received.Sender);
                     }
                 }
             });

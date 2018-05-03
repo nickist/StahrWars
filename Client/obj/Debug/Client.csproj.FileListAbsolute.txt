@@ -56,3 +56,12 @@ C:\Users\kistn\OneDrive\StahrWars\Client\obj\Debug\Client.csproj.GenerateResourc
 C:\Users\kistn\OneDrive\StahrWars\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
 C:\Users\kistn\OneDrive\StahrWars\Client\obj\Debug\Client.exe
 C:\Users\kistn\OneDrive\StahrWars\Client\obj\Debug\Client.pdb
+C:\Users\kistnj\Desktop\StahrWars\Client\bin\Debug\Client.exe.config
+C:\Users\kistnj\Desktop\StahrWars\Client\obj\Debug\Client.exe
+C:\Users\kistnj\Desktop\StahrWars\Client\obj\Debug\Client.pdb
+C:\Users\kistnj\Desktop\StahrWars\Client\bin\Debug\Client.exe
+C:\Users\kistnj\Desktop\StahrWars\Client\bin\Debug\Client.pdb
+C:\Users\kistnj\Desktop\StahrWars\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache
+C:\Users\kistnj\Desktop\StahrWars\Client\obj\Debug\Client.frmMain.resources
+C:\Users\kistnj\Desktop\StahrWars\Client\obj\Debug\Client.Properties.Resources.resources
+C:\Users\kistnj\Desktop\StahrWars\Client\obj\Debug\Client.csproj.GenerateResource.Cache
