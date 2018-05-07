@@ -111,6 +111,7 @@ namespace UPDServer {
                         }
                         else if (parts[0].Equals("s"))
                         {
+                            p1.Sheilds--;
                             if (parts[1].Equals("1"))
                             {
                                 //Set shieldOn for player to true
@@ -124,6 +125,7 @@ namespace UPDServer {
                         }
                         else if (parts[0].Equals("v"))
                         {
+                            
                             //Add if statements for each sector and one for whole universe 
 
                         }
@@ -132,10 +134,12 @@ namespace UPDServer {
                             if (parts[1].Equals("p"))
                             {
                                 //Add code for handeling shooting phasor
+                                p1.Phasors--;
                             }
                             else if (parts[1].Equals("t"))
                             {
                                 //Add code for handeling shooting torpedo
+                                p1.Torpedoes--;
                             }
                         }
                         else if (parts[0].Equals("h"))
