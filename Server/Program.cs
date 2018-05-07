@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Sockets;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace UPDServer
-{
+namespace UPDServer {
 
 
     public struct Received
@@ -23,6 +20,8 @@ namespace UPDServer
         {
             //create a new server
             var server = new UdpListener();
+            //create universe
+            Universe universe = new Universe();
             Random rnd = new Random();
             Dictionary<string, IPEndPoint> connections = new Dictionary<string, IPEndPoint>();
             Dictionary<string, Player> players = new Dictionary<string, Player>();
@@ -112,6 +111,7 @@ namespace UPDServer
                         }
                         else if (parts[0].Equals("s"))
                         {
+                            p1.Sheilds--;
                             if (parts[1].Equals("1"))
                             {
                                 //Set shieldOn for player to true
@@ -125,6 +125,7 @@ namespace UPDServer
                         }
                         else if (parts[0].Equals("v"))
                         {
+                            
                             //Add if statements for each sector and one for whole universe 
 
                         }
@@ -133,10 +134,12 @@ namespace UPDServer
                             if (parts[1].Equals("p"))
                             {
                                 //Add code for handeling shooting phasor
+                                p1.Phasors--;
                             }
                             else if (parts[1].Equals("t"))
                             {
                                 //Add code for handeling shooting torpedo
+                                p1.Torpedoes--;
                             }
                         }
                         else if (parts[0].Equals("h"))
