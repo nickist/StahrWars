@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UPDServer {
     class Universe {
+        private Dictionary<String, Galaxy> galaxies = new Dictionary<String, Galaxy>();
 
-        Universe() {
-            Dictionary<String, Galaxy> galaxies = new Dictionary<String, Galaxy>();
+        public Universe() {
 
-            char sec = 'A';
-            while (sec != 'Q') {
+            char sec = 'a';
+            while (sec != 'q') {
                 for (int i = 0; i < 16; i++) {
                     galaxies.Add(sec + "" + i, new Galaxy());
-
                 }
                 sec++;
             }
         }
-
+        /* dont remember why I made this method
+        public Dictionary<String, Char> getSector(String sec) {
+            return galaxies[sec].Getgalaxy();
+        }
+        */
         
 
 

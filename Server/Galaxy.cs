@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UPDServer {
     class Galaxy {
@@ -11,19 +8,26 @@ namespace UPDServer {
         private char blackhole;
         private char treasure;
         private char planet;
-        private char[] cells = new char[100];
+        private Dictionary<String, Char> cells = new Dictionary<String, char>();
 
         public Galaxy() {
             Random rnd = new Random();
+            char sec = 'a';
+            while (sec != 'k') {
+                for (int i = 0; i < 9; i++) {
+                    cells.Add(sec + "" + i, (char)rnd.Next(33,126));
 
-            for (int i = 0; i < 99; i++) {
-                cells[i] = (char) rnd.Next(30, 127);
+                }
+                sec++;
             }
-
         }
 
-        public char GetCell(int location) {
-            return cells[location];
+        public Dictionary<String, Char> Getgalaxy() {
+            return cells;
+        }
+
+        public char GetCell(string sec) {
+            return cells[sec];
         }  
 
         public char Star { get => star; set => star = value; }

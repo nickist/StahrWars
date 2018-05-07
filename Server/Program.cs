@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Sockets;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace UPDServer
-{
+namespace UPDServer {
 
 
     public struct Received
@@ -23,6 +20,8 @@ namespace UPDServer
         {
             //create a new server
             var server = new UdpListener();
+            //create universe
+            Universe universe = new Universe();
             Random rnd = new Random();
             Dictionary<string, IPEndPoint> connections = new Dictionary<string, IPEndPoint>();
             Dictionary<string, Player> players = new Dictionary<string, Player>();
