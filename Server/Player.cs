@@ -16,6 +16,7 @@ namespace UPDServer {
         private int phasors;
         private int fuelPods;
         private string oriantation;
+        private bool shieldOn;
 
         public void setLocation() {
 
@@ -136,6 +137,15 @@ namespace UPDServer {
 
             set {
                 oriantation = value;
+            }
+        }
+        public bool ShieldOn{
+            get{
+                return shieldOn;
+            }
+
+            set{
+                shieldOn = value;
             }
         }
     }

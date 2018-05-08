@@ -78,54 +78,69 @@ namespace UPDServer {
                         players.TryGetValue(received.Sender.Address.MapToIPv4().ToString(), out p);
                         if (parts[0].Equals("mov"))
                         {
+                            if (p.FuelPods != 0)
+                            {
+                                p.FuelPods--;
+                                if (parts[1].Equals("n")) p.Row--;
+                                else if (parts[1].Equals("s")) p.Row++;
+                                else if (parts[1].Equals("e")) p.Column++;
+                                else if (parts[1].Equals("w")) p.Column--;
 
-                            if (parts[1].Equals("n")) p.Row--;
-                            else if (parts[1].Equals("s")) p.Row++;
-                            else if (parts[1].Equals("e")) p.Column++;
-                            else if (parts[1].Equals("w")) p.Column--;
-
-                            server.Reply(String.Format("loc:{0}:{1}:{2}:{3}", p.Sector, p.Column, p.Row, parts[1]), received.Sender);
+                                server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, parts[1], p.FuelPods), received.Sender);
+                            }
+                            else
+                            {
+                                server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, parts[1], p.FuelPods), received.Sender);
+                            }
                         }
                         else if (parts[0].Equals("r"))
                         {
                             if (parts[1].Equals("n"))
                             {
-                                //Change orientation variable for player
+                                p.Oriantation = "n";
                                 server.Reply(String.Format("or:{0}", parts[1]), received.Sender);
                             }
                             else if (parts[1].Equals("s"))
                             {
-                                //Change orientation variable for player
+                                p.Oriantation = "s";
                                 server.Reply(String.Format("or:{0}", parts[1]), received.Sender);
                             }
                             else if (parts[1].Equals("e"))
                             {
-                                //Change orientation variable for player
+                                p.Oriantation = "e";
                                 server.Reply(String.Format("or:{0}", parts[1]), received.Sender);
                             }
                             else if (parts[1].Equals("w"))
                             {
-                                //Change orientation variable for player
+                                p.Oriantation = "w";
                                 server.Reply(String.Format("or:{0}", parts[1]), received.Sender);
                             }
                         }
                         else if (parts[0].Equals("s"))
                         {
-                            p1.Sheilds--;
                             if (parts[1].Equals("1"))
                             {
-                                //Set shieldOn for player to true
-                                server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
+                                if (p.Sheilds != 0)
+                                {
+                                    p.Sheilds--;
+                                    p.ShieldOn = true;
+                                    server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
+                                }
+                                else
+                                {
+                                    parts[1] = "2";
+                                    server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
+                                }
                             }
                             else if (parts[1].Equals("0"))
                             {
-                                //Set shieldOn for player to false
+                                p.ShieldOn = false;
                                 server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
                             }
                         }
                         else if (parts[0].Equals("v"))
                         {
-                            
+
                             //Add if statements for each sector and one for whole universe 
 
                         }
@@ -133,19 +148,41 @@ namespace UPDServer {
                         {
                             if (parts[1].Equals("p"))
                             {
-                                //Add code for handeling shooting phasor
-                                p1.Phasors--;
+                                //Add code for handelig shooting phasors
+                                if (p.Phasors != 0)
+                                {
+                                    p.Phasors--;
+                                }
+                                else
+                                {
+
+                                }
                             }
                             else if (parts[1].Equals("t"))
                             {
                                 //Add code for handeling shooting torpedo
-                                p1.Torpedoes--;
+                                if (p.Torpedoes != 0)
+                                {
+                                    p.Torpedoes--;
+                                }
+                                else
+                                {
+
+                                }
                             }
                         }
                         else if (parts[0].Equals("h"))
                         {
-                            p.setLocation();
-                            server.Reply(String.Format("loc:{0}:{1}:{2}:{3}", p.Sector, p.Column, p.Row, parts[1]), received.Sender);
+                            if (p.FuelPods <= 5){
+                                p.Sector = rnd.Next(0, 63);
+                                p.Column = rnd.Next(0, 9);
+                                p.Row = rnd.Next(0, 9);
+                                p.FuelPods -= 5;
+                                server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
+                            }
+                            else{ //Change this to a differnt reply in the future so user can be promted that they dont have enough fuel to hyperspace
+                                server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, parts[1], p.FuelPods), received.Sender);
+                            }
                         }
                     }
                 }

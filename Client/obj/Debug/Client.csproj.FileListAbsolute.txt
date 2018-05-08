@@ -65,3 +65,13 @@ C:\Users\kistnj\Desktop\StahrWars\Client\obj\Debug\Client.csprojResolveAssemblyR
 C:\Users\kistnj\Desktop\StahrWars\Client\obj\Debug\Client.frmMain.resources
 C:\Users\kistnj\Desktop\StahrWars\Client\obj\Debug\Client.Properties.Resources.resources
 C:\Users\kistnj\Desktop\StahrWars\Client\obj\Debug\Client.csproj.GenerateResource.Cache
+C:\Users\gerschjp\Desktop\StahrWars\Client\bin\Debug\Client.exe.config
+C:\Users\gerschjp\Desktop\StahrWars\Client\bin\Debug\Client.exe
+C:\Users\gerschjp\Desktop\StahrWars\Client\bin\Debug\Client.pdb
+C:\Users\gerschjp\Desktop\StahrWars\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache
+C:\Users\gerschjp\Desktop\StahrWars\Client\obj\Debug\Client.frmMain.resources
+C:\Users\gerschjp\Desktop\StahrWars\Client\obj\Debug\Client.Properties.Resources.resources
+C:\Users\gerschjp\Desktop\StahrWars\Client\obj\Debug\Client.csproj.GenerateResource.Cache
+C:\Users\gerschjp\Desktop\StahrWars\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
+C:\Users\gerschjp\Desktop\StahrWars\Client\obj\Debug\Client.exe
+C:\Users\gerschjp\Desktop\StahrWars\Client\obj\Debug\Client.pdb
