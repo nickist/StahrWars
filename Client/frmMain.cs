@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Client {
 	public partial class frmMain : Form {
-		int sector = 0, col = 3, row = 7, shipAngle = 0, boxCount = 10, shields = 30;
+		int sector = 0, col = 3, row = 7, shipAngle = 0, boxCount = 10, shields = 30, torpedos = 10, phasors = 50;
 		bool gameOn = false, shieldOn = false, phasorsEquiped = true;
 		UdpUser client = null;
 		Pen gridPen = new Pen(System.Drawing.Color.White, 1);
@@ -23,6 +23,7 @@ namespace Client {
         Image shipEast = Image.FromFile("ShipEast.png");
         Image shipWest = Image.FromFile("ShipWest.png");
 
+        Image torpedo = Image.FromFile("torpedo.png");
         //List<Point> points = new List<Point>();
         //List<Point> myShipPts = new List<Point>();
 
@@ -288,8 +289,9 @@ namespace Client {
                     case Keys.H:
                         client.Send("h");
                         break;
-                    case Keys.Shift:
+                    case Keys.Q:
                         phasorsEquiped = !phasorsEquiped;
+                        client.Send("f" + (phasorsEquiped ? "p" : "t"));
                         break;
 				}
 			} catch (Exception ex) {
@@ -308,7 +310,9 @@ namespace Client {
         private void switchShields()
         {
             if (!gameOn) return;
-            if (shields == 0) return;
+            if (shields == 0) {
+                client.Send("Out of Sheilds!");
+            }
             else
             {
                 shieldOn = !shieldOn;
