@@ -26,10 +26,10 @@ namespace UPDServer {
             return cells;
         }
 
-        public char GetCell(string sec) {
-            return cells[sec];
+        public char GetCell(string cell) {
+            return cells[cell];
         }  
-
+        
         public char Star { get => star; set => star = value; }
         public char Blackhole { get => blackhole; set => blackhole = value; }
         public char Treasure { get => treasure; set => treasure = value; }
