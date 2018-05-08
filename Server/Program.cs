@@ -157,6 +157,7 @@ namespace UPDServer {
                                 {
 
                                 }
+                                server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
                             }
                             else if (parts[1].Equals("t"))
                             {
@@ -169,6 +170,7 @@ namespace UPDServer {
                                 {
 
                                 }
+                                server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
                             }
                         }
                         else if (parts[0].Equals("h"))
