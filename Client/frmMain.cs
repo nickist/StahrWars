@@ -10,7 +10,7 @@ using System.Windows.Forms;
 namespace Client {
 	public partial class frmMain : Form {
 		int sector = 0, col = 3, row = 7, shipAngle = 0, boxCount = 10, shields = 30;
-		bool gameOn = false, shieldOn = false;
+		bool gameOn = false, shieldOn = false, phasorsEquiped = true;
 		UdpUser client = null;
 		Pen gridPen = new Pen(System.Drawing.Color.White, 1);
 		int gridSize = 0;
@@ -98,46 +98,96 @@ namespace Client {
 
 			string msg;
 			string[] parts;
-			Task.Factory.StartNew(async () => {
-				while (true) {
-					try {
-						msg = (await client.Receive()).Message.ToString();
+            Task.Factory.StartNew(async () => {
+            while (true) {
+                try {
+                    msg = (await client.Receive()).Message.ToString();
 
-						parts = msg.Split(':');
-						fixParts(parts);
-						if (parts[0].Equals("quit")) {
-							break;
-						} else if (parts[0].Equals("connected")) {
-							gameOn = parts[1].Equals("true");
+                    parts = msg.Split(':');
+                    fixParts(parts);
+                    if (parts[0].Equals("quit"))
+                    {
+                        break;
+                    }
+                    else if (parts[0].Equals("connected"))
+                    {
+                        gameOn = parts[1].Equals("true");
 
-							if (gameOn) {
-								txtIP.Invoke(new Action(() => txtIP.BackColor = Color.Green));
-								btnConnect.Invoke(new Action(() => btnConnect.BackColor = Color.Green));
-								txtIP.Invoke(new Action(() => txtIP.ReadOnly = true));
-								txtIP.Invoke(new Action(() => txtIP.Enabled = false));
-								btnConnect.Invoke(new Action(() => btnConnect.Enabled = false));
+                        if (gameOn)
+                        {
+                            txtIP.Invoke(new Action(() => txtIP.BackColor = Color.Green));
+                            btnConnect.Invoke(new Action(() => btnConnect.BackColor = Color.Green));
+                            txtIP.Invoke(new Action(() => txtIP.ReadOnly = true));
+                            txtIP.Invoke(new Action(() => txtIP.Enabled = false));
+                            btnConnect.Invoke(new Action(() => btnConnect.Enabled = false));
 
-								addText("You have joined the game...\n");
-								sector = Convert.ToInt32(parts[2]);
-								col = Convert.ToInt32(parts[3]);
-								row = Convert.ToInt32(parts[4]);
-								lblSector.Invoke(new Action(() => lblSector.Text = "G-" + sector));
-                                prbHealth.Invoke(new Action(() => prbHealth.Value = 100));
-							} else {
-								addText("Connection not established\n");
-								sector = row = col = -1;
-							}
+                            addText("You have joined the game...\n");
+                            sector = Convert.ToInt32(parts[2]);
+                            col = Convert.ToInt32(parts[3]);
+                            row = Convert.ToInt32(parts[4]);
+                            lblSector.Invoke(new Action(() => lblSector.Text = "G-" + sector));
+                            prbHealth.Invoke(new Action(() => prbHealth.Value = 100));
+                        }
+                        else
+                        {
+                            addText("Connection not established\n");
+                            sector = row = col = -1;
+                        }
 
-							panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
+                        panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
 
-						} else if(parts[0].Equals("loc")) {
-                            sector = Convert.ToInt32(parts[1]);
-                            col = Convert.ToInt32(parts[2]);
-                            row = Convert.ToInt32(parts[3]);
+                    }
+                    else if (parts[0].Equals("loc"))
+                    {
+                        sector = Convert.ToInt32(parts[1]);
+                        col = Convert.ToInt32(parts[2]);
+                        row = Convert.ToInt32(parts[3]);
+                        if (parts[4].Equals("n")) {
+                            shipAngle = 0;
+                        }
+                        else if (parts[4].Equals("s")) {
+                            shipAngle = 180;
+                        }
+                        else if (parts[4].Equals("e")) {
+                            shipAngle = 90;
+                        }
+                        else if (parts[4].Equals("w")) {
+                            shipAngle = 270;
+                        }
+                        //fuelPods = Convert.ToInt32(parts[5]);
                             panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
-                        } else {
-							addText(msg);
-						}
+                        }
+                        else if (parts[0].Equals("or")) {
+                            if (parts[1].Equals("n")) {
+                                shipAngle = 0;
+                            }
+                            else if (parts[1].Equals("s")) {
+                                shipAngle = 180;
+                            }
+                            else if (parts[1].Equals("e")){
+                                shipAngle = 90;
+                            }
+                            else if (parts[1].Equals("w")) {
+                                shipAngle = 270;
+                            }
+                            panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
+                        }
+                        else if (parts[0].Equals("sh")){
+                            //Finish code for handeling shields - case 2
+                            if (parts[1].Equals("0")){
+                                shieldOn = false;
+                            }
+                            else if (parts[1].Equals("1")) {
+                                shieldOn = true;
+                            }
+                            else if (parts[1].Equals("2")){
+                                shieldOn = false;
+                                //Add an alert/message to user that they are out of shield pods
+                            }
+                        } 
+                        else{
+                            addText(msg);
+                        }
 					} catch (Exception e) {
 						MessageBox.Show(e.Message);
 					}
@@ -235,6 +285,12 @@ namespace Client {
 					case Keys.S:
                         switchShields();
                         break;
+                    case Keys.H:
+                        client.Send("h");
+                        break;
+                    case Keys.Shift:
+                        phasorsEquiped = !phasorsEquiped;
+                        break;
 				}
 			} catch (Exception ex) {
 				this.Text = ex.Message;
@@ -280,7 +336,6 @@ namespace Client {
         }
 
         #endregion
-
 
         #region ====================================================================================== <Local Settings>
 
