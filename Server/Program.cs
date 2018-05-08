@@ -173,7 +173,7 @@ namespace UPDServer {
                         }
                         else if (parts[0].Equals("h"))
                         {
-                            if (p.FuelPods <= 5){
+                            if (p.FuelPods >= 5){
                                 p.Sector = rnd.Next(0, 63);
                                 p.Column = rnd.Next(0, 9);
                                 p.Row = rnd.Next(0, 9);
@@ -181,7 +181,7 @@ namespace UPDServer {
                                 server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
                             }
                             else{ //Change this to a differnt reply in the future so user can be promted that they dont have enough fuel to hyperspace
-                                server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, parts[1], p.FuelPods), received.Sender);
+                                server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
                             }
                         }
                     }
