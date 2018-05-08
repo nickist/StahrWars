@@ -15,13 +15,5 @@ namespace UPDServer {
                 sec++;
             }
         }
-        /* dont remember why I made this method
-        public Dictionary<String, Char> getSector(String sec) {
-            return galaxies[sec].Getgalaxy();
-        }
-        */
-        
-
-
     }
 }
