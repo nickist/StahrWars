@@ -173,7 +173,7 @@ namespace UPDServer {
                         }
                         else if (parts[0].Equals("h"))
                         {
-                            if (p.FuelPods <= 5){
+                            if (p.FuelPods >= 5){
                                 p.Sector = rnd.Next(0, 63);
                                 p.Column = rnd.Next(0, 9);
                                 p.Row = rnd.Next(0, 9);
