@@ -99,16 +99,12 @@ namespace Client {
 
                     parts = msg.Split(':');
                     fixParts(parts);
-                    if (parts[0].Equals("quit"))
-                    {
+                    if (parts[0].Equals("quit")) {
                         break;
-                    }
-                    else if (parts[0].Equals("connected"))
-                    {
+                    } else if (parts[0].Equals("connected")) {
                         gameOn = parts[1].Equals("true");
 
-                        if (gameOn)
-                        {
+                        if (gameOn) {
                             txtIP.Invoke(new Action(() => txtIP.BackColor = Color.Green));
                             btnConnect.Invoke(new Action(() => btnConnect.BackColor = Color.Green));
                             txtIP.Invoke(new Action(() => txtIP.ReadOnly = true));
@@ -249,15 +245,7 @@ namespace Client {
                             move("n");
                         }
 						break;
-					case Keys.Right:
-                    case Keys.V:
-                        if (false) {
-                        
-
-                        } else { 
-                        
-
-                        }
+					case Keys.Right:                        
 						if (shipAngle != 90) {
 							shipAngle = 90;
 							panCanvas.Refresh();
@@ -266,7 +254,10 @@ namespace Client {
                             move("e");
                         }
 						break;
-					case Keys.Down:
+                    case Keys.V:
+                        Application.Run(new frmUniverse());
+                        break;
+                    case Keys.Down:
 						if (shipAngle != 180) {
 							shipAngle = 180;
 							panCanvas.Refresh();
