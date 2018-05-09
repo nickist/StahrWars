@@ -14,7 +14,7 @@ namespace UPDServer {
 
     class Program
     {
-        static Player p1 = new Player(""); //Add parameters later
+        static Player p1 = new Player(Environment.UserName); //Add parameters later
 
         static void Main(string[] args)
         {
@@ -45,7 +45,7 @@ namespace UPDServer {
                     if (!connections.ContainsKey(received.Sender.Address.MapToIPv4().ToString()))
                     {
                         connections.Add(received.Sender.Address.MapToIPv4().ToString(), received.Sender);
-                        p1 = new Player(""); //add parameters later
+                        p1 = new Player(Environment.UserName); //add parameters later
                         p1.Sector = rnd.Next(0, 63);
                         p1.Column = rnd.Next(0, 9);
                         p1.Row = rnd.Next(0, 9);
