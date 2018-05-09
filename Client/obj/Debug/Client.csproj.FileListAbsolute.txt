@@ -85,3 +85,4 @@ C:\Users\kistn\Desktop\StahrWars\Client\obj\Debug\Client.csproj.GenerateResource
 C:\Users\kistn\Desktop\StahrWars\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
 C:\Users\kistn\Desktop\StahrWars\Client\obj\Debug\Client.exe
 C:\Users\kistn\Desktop\StahrWars\Client\obj\Debug\Client.pdb
+C:\Users\kistn\Desktop\StahrWars\Client\obj\Debug\Client.frmUniverse.resources

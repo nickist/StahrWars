@@ -255,7 +255,9 @@ namespace Client {
                         }
 						break;
                     case Keys.V:
+                       // frmUniverse frmu = new frmUniverse();
                         Application.Run(new frmUniverse());
+                        client.Send("v");
                         break;
                     case Keys.Down:
 						if (shipAngle != 180) {
