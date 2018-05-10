@@ -43,23 +43,12 @@ namespace Client
             this.lblSector = new System.Windows.Forms.Label();
             this.chkShowBackground = new System.Windows.Forms.CheckBox();
             this.grpStatus = new System.Windows.Forms.GroupBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.picShields = new System.Windows.Forms.PictureBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.lblShielsUp = new System.Windows.Forms.Label();
             this.prbHealth = new System.Windows.Forms.ProgressBar();
             this.label4 = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.progressBar2 = new System.Windows.Forms.ProgressBar();
-            this.progressBar3 = new System.Windows.Forms.ProgressBar();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lblShielsUp = new System.Windows.Forms.Label();
+            this.picShields = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.panCanvas)).BeginInit();
             this.grpStatus.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -192,48 +181,46 @@ namespace Client
             // 
             // grpStatus
             // 
-            this.grpStatus.Controls.Add(this.label13);
-            this.grpStatus.Controls.Add(this.label12);
-            this.grpStatus.Controls.Add(this.label11);
-            this.grpStatus.Controls.Add(this.label10);
-            this.grpStatus.Controls.Add(this.label9);
-            this.grpStatus.Controls.Add(this.label8);
-            this.grpStatus.Controls.Add(this.label7);
-            this.grpStatus.Controls.Add(this.label6);
-            this.grpStatus.Controls.Add(this.progressBar3);
-            this.grpStatus.Controls.Add(this.progressBar2);
-            this.grpStatus.Controls.Add(this.progressBar1);
             this.grpStatus.Controls.Add(this.groupBox1);
             this.grpStatus.Controls.Add(this.prbHealth);
             this.grpStatus.Controls.Add(this.label4);
-            this.grpStatus.Location = new System.Drawing.Point(825, 63);
+            this.grpStatus.Location = new System.Drawing.Point(782, 47);
             this.grpStatus.Name = "grpStatus";
-            this.grpStatus.Size = new System.Drawing.Size(415, 416);
+            this.grpStatus.Size = new System.Drawing.Size(363, 416);
             this.grpStatus.TabIndex = 13;
             this.grpStatus.TabStop = false;
             this.grpStatus.Text = "Status";
+            // 
+            // prbHealth
+            // 
+            this.prbHealth.BackColor = System.Drawing.SystemColors.Control;
+            this.prbHealth.Location = new System.Drawing.Point(57, 30);
+            this.prbHealth.Name = "prbHealth";
+            this.prbHealth.Size = new System.Drawing.Size(290, 20);
+            this.prbHealth.Step = 1;
+            this.prbHealth.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.prbHealth.TabIndex = 2;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(13, 33);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(38, 13);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Health";
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.picShields);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.lblShielsUp);
-            this.groupBox1.Location = new System.Drawing.Point(6, 249);
+            this.groupBox1.Location = new System.Drawing.Point(16, 121);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(190, 133);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "System";
-            // 
-            // picShields
-            // 
-            this.picShields.Location = new System.Drawing.Point(121, 20);
-            this.picShields.Name = "picShields";
-            this.picShields.Size = new System.Drawing.Size(26, 26);
-            this.picShields.TabIndex = 8;
-            this.picShields.TabStop = false;
-            this.picShields.Click += new System.EventHandler(this.picShields_Click);
-            this.picShields.Paint += new System.Windows.Forms.PaintEventHandler(this.picShields_Paint);
             // 
             // label5
             // 
@@ -255,134 +242,21 @@ namespace Client
             this.lblShielsUp.Text = "OFF";
             this.lblShielsUp.Click += new System.EventHandler(this.lblShielsUp_Click);
             // 
-            // prbHealth
+            // picShields
             // 
-            this.prbHealth.BackColor = System.Drawing.SystemColors.Control;
-            this.prbHealth.Location = new System.Drawing.Point(74, 40);
-            this.prbHealth.Name = "prbHealth";
-            this.prbHealth.Size = new System.Drawing.Size(290, 20);
-            this.prbHealth.Step = 1;
-            this.prbHealth.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.prbHealth.TabIndex = 2;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(22, 47);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(38, 13);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Health";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.BackColor = System.Drawing.SystemColors.Control;
-            this.progressBar1.Location = new System.Drawing.Point(74, 66);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(290, 20);
-            this.progressBar1.Step = 1;
-            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.progressBar1.TabIndex = 7;
-            // 
-            // progressBar2
-            // 
-            this.progressBar2.BackColor = System.Drawing.SystemColors.Control;
-            this.progressBar2.Location = new System.Drawing.Point(74, 118);
-            this.progressBar2.Name = "progressBar2";
-            this.progressBar2.Size = new System.Drawing.Size(290, 20);
-            this.progressBar2.Step = 1;
-            this.progressBar2.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.progressBar2.TabIndex = 8;
-            // 
-            // progressBar3
-            // 
-            this.progressBar3.BackColor = System.Drawing.SystemColors.Control;
-            this.progressBar3.Location = new System.Drawing.Point(74, 92);
-            this.progressBar3.Name = "progressBar3";
-            this.progressBar3.Size = new System.Drawing.Size(290, 20);
-            this.progressBar3.Step = 1;
-            this.progressBar3.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.progressBar3.TabIndex = 9;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(162, 202);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(0, 13);
-            this.label6.TabIndex = 10;
-            this.label6.Click += new System.EventHandler(this.label6_Click);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(11, 125);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(52, 13);
-            this.label7.TabIndex = 11;
-            this.label7.Text = "Torpedos";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(20, 99);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(40, 13);
-            this.label8.TabIndex = 12;
-            this.label8.Text = "Phasor";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 73);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(54, 13);
-            this.label9.TabIndex = 13;
-            this.label9.Text = "Fuel Pods";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(376, 118);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(19, 13);
-            this.label10.TabIndex = 14;
-            this.label10.Text = "10";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(376, 92);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(19, 13);
-            this.label11.TabIndex = 15;
-            this.label11.Text = "50";
-            this.label11.Click += new System.EventHandler(this.label11_Click);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(376, 66);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(19, 13);
-            this.label12.TabIndex = 16;
-            this.label12.Text = "50";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(370, 40);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(25, 13);
-            this.label13.TabIndex = 17;
-            this.label13.Text = "100";
+            this.picShields.Location = new System.Drawing.Point(121, 20);
+            this.picShields.Name = "picShields";
+            this.picShields.Size = new System.Drawing.Size(26, 26);
+            this.picShields.TabIndex = 8;
+            this.picShields.TabStop = false;
+            this.picShields.Click += new System.EventHandler(this.picShields_Click);
+            this.picShields.Paint += new System.Windows.Forms.PaintEventHandler(this.picShields_Paint);
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1303, 683);
+            this.ClientSize = new System.Drawing.Size(1155, 683);
             this.ControlBox = false;
             this.Controls.Add(this.grpStatus);
             this.Controls.Add(this.chkShowBackground);
@@ -437,17 +311,6 @@ namespace Client
         private PictureBox picShields;
         private Label label5;
         private Label lblShielsUp;
-        private ProgressBar progressBar3;
-        private ProgressBar progressBar2;
-        private ProgressBar progressBar1;
-        private Label label6;
-        private Label label13;
-        private Label label12;
-        private Label label11;
-        private Label label10;
-        private Label label9;
-        private Label label8;
-        private Label label7;
     }
 }
 
