@@ -22,7 +22,6 @@ namespace Client {
         Image shipSouth = Image.FromFile("ShipSouth.png");
         Image shipEast = Image.FromFile("ShipEast.png");
         Image shipWest = Image.FromFile("ShipWest.png");
-
         Image torpedo = Image.FromFile("torpedo.png");
         //List<Point> points = new List<Point>();
         //List<Point> myShipPts = new List<Point>();
@@ -255,7 +254,8 @@ namespace Client {
                         }
 						break;
                     case Keys.V:
-                       // frmUniverse frmu = new frmUniverse();
+                        Application.EnableVisualStyles();
+                        Application.SetCompatibleTextRenderingDefault(false);
                         Application.Run(new frmUniverse());
                         client.Send("v");
                         break;
