@@ -17,7 +17,7 @@ namespace Client {
 		Image planet = Image.FromFile("jupiter.png");
 		Image star = Image.FromFile("star.png");
 		Image background = Image.FromFile("background.jpg");
-
+        Image blackhole = Image.FromFile("blackhole.jpg");
         Image shipNorth = Image.FromFile("ShipNorth.png");
         Image shipSouth = Image.FromFile("ShipSouth.png");
         Image shipEast = Image.FromFile("ShipEast.png");
@@ -247,6 +247,10 @@ namespace Client {
             if (!gameOn) return false;
 			try {
 				switch (keyData) {
+                    case Keys.V:
+
+                        client.Send("v");
+                        break;
 					case Keys.Up:
 						if (shipAngle != 0) {
 							shipAngle = 0;
