@@ -23,7 +23,7 @@ namespace Client {
         Image shipEast = Image.FromFile("ShipEast.png");
         Image shipWest = Image.FromFile("ShipWest.png");
 
-        Image torpedo = Image.FromFile("torpedo.png");
+        //Image torpedo = Image.FromFile("torpedo.png");
         //List<Point> points = new List<Point>();
         //List<Point> myShipPts = new List<Point>();
 
@@ -332,6 +332,21 @@ namespace Client {
 
         private void lblShielsUp_Click(object sender, EventArgs e) {
             switchShields();
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label11_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void picShields_Paint(object sender, PaintEventArgs e) {
