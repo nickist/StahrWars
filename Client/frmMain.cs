@@ -297,6 +297,7 @@ namespace Client
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (!gameOn) return false;
+<<<<<<< Updated upstream
             try
             {
 
@@ -311,6 +312,20 @@ namespace Client
                         }
                         else
                         {
+=======
+			try {
+				switch (keyData) {
+                    case Keys.V:
+                        Application.Run(new frmUniverse());
+                        client.Send("v");
+                        break;
+					case Keys.Up:
+						if (shipAngle != 0) {
+							shipAngle = 0;
+							panCanvas.Refresh();
+							client.Send("rn");
+						} else {
+>>>>>>> Stashed changes
                             move("n");
                         }
                         break;
