@@ -1,38 +1,137 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace UPDServer {
-    class Galaxy {
+namespace UPDServer
+{
+    class Galaxy
+    {
+        private String starLocations = "";
+        private String blackholeLocations = "";
+        private String treasureLocations = "";
+        private String planetLocations = "";
 
-        private char star;
-        private char blackhole;
-        private char treasure;
-        private char planet;
-        private Dictionary<String, Char> cells = new Dictionary<String, char>();
+        private Dictionary<int, Char> cells = new Dictionary<int, Char>();
 
-        public Galaxy() {
+        public Galaxy()
+        {
+            //Star = 1, blackhole = 2, treasure = 3, planet = 4, player = 5
             Random rnd = new Random();
-            char sec = 'a';
-            while (sec != 'k') {
-                for (int i = 0; i < 9; i++) {
-                    cells.Add(sec + "" + i, (char)rnd.Next(33,126));
-
+            for (int i = 0; i < 100; i++)
+            {
+                int x = rnd.Next(0, 75);
+                switch (x)
+                {
+                    case 1:
+                        cells.Add(i, 's');
+                        if (starLocations.Length == 0)
+                        {
+                            starLocations = i.ToString();
+                        }
+                        else
+                        {
+                            starLocations = starLocations + "," + i.ToString();
+                        }
+                        break;
+                    case 2:
+                        cells.Add(i, 'b');
+                        if (blackholeLocations.Length == 0)
+                        {
+                            blackholeLocations = i.ToString();
+                        }
+                        else
+                        {
+                            blackholeLocations = blackholeLocations + "," + i.ToString();
+                        }
+                        break;
+                    case 3:
+                        cells.Add(i, 't');
+                        if (treasureLocations.Length == 0)
+                        {
+                            treasureLocations = i.ToString();
+                        }
+                        else
+                        {
+                            treasureLocations = treasureLocations + "," + i;
+                        }
+                        break;
+                    case 4:
+                        cells.Add(i, 'p');
+                        if (planetLocations.Length == 0)
+                        {
+                            planetLocations = i.ToString();
+                        }
+                        else
+                        {
+                            planetLocations = planetLocations + "," + i;
+                        }
+                        break;
+                    default:
+                        cells.Add(i, 'e'); //e represents an empty cell
+                        break;
                 }
-                sec++;
             }
         }
 
-        public Dictionary<String, Char> Getgalaxy() {
+        public Dictionary<int, Char> Getgalaxy()
+        {
             return cells;
         }
 
-        public char GetCell(string cell) {
-            return cells[cell];
-        }  
-        
-        public char Star { get => star; set => star = value; }
-        public char Blackhole { get => blackhole; set => blackhole = value; }
-        public char Treasure { get => treasure; set => treasure = value; }
-        public char Planet { get => planet; set => planet = value; }
+        public char GetCell(int sec)
+        {
+            return cells[sec];
+        }
+
+        public String StarLocations
+        {
+            get
+            {
+                return starLocations;
+            }
+
+            set
+            {
+                starLocations = value;
+            }
+        }
+
+        public String BlackholeLocations
+        {
+            get
+            {
+                return BlackholeLocations;
+            }
+
+            set
+            {
+                BlackholeLocations = value;
+            }
+        }
+
+        public String PlanetLocations
+        {
+            get
+            {
+                return planetLocations;
+            }
+
+            set
+            {
+                planetLocations = value;
+            }
+        }
+
+        public String TreasureLocations
+        {
+            get
+            {
+                return treasureLocations;
+            }
+
+            set
+            {
+                treasureLocations = value;
+            }
+        }
     }
 }

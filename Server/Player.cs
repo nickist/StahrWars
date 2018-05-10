@@ -7,6 +7,7 @@ namespace UPDServer {
 
         private string name;
         private int sector;
+        private string sectorStr;
         private IPEndPoint connection;
         private int column; 
         private int row;
@@ -146,6 +147,18 @@ namespace UPDServer {
 
             set{
                 shieldOn = value;
+            }
+        }
+        public string SectorStr
+        {
+            get
+            {
+                return sectorStr;
+            }
+
+            set
+            {
+                sectorStr = value;
             }
         }
     }

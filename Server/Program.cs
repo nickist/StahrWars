@@ -46,11 +46,14 @@ namespace UPDServer {
                     {
                         connections.Add(received.Sender.Address.MapToIPv4().ToString(), received.Sender);
                         p1 = new Player(""); //add parameters later
-                        p1.Sector = rnd.Next(0, 63);
+                        p1.Sector = rnd.Next(0, 255);
                         p1.Column = rnd.Next(0, 9);
                         p1.Row = rnd.Next(0, 9);
                         players.Add(received.Sender.Address.MapToIPv4().ToString(), p1);
-                        server.Reply(String.Format("connected:true:{0}:{1}:{2}", p1.Sector, p1.Column, p1.Row), received.Sender);
+                        p1.SectorStr = numToSectorID(p1.Sector);
+                        server.Reply(String.Format("connected:true:{0}:{1}:{2}", p1.SectorStr, p1.Column, p1.Row), received.Sender);
+                        //Galaxy sector = universe.getGalaxy(p1.SectorStr);
+                        //server.Reply(String.Format("si:{0}:{1}:{2}", sector.StarLocations, sector.PlanetLocations, sector.BlackholeLocations), received.Sender);
                     }
 
 
@@ -140,8 +143,16 @@ namespace UPDServer {
                         }
                         else if (parts[0].Equals("v"))
                         {
-
-                            //Add if statements for each sector and one for whole universe 
+                            if (parts[1].Equals("u"))
+                            {
+                                //Display universe info
+                            }
+                            else
+                            {
+                                Galaxy sector = universe.getGalaxy(parts[1]);
+                                server.Reply(String.Format("si:{0}:{1}:{2}", sector.StarLocations, sector.PlanetLocations, sector.BlackholeLocations),received.Sender);
+                            }
+                            
 
                         }
                         else if (parts[0].Equals("f"))
@@ -176,7 +187,7 @@ namespace UPDServer {
                         else if (parts[0].Equals("h"))
                         {
                             if (p.FuelPods >= 5){
-                                p.Sector = rnd.Next(0, 63);
+                                p.Sector = rnd.Next(0, 255);
                                 p.Column = rnd.Next(0, 9);
                                 p.Row = rnd.Next(0, 9);
                                 p.FuelPods -= 5;
@@ -205,6 +216,12 @@ namespace UPDServer {
         {
             for (int i = 0; i < parts.Length; i++)
                 parts[i] = parts[i].Trim().ToLower();
+        }
+
+        private static string numToSectorID(int x)
+        {
+            Char col = (Char)((x % 16) + 97);
+            return col.ToString() + (x / 16).ToString();
         }
     }
 }

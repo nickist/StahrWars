@@ -45,3 +45,10 @@ C:\Users\kistn\Desktop\StahrWars\Server\obj\Debug\Server.csprojAssemblyReference
 C:\Users\kistn\Desktop\StahrWars\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
 C:\Users\kistn\Desktop\StahrWars\Server\obj\Debug\UPDServer.exe
 C:\Users\kistn\Desktop\StahrWars\Server\obj\Debug\UPDServer.pdb
+C:\Users\gerschjp\Desktop\StahrWarsV2\StahrWars\Server\bin\Debug\UPDServer.exe.config
+C:\Users\gerschjp\Desktop\StahrWarsV2\StahrWars\Server\bin\Debug\UPDServer.exe
+C:\Users\gerschjp\Desktop\StahrWarsV2\StahrWars\Server\bin\Debug\UPDServer.pdb
+C:\Users\gerschjp\Desktop\StahrWarsV2\StahrWars\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache
+C:\Users\gerschjp\Desktop\StahrWarsV2\StahrWars\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
+C:\Users\gerschjp\Desktop\StahrWarsV2\StahrWars\Server\obj\Debug\UPDServer.exe
+C:\Users\gerschjp\Desktop\StahrWarsV2\StahrWars\Server\obj\Debug\UPDServer.pdb

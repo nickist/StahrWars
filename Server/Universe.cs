@@ -15,5 +15,9 @@ namespace UPDServer {
                 sec++;
             }
         }
+        public Galaxy getGalaxy(String sectorID)
+        {
+            return galaxies[sectorID];
+        }
     }
 }
