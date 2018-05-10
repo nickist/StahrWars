@@ -52,8 +52,8 @@ namespace UPDServer {
                         players.Add(received.Sender.Address.MapToIPv4().ToString(), p1);
                         p1.SectorStr = numToSectorID(p1.Sector);
                         server.Reply(String.Format("connected:true:{0}:{1}:{2}", p1.SectorStr, p1.Column, p1.Row), received.Sender);
-                        //Galaxy sector = universe.getGalaxy(p1.SectorStr);
-                        //server.Reply(String.Format("si:{0}:{1}:{2}", sector.StarLocations, sector.PlanetLocations, sector.BlackholeLocations), received.Sender);
+                        Galaxy sector = universe.getGalaxy(p1.SectorStr);
+                        server.Reply(String.Format("si:{0}:{1}:{2}", sector.StarLocations, sector.PlanetLocations, sector.BlackholeLocations), received.Sender);
                     }
 
 
