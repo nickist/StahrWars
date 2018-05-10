@@ -279,7 +279,7 @@ namespace Client
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "StahrWars";
-            this.TopMost = true;
+            this.TopMost = false;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmMain_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.panCanvas)).EndInit();
             this.grpStatus.ResumeLayout(false);

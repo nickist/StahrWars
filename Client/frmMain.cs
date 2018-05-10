@@ -304,7 +304,8 @@ namespace Client
                 switch (keyData)
                 {
                     case Keys.V:
-                        Application.Run(new frmUniverse());
+                        frmUniverse frmu = new frmUniverse();
+                        frmu.Show();
                         client.Send("v");
                         break;
 					case Keys.Up:
