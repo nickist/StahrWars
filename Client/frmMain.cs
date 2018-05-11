@@ -304,9 +304,9 @@ namespace Client
                 switch (keyData)
                 {
                     case Keys.V:
+                        client.Send("v");
                         frmUniverse frmu = new frmUniverse();
                         frmu.Show();
-                        client.Send("v");
                         break;
 					case Keys.Up:
 						if (shipAngle != 0) {
@@ -377,6 +377,8 @@ namespace Client
         {
             if (!shieldOn) client.Send("mov:" + dir);
         }
+
+
 
         #region ====================================================================================== <Shields>
 
