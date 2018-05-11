@@ -21,7 +21,7 @@ namespace Client
         Image planet = Image.FromFile("jupiter.png");
         Image star = Image.FromFile("star.png");
         Image background = Image.FromFile("background.jpg");
-
+        Image blackhole = Image.FromFile("blackhole.jpg");
         Image shipNorth = Image.FromFile("ShipNorth.png");
         Image shipSouth = Image.FromFile("ShipSouth.png");
         Image shipEast = Image.FromFile("ShipEast.png");
