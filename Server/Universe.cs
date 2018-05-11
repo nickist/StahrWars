@@ -7,10 +7,10 @@ namespace UPDServer {
 
         public Universe() {
 
-            char sec = 'a';
-            while (sec != 'q') {
+            char sec = 'A';
+            while (sec != 'Q') {
                 for (int i = 0; i < 16; i++) {
-                    galaxies.Add(sec + "" + i, new Galaxy());
+                    galaxies.Add(sec + "-" + i, new Galaxy());
                 }
                 sec++;
             }
