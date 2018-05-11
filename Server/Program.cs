@@ -15,13 +15,13 @@ namespace UPDServer {
     class Program
     {
         static Player p1 = new Player(""); //Add parameters later
+        static Universe universe = new Universe();
 
         static void Main(string[] args)
         {
             //create a new server
             var server = new UdpListener();
             //create universe
-            Universe universe = new Universe();
             Random rnd = new Random();
             Dictionary<string, IPEndPoint> connections = new Dictionary<string, IPEndPoint>();
             Dictionary<string, Player> players = new Dictionary<string, Player>();
@@ -145,7 +145,13 @@ namespace UPDServer {
                         {
                             if (parts[1].Equals("u"))
                             {
-                                //Display universe info
+                                char sec = 'a';
+                                while (sec != 'q') {
+                                    for (int i = 0; i < 16; i++) {
+                                        server.Reply(String.Format("p:{0}",universe.getGalaxy(sec+""+i).PlayerCount), received.Sender);
+                                    }
+                                    sec++;
+                                }
                             }
                             else
                             {

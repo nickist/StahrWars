@@ -7,10 +7,10 @@ namespace UPDServer {
 
         public Universe() {
 
-            char sec = 'A';
-            while (sec != 'Q') {
+            char sec = 'a';
+            while (sec != 'q') {
                 for (int i = 0; i < 16; i++) {
-                    galaxies.Add(sec + "-" + i, new Galaxy());
+                    galaxies.Add(sec + "" + i, new Galaxy());
                 }
                 sec++;
             }
@@ -19,5 +19,10 @@ namespace UPDServer {
         {
             return galaxies[sectorID];
         }
+
+        public int getGalaxySize() {
+            return galaxies.Count;
+        }
+
     }
 }

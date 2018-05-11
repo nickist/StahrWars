@@ -26,8 +26,7 @@ namespace Client
         Image shipSouth = Image.FromFile("ShipSouth.png");
         Image shipEast = Image.FromFile("ShipEast.png");
         Image shipWest = Image.FromFile("ShipWest.png");
-
-        //Image torpedo = Image.FromFile("torpedo.png");
+        Image torpedo = Image.FromFile("torpedo.png");
         //List<Point> points = new List<Point>();
         //List<Point> myShipPts = new List<Point>();
 
@@ -301,16 +300,16 @@ namespace Client
 
                 switch (keyData)
                 {
-                    case Keys.V: //sectorView == true
-                        if (msg.Equals("u")) {
+                    case Keys.V: 
+                         if (msg.Equals("u")) {
                             frmUniverse frm = new frmUniverse();
                             frm.Show();
                             break;
-                        } else {
+                         } else {
                             string tmp = msg.ToString();
                             client.Send(tmp);
                             break;
-                        }
+                         }
 					case Keys.Up:
 						if (shipAngle != 0) {
 							shipAngle = 0;
