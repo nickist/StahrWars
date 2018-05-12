@@ -11,7 +11,8 @@ namespace Client
 {
     public partial class frmMain : Form
     {
-        int sector = 0, col = 3, row = 7, shipAngle = 0, boxCount = 10, shields = 30, torpedos = 10, phasors = 50;
+        int sector = 0, col = 3, row = 7, shipAngle = 0, boxCount = 10, shields = 30, torpedos = 10, phasors = 50, fuelPods = 50, health = 50,
+            pFull = 100, tFull = 100, fFull = 100, hFull = 100;
         bool gameOn = false, shieldOn = false, phasorsEquiped = true, sectorView = true;
         string sectorStars = "", sectorPlanets="", sectorBlackholes="";
         string sectorStr = "";
@@ -144,6 +145,11 @@ namespace Client
                                 row = Convert.ToInt32(parts[4]);
                                 lblSector.Invoke(new Action(() => lblSector.Text = sectorStr));
                                 prbHealth.Invoke(new Action(() => prbHealth.Value = 100));
+                                prbHealth.Invoke(new Action(() => prbHealth.Value = 100));
+                                progressBar1.Invoke(new Action(() => progressBar1.Value = 100)); //fuel pod
+                                progressBar2.Invoke(new Action(() => progressBar2.Value = 100)); //torpedo
+                                progressBar3.Invoke(new Action(() => progressBar3.Value = 100)); //phasor
+
                             }
                             else
                             {
@@ -317,6 +323,7 @@ namespace Client
 							client.Send("rn");
 						} else {
                             move("n");
+                            fuelLoss();
                         }
                         break;
                     case Keys.Right:
@@ -329,6 +336,7 @@ namespace Client
                         else
                         {
                             move("e");
+                            fuelLoss();
                         }
                         break;
                     case Keys.Down:
@@ -341,6 +349,7 @@ namespace Client
                         else
                         {
                             move("s");
+                            fuelLoss();
                         }
                         break;
                     case Keys.Left:
@@ -353,6 +362,7 @@ namespace Client
                         else
                         {
                             move("w");
+                            fuelLoss();
                         }
                         break;
                     case Keys.S:
@@ -363,7 +373,10 @@ namespace Client
                         break;
                     case Keys.Q:
                         phasorsEquiped = !phasorsEquiped;
-                        client.Send("f" + (phasorsEquiped ? "p" : "t"));
+                        client.Send((phasorsEquiped ? "PHASOR" : "TORPEDO") + " equipped");
+                        break;
+                    case Keys.Space:
+                        fireWeapon();
                         break;
                 }
             }
@@ -414,6 +427,11 @@ namespace Client
             switchShields();
         }
 
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void picShields_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.FillEllipse(shieldOn ? Brushes.Green : Brushes.Red, 2, 2, picShields.Width - 4, picShields.Height - 4);
@@ -421,6 +439,92 @@ namespace Client
         }
 
         #endregion
+
+        #region ====================================================== <Fire Weapons>
+        private void fireWeapon()
+        {
+            if (phasorsEquiped == true)
+            {
+                if (phasors != 0)
+                {
+                    client.Send("fp: PHASOR fired!");
+                    phasors--;
+                    pFull -= 2;
+                    progressBar3.Invoke(new Action(() => progressBar3.Value = pFull)); //phasor
+                }
+                else
+                {
+                    client.Send("fp: Out of PHASORS!");
+                }
+            }
+            else
+            {
+                if (torpedos != 0)
+                {
+                    client.Send("ft: TORPEDO fired!");
+                    torpedos--;
+                    tFull -= 10;
+                    progressBar2.Invoke(new Action(() => progressBar2.Value = tFull)); //torpedo
+
+                }
+                else
+                {
+                    client.Send("ft: Out of TORPEDOS!");
+                }
+            }
+        }
+
+
+        #endregion
+
+        #region =============================================== <fuel>
+        private void fuelLoss()
+        {
+            if (fFull != 0)
+            {
+                fFull -= 2;
+                progressBar1.Invoke(new Action(() => progressBar1.Value = fFull)); //fuel pod
+            }
+            else
+            {
+                client.Send("Out of Fuel!");
+            }
+        }
+        #endregion
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void progressBar1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void prbHealth_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void progressBar3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label11_Click(object sender, EventArgs e)
+        {
+
+        }
 
         #region ====================================================================================== <Local Settings>
 
