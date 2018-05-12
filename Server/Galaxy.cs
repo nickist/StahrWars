@@ -100,12 +100,12 @@ namespace UPDServer
         {
             get
             {
-                return BlackholeLocations;
+                return blackholeLocations;
             }
 
             set
             {
-                BlackholeLocations = value;
+                blackholeLocations = value;
             }
         }
 
