@@ -22,7 +22,7 @@ namespace Client
         Image planet = Image.FromFile("jupiter.png");
         Image star = Image.FromFile("star.png");
         Image background = Image.FromFile("background.jpg");
-       // Image blackhole = Image.FromFile("blackhole.jpg");
+        Image blackhole = Image.FromFile("blackhole.jpg");
         Image shipNorth = Image.FromFile("ShipNorth.png");
         Image shipSouth = Image.FromFile("ShipSouth.png");
         Image shipEast = Image.FromFile("ShipEast.png");
@@ -325,14 +325,9 @@ namespace Client
                 switch (keyData)
                 {
                     case Keys.V: 
-<<<<<<< HEAD
-                            //frmUniverse frm = new frmUniverse();
-                           // frm.Show();
-=======
-                           // frmUniverse frm = new frmUniverse();
-                            //frm.Show();
+                           //frmUniverse frm = new frmUniverse();
+                           //frm.Show();
                        
->>>>>>> 566ae8822b5651807dbd7bf6280a9cbfb6eb92ef
                             break;
 
 					case Keys.Up:
