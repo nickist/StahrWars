@@ -4,13 +4,13 @@ using System.Collections.Generic;
 namespace UPDServer {
     class Universe {
         private Dictionary<String, Galaxy> galaxies = new Dictionary<String, Galaxy>();
-
+        Random rnd = new Random();
         public Universe() {
 
             char sec = 'a';
             while (sec != 'q') {
                 for (int i = 0; i < 16; i++) {
-                    galaxies.Add(sec + "" + i, new Galaxy());
+                    galaxies.Add(sec + "" + i, new Galaxy(rnd));
                 }
                 sec++;
             }

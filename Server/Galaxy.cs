@@ -10,13 +10,12 @@ namespace UPDServer
         private String treasureLocations = "";
         private String planetLocations = "";
         private int playerCount;
-
         private Dictionary<int, Char> cells = new Dictionary<int, Char>();
 
-        public Galaxy()
+        public Galaxy(Random rnd)
         {
             //Star = 1, blackhole = 2, treasure = 3, planet = 4, player = 5
-            Random rnd = new Random();
+            
             for (int i = 0; i < 100; i++)
             {
                 int x = rnd.Next(0, 75);
@@ -100,12 +99,12 @@ namespace UPDServer
         {
             get
             {
-                return BlackholeLocations;
+                return blackholeLocations;
             }
 
             set
             {
-                BlackholeLocations = value;
+                blackholeLocations = value;
             }
         }
 

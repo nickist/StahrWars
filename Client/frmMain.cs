@@ -21,12 +21,12 @@ namespace Client
         Image planet = Image.FromFile("jupiter.png");
         Image star = Image.FromFile("star.png");
         Image background = Image.FromFile("background.jpg");
-        Image blackhole = Image.FromFile("blackhole.jpg");
+       // Image blackhole = Image.FromFile("blackhole.jpg");
         Image shipNorth = Image.FromFile("ShipNorth.png");
         Image shipSouth = Image.FromFile("ShipSouth.png");
         Image shipEast = Image.FromFile("ShipEast.png");
         Image shipWest = Image.FromFile("ShipWest.png");
-        Image torpedo = Image.FromFile("torpedo.png");
+        //Image torpedo = Image.FromFile("torpedo.png");
         //List<Point> points = new List<Point>();
         //List<Point> myShipPts = new List<Point>();
 
@@ -157,6 +157,7 @@ namespace Client
                         else if (parts[0].Equals("loc"))
                         {
                             sectorStr = parts[1];
+                            lblSector.Invoke(new Action(() => lblSector.Text = sectorStr));
                             col = Convert.ToInt32(parts[2]);
                             row = Convert.ToInt32(parts[3]);
                             if (parts[4].Equals("n"))
@@ -217,6 +218,7 @@ namespace Client
                             sectorStars = parts[1];
                             sectorPlanets = parts[2];
                             sectorBlackholes = parts[3];
+                            panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
                         }
                         else
                         {
@@ -249,22 +251,37 @@ namespace Client
                     }
                 }
 
-                /**
+
                 // Place Planets 
+                
                 for (int i = 0; i < sectorPlanets.Length; i++)
                 {
-                    int cellNum = Convert.ToInt16(sectorPlanets[i]);
-                    e.Graphics.DrawImage(planet, loc(cellNum % 10, cellNum / 10, gridSize / 1.5));
-                }
 
+                    String temp = sectorPlanets[i].ToString();
+                    if (i + 1 != sectorPlanets.Length && sectorPlanets[i + 1] != ',')
+                    {
+                        temp = temp + sectorPlanets[i + 1].ToString();
+                    }
+                    int cellNum;
+                    Int32.TryParse(temp, out cellNum);
+                    e.Graphics.DrawImage(planet, loc(cellNum % 10, cellNum / 10, gridSize / 1.5));
+                    i++;
+                }
+                
                 // Place Stars
                 for (int i = 0; i < sectorStars.Length; i++)
                 {
-                    int cellNum = Convert.ToInt16(sectorStars[i]);
-                    e.Graphics.DrawImage(star, loc(cellNum % 10, cellNum / 10, star.Width / 4));
-                }
-                **/
 
+                    String temp = sectorStars[i].ToString();
+                    if (i + 1 != sectorStars.Length && sectorStars[i + 1] != ',')
+                    {
+                        temp = temp + sectorStars[i + 1].ToString();
+                    }
+                    int cellNum;
+                    Int32.TryParse(temp, out cellNum);
+                    e.Graphics.DrawImage(star, loc(cellNum % 10, cellNum / 10, star.Width / 4));
+                    i++;
+                }
                 /*
 			     * Draw the ship
 			     */
@@ -302,8 +319,8 @@ namespace Client
                 {
                     case Keys.V: 
                          if (msg.Equals("u")) {
-                            frmUniverse frm = new frmUniverse();
-                            frm.Show();
+                           // frmUniverse frm = new frmUniverse();
+                            //frm.Show();
                             break;
                          } else {
                             string tmp = msg.ToString();
