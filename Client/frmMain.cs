@@ -501,42 +501,54 @@ namespace Client
         #region ================================================================================== <fuel>
         private void fuelLoss()
         {
-            if (fuelPods != 0 && fFull > 0)
+            if (!shieldOn)
             {
-                if (fFull >= 2)
-                    fFull -= 2;
+                if (fuelPods != 0 && fFull > 0)
+                {
+                    if (fFull >= 2)
+                        fFull -= 2;
 
-                else if(fFull == 1)
-                    fFull -= 1;
+                    else if (fFull == 1)
+                        fFull -= 1;
 
-                fuelPods--;
+                    fuelPods--;
+                    label11.Text = "" + fuelPods;
+                    progressBar1.Invoke(new Action(() => progressBar1.Value = fFull)); //fuel pod
+                }
+                else
+                {
+                    client.Send("Out of Fuel!");
+                }
+
                 label11.Text = "" + fuelPods;
                 progressBar1.Invoke(new Action(() => progressBar1.Value = fFull)); //fuel pod
-            }
-            else
-            {
-                client.Send("Out of Fuel!");
             }
         }
 
         private void hFuelLoss()
         {
-            if (fuelPods >= 5 && fFull >= 10)
+            if (!shieldOn)
             {
-                fFull -= 10;
-                fuelPods -= 5;
+                if (fuelPods >= 5 && fFull >= 10)
+                {
+                    fFull -= 10;
+                    fuelPods -= 5;
+                    label11.Text = "" + fuelPods;
+                    progressBar1.Invoke(new Action(() => progressBar1.Value = fFull)); //fuel pod
+                }
+                else if (fuelPods > 0 && fuelPods < 5)
+                {
+                    client.Send("Not enough fuel!");
+
+                }
+                else if (fuelPods == 0)
+                {
+                    client.Send("Out of fuel!");
+
+                }
+
                 label11.Text = "" + fuelPods;
                 progressBar1.Invoke(new Action(() => progressBar1.Value = fFull)); //fuel pod
-            }
-            else if(fuelPods > 0 && fuelPods < 5)
-            {
-                client.Send("Not enough fuel!");
-                
-            }
-            else if (fuelPods == 0)
-            {
-                client.Send("Out of fuel!");
-                
             }
         }
         #endregion
@@ -576,6 +588,11 @@ namespace Client
         #endregion
 
         #region ============================================================================== <star>
+
+        private void hitStar()
+        {
+            
+        }
 
         #endregion
 
