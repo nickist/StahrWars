@@ -28,6 +28,8 @@ namespace Client
         Image shipEast = Image.FromFile("ShipEast.png");
         Image shipWest = Image.FromFile("ShipWest.png");
         Image torpedo = Image.FromFile("torpedo.png");
+        Image phasor = Image.FromFile("laser.png");
+
         //List<Point> points = new List<Point>();
         //List<Point> myShipPts = new List<Point>();
 
