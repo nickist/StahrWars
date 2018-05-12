@@ -325,21 +325,10 @@ namespace Client
                 switch (keyData)
                 {
                     case Keys.V: 
-<<<<<<< HEAD
-                           //frmUniverse frm = new frmUniverse();
-                           //frm.Show();
-                       
-                            break;
-||||||| merged common ancestors
-                           // frmUniverse frm = new frmUniverse();
-                            //frm.Show();
-                       
-                            break;
-=======
+
                            frmUniverse frm = new frmUniverse();
                            frm.Show();
                            break;
->>>>>>> universevisual
 
 					case Keys.Up:
 						if (shipAngle != 0) {
