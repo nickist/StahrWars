@@ -54,6 +54,7 @@ namespace UPDServer {
                         server.Reply(String.Format("connected:true:{0}:{1}:{2}", p1.SectorStr, p1.Column, p1.Row), received.Sender);
                         Galaxy sector = universe.getGalaxy(p1.SectorStr);
                         server.Reply(String.Format("si:{0}:{1}:{2}", sector.StarLocations, sector.PlanetLocations, sector.BlackholeLocations), received.Sender);
+
                     }
 
 
@@ -93,6 +94,7 @@ namespace UPDServer {
                             }
                             else
                             {
+                                server.Reply("Out of Fuelpods!", received.Sender);
                                 server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, parts[1], p.FuelPods), received.Sender);
                             }
                         }

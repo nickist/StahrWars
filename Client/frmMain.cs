@@ -427,6 +427,10 @@ namespace Client
 
         }
 
+        private void label10_Click(object sender, EventArgs e) {
+
+        }
+
         private void picShields_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.FillEllipse(shieldOn ? Brushes.Green : Brushes.Red, 2, 2, picShields.Width - 4, picShields.Height - 4);
