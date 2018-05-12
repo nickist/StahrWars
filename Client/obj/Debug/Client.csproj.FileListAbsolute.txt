@@ -93,3 +93,4 @@ M:\383proj\StahrWars\Client\bin\Debug\Client.exe.config
 M:\383proj\StahrWars\Client\obj\Debug\Client.exe
 M:\383proj\StahrWars\Client\obj\Debug\Client.pdb
 M:\383proj\StahrWars\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache
+C:\Users\kistn\Desktop\StahrWars\Client\obj\Debug\Client.frmUniverse.resources
