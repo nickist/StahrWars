@@ -367,6 +367,7 @@ namespace Client
                         break;
                     case Keys.H:
                         client.Send("h");
+                        hFuelLoss();
                         break;
                     case Keys.Q:
                         phasorsEquiped = !phasorsEquiped;
@@ -446,31 +447,29 @@ namespace Client
         {
             if (phasorsEquiped == true)
             {
-                if (phasors != 0)
+                if (pFull != 0)
                 {
-                    client.Send("fp: PHASOR fired!");
-                    phasors--;
+                    client.Send("fp");
                     pFull -= 2;
                     progressBar3.Invoke(new Action(() => progressBar3.Value = pFull)); //phasor
                 }
                 else
                 {
-                    client.Send("fp: Out of PHASORS!");
+                    client.Send("fp Out of pHASORS!");
                 }
             }
             else
             {
-                if (torpedos != 0)
+                if (tFull != 0)
                 {
-                    client.Send("ft: TORPEDO fired!");
-                    torpedos--;
+                    client.Send("ft");
                     tFull -= 10;
                     progressBar2.Invoke(new Action(() => progressBar2.Value = tFull)); //torpedo
 
                 }
                 else
                 {
-                    client.Send("ft: Out of TORPEDOS!");
+                    client.Send("ft Out of tORPEDOS!");
                 }
             }
         }
@@ -488,7 +487,24 @@ namespace Client
             }
             else
             {
-                client.Send("Out of Fuel!");
+                client.Send("Out of Fuelpods!");
+            }
+        }
+
+        private void hFuelLoss()
+        {
+            if (fFull >= 5)
+            {
+                fFull -= 5;
+                progressBar1.Invoke(new Action(() => progressBar1.Value = fFull)); //fuel pod
+            }
+            else if(fFull > 0 && fFull < 5)
+            {
+                client.Send("Not enough of fuel!");
+            }
+            else
+            {
+                client.Send("Out of fuel!");
             }
         }
         #endregion
