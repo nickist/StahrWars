@@ -85,7 +85,6 @@ C:\Users\kistn\Desktop\StahrWars\Client\obj\Debug\Client.csproj.CoreCompileInput
 C:\Users\kistn\Desktop\StahrWars\Client\obj\Debug\Client.exe
 C:\Users\kistn\Desktop\StahrWars\Client\obj\Debug\Client.pdb
 C:\Users\kistn\Desktop\StahrWars\Client\obj\Debug\Client.csprojAssemblyReference.cache
-C:\Users\kistn\Desktop\StahrWars\Client\obj\Debug\Client.frmUniverse.resources
 M:\383project\StahrWars\Client\bin\Debug\Client.exe.config
 M:\383project\StahrWars\Client\obj\Debug\Client.exe
 M:\383project\StahrWars\Client\obj\Debug\Client.pdb

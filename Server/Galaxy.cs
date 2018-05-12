@@ -9,14 +9,18 @@ namespace UPDServer
         private String blackholeLocations = "";
         private String treasureLocations = "";
         private String planetLocations = "";
+<<<<<<< HEAD
         //private int playerCount;
 
+=======
+        private int playerCount;
+>>>>>>> 566ae8822b5651807dbd7bf6280a9cbfb6eb92ef
         private Dictionary<int, Char> cells = new Dictionary<int, Char>();
 
-        public Galaxy()
+        public Galaxy(Random rnd)
         {
             //Star = 1, blackhole = 2, treasure = 3, planet = 4, player = 5
-            Random rnd = new Random();
+            
             for (int i = 0; i < 100; i++)
             {
                 int x = rnd.Next(0, 75);
