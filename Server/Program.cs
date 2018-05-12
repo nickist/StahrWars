@@ -173,7 +173,7 @@ namespace UPDServer {
                                 }
                                 else
                                 {
-                                    server.Reply(String.Format("Out of Phasors"), received.Sender);
+                                   // server.Reply(String.Format("Out of Phasors"), received.Sender);
                                 }
                                 server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
                             }

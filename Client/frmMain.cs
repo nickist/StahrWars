@@ -307,15 +307,10 @@ namespace Client
                 switch (keyData)
                 {
                     case Keys.V: 
-                         if (msg.Equals("u")) {
                             frmUniverse frm = new frmUniverse();
                             frm.Show();
                             break;
-                         } else {
-                            string tmp = msg.ToString();
-                            client.Send(tmp);
-                            break;
-                         }
+
 					case Keys.Up:
 						if (shipAngle != 0) {
 							shipAngle = 0;
