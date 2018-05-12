@@ -150,7 +150,7 @@ namespace UPDServer {
                                 char sec = 'a';
                                 while (sec != 'q') {
                                     for (int i = 0; i < 16; i++) {
-                                        server.Reply(String.Format("p:{0}",universe.getGalaxy(sec+""+i).PlayerCount), received.Sender);
+                                        //server.Reply(String.Format("p:{0}",universe.getGalaxy(sec+""+i).PlayerCount), received.Sender);
                                     }
                                     sec++;
                                 }
