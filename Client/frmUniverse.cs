@@ -95,7 +95,6 @@ namespace Client
 
             // Draw the grid
             for (int i = gridSize; i < panCanvas.Height; i += gridSize) {
-                client.Send("hello world");
                 e.Graphics.DrawLine(gridPen, 0, i, panCanvas.Width, i);
                 e.Graphics.DrawLine(gridPen, i, 0, i, panCanvas.Height);
             }
