@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 
 namespace UPDServer
 {
@@ -11,6 +12,7 @@ namespace UPDServer
         private String planetLocations = "";
         private int playerCount;
         private Dictionary<int, Char> cells = new Dictionary<int, Char>();
+        private Dictionary<String, int> players = new Dictionary<String, int>();
 
         public Galaxy(Random rnd)
         {
@@ -132,6 +134,23 @@ namespace UPDServer
             {
                 treasureLocations = value;
             }
+        }
+
+        public void updatePlayer(String id, int cell)
+        {
+            if (players.ContainsKey(id))
+            {
+                players[id] = (cell);
+            }
+            else
+            {
+                players.Add(id, cell);
+            }
+        }
+        
+        public void removePlayer(Player p)
+        {
+            //players.Remove(p.Connection);
         }
 
         public int PlayerCount { get => playerCount; set => playerCount = value; }

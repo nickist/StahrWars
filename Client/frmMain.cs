@@ -228,6 +228,15 @@ namespace Client
                             sectorBlackholes = parts[3];
                             panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
                         }
+                        else if (parts[0].Equals("me"))
+                        {
+                            //Handle Changes to health/shields/ammo/fuel 
+                            //Health = parts[1];
+                            //Shields = parts[2]
+                            //Phasors = parts[3];
+                            //Torpeados = parts[4]
+                            //fuel = parts[5];
+                        }
                         else
                         {
                             addText(msg);

@@ -27,7 +27,7 @@ namespace UPDServer {
             Name = name;
             Health = 100;
             Sheilds = 15;
-            FuelPods = 500;
+            FuelPods = 50;
             Torpedoes = 10;
             Phasors = 50;
         }
