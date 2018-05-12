@@ -28,7 +28,7 @@ namespace Client
         Image shipEast = Image.FromFile("ShipEast.png");
         Image shipWest = Image.FromFile("ShipWest.png");
         Image torpedo = Image.FromFile("torpedo.png");
-        Image phasor = Image.FromFile("laser.png");
+        //Image phasor = Image.FromFile("laser.png");
 
         //List<Point> points = new List<Point>();
         //List<Point> myShipPts = new List<Point>();
@@ -146,13 +146,12 @@ namespace Client
                                 col = Convert.ToInt32(parts[3]);
                                 row = Convert.ToInt32(parts[4]);
                                 lblSector.Invoke(new Action(() => lblSector.Text = sectorStr));
-                                prbHealth.Invoke(new Action(() => prbHealth.Value = 100));
-                                prbHealth.Invoke(new Action(() => prbHealth.Value = 100));
-                                progressBar1.Invoke(new Action(() => progressBar1.Value = 100)); //fuel pod
-                                progressBar2.Invoke(new Action(() => progressBar2.Value = 100)); //torpedo
-                                progressBar3.Invoke(new Action(() => progressBar3.Value = 100)); //phasor
+                                prbHealth.Invoke(new Action(() => prbHealth.Value = hFull));
+                                progressBar1.Invoke(new Action(() => progressBar1.Value = fFull)); //fuel pod
+                                progressBar2.Invoke(new Action(() => progressBar2.Value = tFull)); //torpedo
+                                progressBar3.Invoke(new Action(() => progressBar3.Value = pFull)); //phasor
 
-                            }
+                                                         }
                             else
                             {
                                 addText("Connection not established\n");
@@ -309,8 +308,8 @@ namespace Client
                 switch (keyData)
                 {
                     case Keys.V: 
-                            frmUniverse frm = new frmUniverse();
-                            frm.Show();
+                            //frmUniverse frm = new frmUniverse();
+                           // frm.Show();
                             break;
 
 					case Keys.Up:
@@ -442,72 +441,132 @@ namespace Client
 
         #endregion
 
-        #region ====================================================== <Fire Weapons>
+        #region ================================================================================= <Fire Weapons>
         private void fireWeapon()
         {
             if (phasorsEquiped == true)
             {
-                if (pFull != 0)
+                if (phasors != 0 && pFull >= 2)
                 {
                     client.Send("fp");
                     pFull -= 2;
+                    phasors--;
+                    label10.Text = "" + phasors;
                     progressBar3.Invoke(new Action(() => progressBar3.Value = pFull)); //phasor
                 }
                 else
                 {
-                    client.Send("fp Out of pHASORS!");
+                    client.Send("Out of PHASORS!");
                 }
             }
             else
             {
-                if (tFull != 0)
+                if (phasors != 0 && tFull >= 10)
                 {
                     client.Send("ft");
                     tFull -= 10;
+                    torpedos--;
                     progressBar2.Invoke(new Action(() => progressBar2.Value = tFull)); //torpedo
+                    label9.Text = "" + torpedos;
 
                 }
                 else
                 {
-                    client.Send("ft Out of tORPEDOS!");
+                    client.Send("Out of TORPEDOS!");
                 }
             }
-        }
+              }
 
 
         #endregion
 
-        #region =============================================== <fuel>
+        #region ================================================================================== <fuel>
         private void fuelLoss()
         {
-            if (fFull != 0)
+            if (fuelPods != 0 && fFull > 0)
             {
-                fFull -= 2;
+                if (fFull >= 2)
+                    fFull -= 2;
+
+                else if(fFull == 1)
+                    fFull -= 1;
+
+                fuelPods--;
+                label11.Text = "" + fuelPods;
                 progressBar1.Invoke(new Action(() => progressBar1.Value = fFull)); //fuel pod
             }
             else
             {
-                client.Send("Out of Fuelpods!");
+                client.Send("Out of Fuel!");
             }
         }
 
         private void hFuelLoss()
         {
-            if (fFull >= 5)
+            if (fuelPods >= 5 && fFull >= 10)
             {
-                fFull -= 5;
+                fFull -= 10;
+                fuelPods -= 5;
+                label11.Text = "" + fuelPods;
                 progressBar1.Invoke(new Action(() => progressBar1.Value = fFull)); //fuel pod
             }
-            else if(fFull > 0 && fFull < 5)
+            else if(fuelPods > 0 && fuelPods < 5)
             {
-                client.Send("Not enough of fuel!");
+                client.Send("Not enough fuel!");
+                
             }
-            else
+            else if (fuelPods == 0)
             {
                 client.Send("Out of fuel!");
+                
             }
         }
         #endregion
+
+        #region ================================================================================== <health>
+
+        private void hitByPhasor()
+        {
+            if (health != 0 && hFull >= 10)
+            {
+                hFull -= 10;
+                health -= 5;
+                prbHealth.Invoke(new Action(() => prbHealth.Value = hFull));
+            }
+
+            else
+            {
+                client.Send("YOU LOSE!");
+            }
+        }
+
+        private void hitByTorpedo()
+        {
+            if (health != 0 && hFull >= 30)
+            {
+                hFull -= 30;
+                health -= 15;
+                prbHealth.Invoke(new Action(() => prbHealth.Value = hFull));
+            }
+
+            else
+            {
+                client.Send("YOU LOSE!");
+            }
+        }
+
+        #endregion
+
+        #region ============================================================================== <star>
+
+        #endregion
+
+
+        #region ============================================================================== <planet>
+
+        #endregion
+
+        #region ================================================== <GUI>
         private void label4_Click(object sender, EventArgs e)
         {
 
@@ -542,6 +601,8 @@ namespace Client
         {
 
         }
+
+        #endregion
 
         #region ====================================================================================== <Local Settings>
 
