@@ -27,13 +27,9 @@ namespace Client
         Image shipSouth = Image.FromFile("ShipSouth.png");
         Image shipEast = Image.FromFile("ShipEast.png");
         Image shipWest = Image.FromFile("ShipWest.png");
-<<<<<<< HEAD
         Image torpedo = Image.FromFile("torpedo.png");
-        Image phasor = Image.FromFile("laser.png");
+        //Image phasor = Image.FromFile("laser.png");
 
-=======
-        //Image torpedo = Image.FromFile("torpedo.png");
->>>>>>> bff37eff97145c6e798eb64525564111b12d916c
         //List<Point> points = new List<Point>();
         //List<Point> myShipPts = new List<Point>();
 
@@ -330,14 +326,9 @@ namespace Client
                 switch (keyData)
                 {
                     case Keys.V: 
-<<<<<<< HEAD
-                            frmUniverse frm = new frmUniverse();
-                            frm.Show();
-=======
-                         if (msg.Equals("u")) {
                            // frmUniverse frm = new frmUniverse();
                             //frm.Show();
->>>>>>> bff37eff97145c6e798eb64525564111b12d916c
+                       
                             break;
 
 					case Keys.Up:

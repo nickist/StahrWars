@@ -54,10 +54,6 @@ namespace UPDServer {
                         server.Reply(String.Format("connected:true:{0}:{1}:{2}", p1.SectorStr, p1.Column, p1.Row), received.Sender);
                         Galaxy sector = universe.getGalaxy(p1.SectorStr);
                         server.Reply(String.Format("si:{0}:{1}:{2}", sector.StarLocations, sector.PlanetLocations, sector.BlackholeLocations), received.Sender);
-<<<<<<< HEAD
-
-=======
->>>>>>> bff37eff97145c6e798eb64525564111b12d916c
                     }
 
 
@@ -126,12 +122,11 @@ namespace UPDServer {
                             }
                             else
                             {
-<<<<<<< HEAD
+
                                 server.Reply("Out of Fuelpods!", received.Sender);
                                 server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, parts[1], p.FuelPods), received.Sender);
-=======
+
                                 server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, parts[1], p.FuelPods), received.Sender);
->>>>>>> bff37eff97145c6e798eb64525564111b12d916c
                             }
                         }
                         else if (parts[0].Equals("r"))
@@ -213,12 +208,9 @@ namespace UPDServer {
                                 }
                                 else
                                 {
-<<<<<<< HEAD
                                    server.Reply("Out of Phasors!", received.Sender);
                                    server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, parts[1], p.Phasors), received.Sender);
-=======
                                     //server.Reply(String.Format("Out of Phasors"), received.Sender);
->>>>>>> bff37eff97145c6e798eb64525564111b12d916c
                                 }
                                 server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
                             }
@@ -231,21 +223,19 @@ namespace UPDServer {
                                 }
                                 else
                                 {
-<<<<<<< HEAD
                                    server.Reply("Out of Torpedos!", received.Sender);
                                    server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, parts[1], p.Torpedoes), received.Sender);
 
-=======
+
                                     // server.Reply(String.Format("Out of Torpedos"));
->>>>>>> bff37eff97145c6e798eb64525564111b12d916c
+
                                 }
                                 server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
                             }
                         }
                         else if (parts[0].Equals("h"))
                         {
-                            if (p.FuelPods >= 5)
-                            {
+                            if (p.FuelPods >= 5) {
                                 p.Sector = rnd.Next(0, 255);
                                 p.SectorStr = numToSectorID(p.Sector);
                                 p.Column = rnd.Next(0, 9);
@@ -253,21 +243,13 @@ namespace UPDServer {
                                 p.FuelPods -= 5;
                                 server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
                                 sectorChanged = true;
-                            }
-<<<<<<< HEAD
-                            else if (p.FuelPods > 0 && p.FuelPods < 5){ //Change this to a differnt reply in the future so user can be promted that they dont have enough fuel to hyperspace
+                            } else if (p.FuelPods > 0 && p.FuelPods < 5) { //Change this to a differnt reply in the future so user can be promted that they dont have enough fuel to hyperspace
                                 server.Reply("Not enough fuel", received.Sender);
                                 server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
-                            }
-                            else
-                            {
+                            } else {
                                 server.Reply("Out of Fuel", received.Sender);
                                 server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
-=======
-                            else
-                            { //Change this to a differnt reply in the future so user can be promted that they dont have enough fuel to hyperspace
                                 server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
->>>>>>> bff37eff97145c6e798eb64525564111b12d916c
                             }
                         }
                         if (sectorChanged)
