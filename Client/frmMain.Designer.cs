@@ -118,6 +118,7 @@ namespace Client
             this.panCanvas.Size = new System.Drawing.Size(480, 480);
             this.panCanvas.TabIndex = 6;
             this.panCanvas.TabStop = false;
+            this.panCanvas.Click += new System.EventHandler(this.panCanvas_Click);
             this.panCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.panCanvas_Paint);
             // 
             // chkShowGrid
