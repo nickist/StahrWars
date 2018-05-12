@@ -9,6 +9,7 @@ namespace UPDServer
         private String blackholeLocations = "";
         private String treasureLocations = "";
         private String planetLocations = "";
+        private int playerCount;
 
         private Dictionary<int, Char> cells = new Dictionary<int, Char>();
 
@@ -133,5 +134,7 @@ namespace UPDServer
                 treasureLocations = value;
             }
         }
+
+        public int PlayerCount { get => playerCount; set => playerCount = value; }
     }
 }

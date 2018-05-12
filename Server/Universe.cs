@@ -19,5 +19,10 @@ namespace UPDServer {
         {
             return galaxies[sectorID];
         }
+
+        public int getGalaxySize() {
+            return galaxies.Count;
+        }
+
     }
 }

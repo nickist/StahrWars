@@ -12,7 +12,7 @@ namespace Client
     public partial class frmMain : Form
     {
         int sector = 0, col = 3, row = 7, shipAngle = 0, boxCount = 10, shields = 30, torpedos = 10, phasors = 50;
-        bool gameOn = false, shieldOn = false, phasorsEquiped = true, initialView = true;
+        bool gameOn = false, shieldOn = false, phasorsEquiped = true, sectorView = true;
         string sectorStars = "", sectorPlanets="", sectorBlackholes="";
         string sectorStr = "";
         UdpUser client = null;
@@ -21,13 +21,12 @@ namespace Client
         Image planet = Image.FromFile("jupiter.png");
         Image star = Image.FromFile("star.png");
         Image background = Image.FromFile("background.jpg");
-        Image blackhole = Image.FromFile("blackhole");
+        Image blackhole = Image.FromFile("blackhole.jpg");
         Image shipNorth = Image.FromFile("ShipNorth.png");
         Image shipSouth = Image.FromFile("ShipSouth.png");
         Image shipEast = Image.FromFile("ShipEast.png");
         Image shipWest = Image.FromFile("ShipWest.png");
-
-        //Image torpedo = Image.FromFile("torpedo.png");
+        Image torpedo = Image.FromFile("torpedo.png");
         //List<Point> points = new List<Point>();
         //List<Point> myShipPts = new List<Point>();
 
@@ -200,7 +199,6 @@ namespace Client
                         }
                         else if (parts[0].Equals("sh"))
                         {
-                            //Finish code for handeling shields - case 2
                             if (parts[1].Equals("0"))
                             {
                                 shieldOn = false;
@@ -212,7 +210,6 @@ namespace Client
                             else if (parts[1].Equals("2"))
                             {
                                 shieldOn = false;
-                                //Add an alert/message to user that they are out of shield pods
                             }
                         }
                         else if (parts[0].Equals("si"))
@@ -303,11 +300,16 @@ namespace Client
 
                 switch (keyData)
                 {
-                    case Keys.V:
-                        client.Send("v");
-                        frmUniverse frmu = new frmUniverse();
-                        frmu.Show();
-                        break;
+                    case Keys.V: 
+                         if (msg.Equals("u")) {
+                            frmUniverse frm = new frmUniverse();
+                            frm.Show();
+                            break;
+                         } else {
+                            string tmp = msg.ToString();
+                            client.Send(tmp);
+                            break;
+                         }
 					case Keys.Up:
 						if (shipAngle != 0) {
 							shipAngle = 0;
