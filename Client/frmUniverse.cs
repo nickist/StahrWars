@@ -12,7 +12,6 @@ namespace Client
     public partial class frmUniverse : Form
     {
         int boxCount = 16;
-        UdpUser client = null;
         Pen gridPen = new Pen(System.Drawing.Color.White, 1);
         int gridSize = 0;
         Image universe = Image.FromFile("universe.jpg");
