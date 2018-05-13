@@ -9,7 +9,8 @@ namespace UPDServer {
         private int sector;
         private string sectorStr;
         private IPEndPoint connection;
-        private int column; 
+        private int column;
+        private bool isAlive;
         private int row;
         private int health;
         private int sheilds;
@@ -161,5 +162,7 @@ namespace UPDServer {
                 sectorStr = value;
             }
         }
+
+        public bool IsAlive { get => isAlive; set => isAlive = value; }
     }
 }
