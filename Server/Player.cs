@@ -16,7 +16,7 @@ namespace UPDServer {
         private int torpedoes;
         private int phasors;
         private int fuelPods;
-        private string oriantation;
+        private Char oriantation;
         private bool shieldOn;
 
         public void setLocation() {
@@ -27,7 +27,7 @@ namespace UPDServer {
             Name = name;
             Health = 100;
             Sheilds = 15;
-            FuelPods = 500;
+            FuelPods = 50;
             Torpedoes = 10;
             Phasors = 50;
         }
@@ -131,7 +131,7 @@ namespace UPDServer {
                 fuelPods = value;
             }
         }
-        public string Oriantation {
+        public Char Oriantation {
             get {
                 return oriantation;
             }

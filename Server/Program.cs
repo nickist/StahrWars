@@ -30,7 +30,7 @@ namespace UPDServer {
             Console.WriteLine("============================================= Server");
 
             string[] parts;
-
+            
             //start listening for messages and copy the messages back to the client
             Task.Factory.StartNew(async () => {
                 while (true)
@@ -55,7 +55,9 @@ namespace UPDServer {
                         server.Reply(String.Format("connected:true:{0}:{1}:{2}", p1.SectorStr, p1.Column, p1.Row), received.Sender);
                         Galaxy sector = universe.getGalaxy(p1.SectorStr);
                         sector.updatePlayer(p1.Name, (p1.Row*10+p1.Column%10));
-                        server.Reply(String.Format("si:{0}:{1}:{2}:{3}", sector.StarLocations, sector.PlanetLocations, sector.BlackholeLocations, sector.getPlayers()), received.Sender);
+                        server.Reply(String.Format("si:{0}:{1}:{2}:{3}", sector.StarLocations, sector.PlanetLocations, sector.BlackholeLocations, sector.getPlayersLocs()), received.Sender);
+                        universe.updateWeps();
+
                     }
 
 
@@ -83,6 +85,7 @@ namespace UPDServer {
                         players.TryGetValue(received.Sender.Address.MapToIPv4().ToString(), out p);
                         if (parts[0].Equals("mov"))
                         {
+                            universe.updateWeps();
                             if (p.FuelPods != 0)
                             {
                                 p.FuelPods--;
@@ -135,7 +138,7 @@ namespace UPDServer {
                                 if (!sectorChanged)
                                 {
                                     sector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
-                                    server.Reply(String.Format("ni:{0}:{1}", sector.PlanetLocations, sector.getPlayers()), received.Sender);
+                                    server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), received.Sender);
                                 }
                                 server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, parts[1], p.FuelPods), received.Sender);
                                 
@@ -156,7 +159,6 @@ namespace UPDServer {
                                         p.Torpedoes = 10;
                                         p.FuelPods = 50;
                                         server.Reply(String.Format("me:{0}:{1}:{2}:{3}:{4}", p.Health, p.Sheilds, p.Phasors, p.Torpedoes, p.FuelPods), received.Sender);
-                                        server.Reply(sector.PlanetLocations + " " + p.SectorStr, received.Sender);
                                         sector.removePlanet(p.Row * 10 + p.Column % 10);
                                         break;
                                     case 't':
@@ -177,7 +179,16 @@ namespace UPDServer {
                                         sectorChanged = true;
                                         break;
                                 }
-    
+                                //Send message to all users in sector
+                                /**
+                                foreach(String s in players.Keys)
+                                {
+                                    if (players[s].Sector == p.Sector)
+                                    {
+                                        server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), players[s].Connection);
+                                    }
+                                }
+                                  **/
                             }
                             else
                             {
@@ -190,22 +201,22 @@ namespace UPDServer {
                         {
                             if (parts[1].Equals("n"))
                             {
-                                p.Oriantation = "n";
+                                p.Oriantation = 'n';
                                 server.Reply(String.Format("or:{0}", parts[1]), received.Sender);
                             }
                             else if (parts[1].Equals("s"))
                             {
-                                p.Oriantation = "s";
+                                p.Oriantation = 's';
                                 server.Reply(String.Format("or:{0}", parts[1]), received.Sender);
                             }
                             else if (parts[1].Equals("e"))
                             {
-                                p.Oriantation = "e";
+                                p.Oriantation = 'e';
                                 server.Reply(String.Format("or:{0}", parts[1]), received.Sender);
                             }
                             else if (parts[1].Equals("w"))
                             {
-                                p.Oriantation = "w";
+                                p.Oriantation = 'w';
                                 server.Reply(String.Format("or:{0}", parts[1]), received.Sender);
                             }
                         }
@@ -248,7 +259,7 @@ namespace UPDServer {
                             else
                             {
                                 Galaxy sector = universe.getGalaxy(parts[1]);
-                                server.Reply(String.Format("si:{0}:{1}:{2}:{3}", sector.StarLocations, sector.PlanetLocations, sector.BlackholeLocations, sector.getPlayers()), received.Sender);
+                                server.Reply(String.Format("si:{0}:{1}:{2}:{3}", sector.StarLocations, sector.PlanetLocations, sector.BlackholeLocations, sector.getPlayersLocs()), received.Sender);
                             }
 
 
@@ -260,8 +271,11 @@ namespace UPDServer {
                                 //Add code for handelig shooting phasors
                                 if (p.Phasors != 0)
                                 {
-                                    server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
+                                    //server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
+                                    Galaxy sector = universe.getGalaxy(p.SectorStr);
+                                    sector.addWeapon('p', p.Column, p.Row, p.Oriantation, p.SectorStr);
                                     p.Phasors--;
+                                    server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), received.Sender);
                                 }
                                 else
                                 {
@@ -276,8 +290,10 @@ namespace UPDServer {
                                 //Add code for handeling shooting torpedo
                                 if (p.Torpedoes != 0)
                                 {
+                                    Galaxy sector = universe.getGalaxy(p.SectorStr);
+                                    sector.addWeapon('t', p.Column, p.Row, p.Oriantation, p.SectorStr);
                                     p.Torpedoes--;
-                                }
+                                    server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), received.Sender);                                }
                                 else
                                 {
                                    server.Reply("Out of Torpedos!", received.Sender);
@@ -317,7 +333,7 @@ namespace UPDServer {
                         {
                             p.SectorStr = numToSectorID(p.Sector);
                             Galaxy sector = universe.getGalaxy(p.SectorStr);
-                            server.Reply(String.Format("si:{0}:{1}:{2}:{3}", sector.StarLocations, sector.PlanetLocations, sector.BlackholeLocations, sector.getPlayers()), received.Sender);
+                            server.Reply(String.Format("si:{0}:{1}:{2}:{3}", sector.StarLocations, sector.PlanetLocations, sector.BlackholeLocations, sector.getPlayersLocs()), received.Sender);
                             sectorChanged = false;
                         }
                     }

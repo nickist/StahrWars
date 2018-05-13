@@ -14,6 +14,8 @@ namespace UPDServer
         private int playerCount;
         private Dictionary<int, Char> cells = new Dictionary<int, Char>();
         private Dictionary<String, int> players = new Dictionary<String, int>();
+        private List<IPEndPoint> playerIPs = new List<IPEndPoint>();
+        private List<Weapons> bullets = new List<Weapons>();
 
         public Galaxy(Random rnd)
         {
@@ -154,7 +156,7 @@ namespace UPDServer
             players.Remove(id);
         }
 
-        public String getPlayers()
+        public String getPlayersLocs()
         {
             String playersList = "";
             foreach (String s in players.Keys)
@@ -173,5 +175,84 @@ namespace UPDServer
             planetLocations = string.Join(",", cells.ToArray());
         }
         public int PlayerCount { get => playerCount; set => playerCount = value; }
+
+        public int getNumBullets()
+        {
+            return bullets.Count;
+        }
+        
+        public Weapons getWeapon(int i)
+        {
+            return bullets.ElementAt(i);
+        }
+
+        public void removeWeapon(Weapons w)
+        {
+            bullets.Remove(w);
+        }
+
+        public string getWeaponLocations()
+        {
+            List<Weapons> outOfRange = new List<Weapons>();
+            String locs = "";
+            foreach (Weapons w in bullets)
+            {
+                int x = 1;
+                int y = 1;
+                switch(w.Angle)
+                {
+                    case 'n':
+                        x = w.Col;
+                        y = w.Row;
+                        y -= w.Offset;
+                        break;
+                    case 'e':
+                        x = w.Col;
+                        y = w.Row;
+                        x += w.Offset;
+                        break;
+                    case 's':
+                        x = w.Col;
+                        y = w.Row;
+                        y += w.Offset;
+                        break;
+                    case 'w':
+                        x = w.Col;
+                        y = w.Row;
+                        x -= w.Offset;
+                        break;
+                }
+                if (x > 9 || x < 0 || y > 9 || y < 0)
+                {
+                    outOfRange.Add(w);
+                }
+                else
+                {
+                locs = locs + "," + (y*10 + x % 10).ToString();
+                }
+            }
+            foreach(Weapons w in outOfRange)
+            {
+                bullets.Remove(w);
+            }
+            if (locs.Length == 0)
+            {
+                return locs;
+            }
+            else
+            {
+                return locs.Substring(1);
+            }
+        }
+
+        public void addWeapon(Char type, int col, int row, Char angle, String sector)
+        {
+            bullets.Add(new Weapons(type, col, row, angle, sector));
+        }
+
+        public Dictionary<String, int> getPlayers()
+        {
+            return players;
+        }
     }
 }

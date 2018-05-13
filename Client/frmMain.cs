@@ -15,7 +15,7 @@ namespace Client
             pFull = 100, tFull = 100, fFull = 100, hFull = 100;
         bool gameOn = false, shieldOn = false, phasorsEquiped = true, sectorView = true;
         string sectorStars = "", sectorPlanets="", sectorBlackholes="", playerLocations="";
-        string sectorStr = "";
+        string sectorStr = "", bulletLocations = "";
         UdpUser client = null;
         Pen gridPen = new Pen(System.Drawing.Color.White, 1);
         int gridSize = 0;
@@ -241,6 +241,7 @@ namespace Client
                         {
                             sectorPlanets = parts[1];
                             playerLocations = parts[2];
+                            bulletLocations = parts[3];
                             panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
                         }
                         else
@@ -311,7 +312,17 @@ namespace Client
                         e.Graphics.DrawImage(blackhole, loc(cellNum % 10, cellNum / 10, gridSize / 1.25));
                     }
                 }
-              
+                //Place Phasors/Torps
+                if (bulletLocations.Length != 0)
+                {
+                    String[] cellsW = bulletLocations.Split(',');
+                    for (int i = 0; i < cellsW.Length; i++)
+                    {
+                        int cellNum;
+                        Int32.TryParse(cellsW[i], out cellNum);
+                        e.Graphics.DrawImage(torpedo, loc(cellNum % 10, cellNum / 10, gridSize / 4));
+                    }
+                }
                 /*
                  *
 			     * Draw the ship
@@ -358,7 +369,7 @@ namespace Client
 						if (shipAngle != 0) {
 							shipAngle = 0;
 							panCanvas.Refresh();
-							client.Send("rn");
+							client.Send("r:n");
 						} else {
                             move("n");
                             fuelLoss();
@@ -369,7 +380,7 @@ namespace Client
                         {
                             shipAngle = 90;
                             panCanvas.Refresh();
-                            client.Send("re");
+                            client.Send("r:e");
                         }
                         else
                         {
@@ -382,7 +393,7 @@ namespace Client
                         {
                             shipAngle = 180;
                             panCanvas.Refresh();
-                            client.Send("rs");
+                            client.Send("r:s");
                         }
                         else
                         {
@@ -395,7 +406,7 @@ namespace Client
                         {
                             shipAngle = 270;
                             panCanvas.Refresh();
-                            client.Send("rw");
+                            client.Send("r:w");
                         }
                         else
                         {
@@ -414,7 +425,7 @@ namespace Client
                         phasorsEquiped = !phasorsEquiped;
                         client.Send((phasorsEquiped ? "PHASOR" : "TORPEDO") + " equipped");
                         break;
-                    case Keys.Space:
+                    case Keys.F:
                         fireWeapon();
                         break;
                 }
@@ -490,7 +501,7 @@ namespace Client
             {
                 if (pFull != 0)
                 {
-                    client.Send("fp");
+                    client.Send("f:p");
                     pFull -= 2;
                     progressBar3.Invoke(new Action(() => progressBar3.Value = pFull)); //phasor
                 }
@@ -503,7 +514,7 @@ namespace Client
             {
                 if (tFull != 0)
                 {
-                    client.Send("ft");
+                    client.Send("f:t");
                     tFull -= 10;
                     progressBar2.Invoke(new Action(() => progressBar2.Value = tFull)); //torpedo
 
