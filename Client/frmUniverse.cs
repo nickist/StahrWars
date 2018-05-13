@@ -85,17 +85,13 @@ namespace Client
             txtbox = txt;
         }
 
-        public string getText() {
-            return txtbox;
-        }
-
 
         private void panCanvas_Paint(object sender, PaintEventArgs e) {
              e.Graphics.DrawImage(universe, 0, 0);
             
             Font drawFont = new Font("Arial", 12);
             SolidBrush drawBrush = new SolidBrush(Color.Red);
-            e.Graphics.DrawString(getText(), drawFont, drawBrush, new Point(0,2));
+            e.Graphics.DrawString(txtbox, drawFont, drawBrush, new Point(0,2));
             
             // Draw the grid
             for (int i = gridSize; i < panCanvas.Height; i += gridSize) {

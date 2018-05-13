@@ -122,22 +122,17 @@ namespace Client
             Task.Factory.StartNew(async () => {
                 while (true)
                 {
-                    try
-                    {
+                    try {
                         msg = (await client.Receive()).Message.ToString();
 
                         parts = msg.Split(':');
                         fixParts(parts);
-                        if (parts[0].Equals("quit"))
-                        {
+                        if (parts[0].Equals("quit")) {
                             break;
-                        }
-                        else if (parts[0].Equals("connected"))
-                        {
+                        } else if (parts[0].Equals("connected")) {
                             gameOn = parts[1].Equals("true");
 
-                            if (gameOn)
-                            {
+                            if (gameOn) {
                                 txtIP.Invoke(new Action(() => txtIP.BackColor = Color.Green));
                                 btnConnect.Invoke(new Action(() => btnConnect.BackColor = Color.Green));
                                 txtIP.Invoke(new Action(() => txtIP.ReadOnly = true));
@@ -154,9 +149,7 @@ namespace Client
                                 prbTorpedo.Invoke(new Action(() => prbTorpedo.Value = tFull)); //torpedo
                                 prbPhasor.Invoke(new Action(() => prbPhasor.Value = pFull)); //phasor
 
-                                                         }
-                            else
-                            {
+                            } else {
                                 addText("Connection not established\n");
                                 sector = row = col = -1;
                             }
@@ -169,122 +162,75 @@ namespace Client
                                 if (i % 2 != 0) { tmp += " "; }
                                 if (i % 16 == 0) { tmp += "\n\n"; }
                             }
-                        }
-                        else if (parts[0].Equals("loc"))
-                        {
-                            if (parts[1].Equals("star"))
-                            {
+                        } else if (parts[0].Equals("loc")) {
+                            if (parts[1].Equals("star")) {
                                 hitStar();
-                            }
-                            else if (parts[1].Equals("planet"))
-                            {
+                            } else if (parts[1].Equals("planet")) {
                                 hitPlanet();
                                 client.Send("yuh");
-                            }
-                            else
-                            {
+                            } else {
                                 sectorStr = parts[1];
                                 lblSector.Invoke(new Action(() => lblSector.Text = sectorStr));
                                 col = Convert.ToInt32(parts[2]);
                                 row = Convert.ToInt32(parts[3]);
-                                if (parts[4].Equals("n"))
-                                {
+                                if (parts[4].Equals("n")) {
                                     shipAngle = 0;
-                                }
-                                else if (parts[4].Equals("s"))
-                                {
+                                } else if (parts[4].Equals("s")) {
                                     shipAngle = 180;
-                                }
-                                else if (parts[4].Equals("e"))
-                                {
+                                } else if (parts[4].Equals("e")) {
                                     shipAngle = 90;
-                                }
-                                else if (parts[4].Equals("w"))
-                                {
+                                } else if (parts[4].Equals("w")) {
                                     shipAngle = 270;
                                 }
                             }
                             panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
-                        }
-                        else if (parts[0].Equals("or"))
-                        {
-                            if (parts[1].Equals("n"))
-                            {
+                        } else if (parts[0].Equals("or")) {
+                            if (parts[1].Equals("n")) {
                                 shipAngle = 0;
-                            }
-                            else if (parts[1].Equals("s"))
-                            {
+                            } else if (parts[1].Equals("s")) {
                                 shipAngle = 180;
-                            }
-                            else if (parts[1].Equals("e"))
-                            {
+                            } else if (parts[1].Equals("e")) {
                                 shipAngle = 90;
-                            }
-                            else if (parts[1].Equals("w"))
-                            {
+                            } else if (parts[1].Equals("w")) {
                                 shipAngle = 270;
                             }
                             panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
-                        }
-                        else if (parts[0].Equals("sh"))
-                        {
-                            if (parts[1].Equals("0"))
-                            {
+                        } else if (parts[0].Equals("sh")) {
+                            if (parts[1].Equals("0")) {
                                 shieldOn = false;
-                            }
-                            else if (parts[1].Equals("1"))
-                            {
+                            } else if (parts[1].Equals("1")) {
                                 shieldOn = true;
-                            }
-                            else if (parts[1].Equals("2"))
-                            {
+                            } else if (parts[1].Equals("2")) {
                                 shieldOn = false;
                             }
-                        }
-                        else if (parts[0].Equals("si"))
-                        {
+                        } else if (parts[0].Equals("si")) {
                             sectorStars = parts[1];
                             sectorPlanets = parts[2];
                             sectorBlackholes = parts[3];
                             panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
-                        }
-                        else if (parts[0].Equals("me"))
-                        {
+                        } else if (parts[0].Equals("me")) {
                             //Handle Changes to health/shields/ammo/fuel 
                             //Health = parts[1];
                             //Shields = parts[2]
                             //Phasors = parts[3];
                             //Torpeados = parts[4]
                             //fuel = parts[5];
-<<<<<<< HEAD
-                        }
-                        else if (parts[0].Equals("star"))
-                        {
+                        } else if (parts[0].Equals("star")) {
                             health = 0;
                             hFull = health / 2;
                             panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
 
-                        }
-
-                        else if (parts[0].Equals("planet"))
-                        {
+                        } else if (parts[0].Equals("planet")) {
                             fFull = 100; fuelPods = 50;
                             hFull = 100; health = 50;
                             tFull = 100; torpedos = 50;
                             pFull = 100; phasors = 50;
                             panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
 
-                        }
-=======
-                        } 
->>>>>>> clientserver
-                        else
-                        {
+                        } else {
                             addText(msg);
                         }
-                    }
-                    catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         MessageBox.Show(e.Message);
                     }
                 }
@@ -387,12 +333,7 @@ namespace Client
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (!gameOn) return false;
-<<<<<<< HEAD
-            
-=======
 
-
->>>>>>> clientserver
             try
             {
 
