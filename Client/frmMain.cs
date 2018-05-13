@@ -235,7 +235,7 @@ namespace Client
                             //Phasors = parts[3];
                             //Torpeados = parts[4]
                             //fuel = parts[5];
-                        }
+                        } 
                         else
                         {
                             addText(msg);
@@ -328,6 +328,7 @@ namespace Client
         {
             if (!gameOn) return false;
 
+
             try
             {
 
@@ -335,8 +336,14 @@ namespace Client
                 {
                     case Keys.V: 
                         frmUniverse frm = new frmUniverse();
+                        
                         frm.Show();
-                        client.Send("v:" + (sectorView ? sectorStr : "u"));
+                        client.Send("v");
+
+                        if (msg.ToString().Contains("sec:")) {
+
+                        }
+
                         break;
 
 					case Keys.Up:
@@ -597,6 +604,8 @@ namespace Client
                 client.Send("YOU LOSE!");
             }
         }
+
+       
 
         #endregion
 
