@@ -312,20 +312,7 @@ namespace Client
 
                 if (shieldOn)
                     e.Graphics.DrawEllipse(new Pen(Brushes.Gold, 2), loc(col, row, gridSize / 1.5));
-
-
-                // scale the drawing larger:
-                //using (Matrix m = new Matrix()) {
-                //	m.Translate((int)((col + .5) * gridSize), (int)((row + .5) * gridSize));
-                //	m.Rotate(shipAngle);
-                //	m.Scale(.6f, .6f);
-                //	e.Graphics.Transform = m;
-
-                //	e.Graphics.FillPolygon(new SolidBrush(Color.Red), myShipPts.ToArray());
-                //	e.Graphics.DrawPolygon(Pens.White, myShipPts.ToArray());
-                //}
-
-                
+              
             }
         }
 
