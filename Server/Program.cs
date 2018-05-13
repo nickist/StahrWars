@@ -135,15 +135,19 @@ namespace UPDServer {
                                 if (!sectorChanged)
                                 {
                                     sector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                    server.Reply(String.Format("ni:{0}:{1}", sector.PlanetLocations, sector.getPlayers()), received.Sender);
                                 }
                                 server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, parts[1], p.FuelPods), received.Sender);
                                 
                                 Char cellAction = onSpecialCell(p);
-                                switch(cellAction)
+                                sector = universe.getGalaxy(p.SectorStr);
+                                switch (cellAction)
                                 {
+                                    
                                     case 's': //Player is on a star
                                         p.Health = 0;
-                                        server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Health,p.Sheilds,p.Phasors, p.Torpedoes, p.FuelPods), received.Sender);
+                                        server.Reply(String.Format("me:{0}:{1}:{2}:{3}:{4}", p.Health,p.Sheilds,p.Phasors, p.Torpedoes, p.FuelPods), received.Sender);
+                                        //server.Reply("On a Star", received.Sender);
                                         break;
                                     case 'p'://Player is on a planet
                                         p.Health = 100;
@@ -151,11 +155,13 @@ namespace UPDServer {
                                         p.Phasors = 50;
                                         p.Torpedoes = 10;
                                         p.FuelPods = 50;
-                                        server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Health, p.Sheilds, p.Phasors, p.Torpedoes, p.FuelPods), received.Sender);
-                                        //sector.editCell((p.Row * 10 + p.Column % 10), 'e');
+                                        server.Reply(String.Format("me:{0}:{1}:{2}:{3}:{4}", p.Health, p.Sheilds, p.Phasors, p.Torpedoes, p.FuelPods), received.Sender);
+                                        server.Reply(sector.PlanetLocations + " " + p.SectorStr, received.Sender);
+                                        sector.removePlanet(p.Row * 10 + p.Column % 10);
                                         break;
                                     case 't':
                                         //Player found treasure
+                                        //server.Reply("On Treasure", received.Sender);
                                         break;
                                     case 'b':
                                         sector = universe.getGalaxy(p.SectorStr);
@@ -167,6 +173,7 @@ namespace UPDServer {
                                         sector.removePlayer(p.Name);
                                         newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
                                         server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
+                                        //server.Reply("On a Blackhole", received.Sender);
                                         sectorChanged = true;
                                         break;
                                 }
@@ -176,8 +183,6 @@ namespace UPDServer {
                             {
 
                                 server.Reply("Out of Fuelpods!", received.Sender);
-                                server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, parts[1], p.FuelPods), received.Sender);
-
                                 server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, parts[1], p.FuelPods), received.Sender);
                             }
                         }
@@ -310,6 +315,7 @@ namespace UPDServer {
                         }
                         if (sectorChanged)
                         {
+                            p.SectorStr = numToSectorID(p.Sector);
                             Galaxy sector = universe.getGalaxy(p.SectorStr);
                             server.Reply(String.Format("si:{0}:{1}:{2}:{3}", sector.StarLocations, sector.PlanetLocations, sector.BlackholeLocations, sector.getPlayers()), received.Sender);
                             sectorChanged = false;

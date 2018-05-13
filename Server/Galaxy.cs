@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
 namespace UPDServer
@@ -164,9 +165,12 @@ namespace UPDServer
             return playersList;
         }
 
-        public void editCell(int cellNum, Char value)
+        public void removePlanet(int cellNum)
         {
-            cells[cellNum] = value;
+
+            List<String> cells = planetLocations.Split(',').ToList();
+            cells.Remove(cellNum.ToString());
+            planetLocations = string.Join(",", cells.ToArray());
         }
         public int PlayerCount { get => playerCount; set => playerCount = value; }
     }

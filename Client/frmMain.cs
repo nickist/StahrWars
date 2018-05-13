@@ -237,6 +237,12 @@ namespace Client
                             //Torpeados = parts[4]
                             //fuel = parts[5];
                         }
+                        else if (parts[0].Equals("ni")) //Update planet and players in sector
+                        {
+                            sectorPlanets = parts[1];
+                            playerLocations = parts[2];
+                            panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
+                        }
                         else
                         {
                             addText(msg);
@@ -270,51 +276,44 @@ namespace Client
 
 
                 // Place Planets 
-                
-                for (int i = 0; i < sectorPlanets.Length; i++)
+                if (sectorPlanets.Length != 0)
                 {
-
-                    String temp = sectorPlanets[i].ToString();
-                    if (i + 1 != sectorPlanets.Length && sectorPlanets[i + 1] != ',')
+                    String[] cellsP = sectorPlanets.Split(',');
+                    for (int i = 0; i < cellsP.Length; i++)
                     {
-                        temp = temp + sectorPlanets[i + 1].ToString();
+                        int cellNum;
+                        Int32.TryParse(cellsP[i], out cellNum);
+                        e.Graphics.DrawImage(planet, loc(cellNum % 10, cellNum / 10, gridSize / 1.5));
                     }
-                    int cellNum;
-                    Int32.TryParse(temp, out cellNum);
-                    e.Graphics.DrawImage(planet, loc(cellNum % 10, cellNum / 10, gridSize / 1.5));
-                    i++;
                 }
-                
+
                 // Place Stars
-                for (int i = 0; i < sectorStars.Length; i++)
+                if (sectorStars.Length != 0)
                 {
-
-                    String temp = sectorStars[i].ToString();
-                    if (i + 1 != sectorStars.Length && sectorStars[i + 1] != ',')
+                    String[] cellsS = sectorStars.Split(',');
+                    for (int i = 0; i < cellsS.Length; i++)
                     {
-                        temp = temp + sectorStars[i + 1].ToString();
+                        int cellNum;
+                        Int32.TryParse(cellsS[i], out cellNum);
+                        e.Graphics.DrawImage(star, loc(cellNum % 10, cellNum / 10, star.Width / 4));
                     }
-                    int cellNum;
-                    Int32.TryParse(temp, out cellNum);
-                    e.Graphics.DrawImage(star, loc(cellNum % 10, cellNum / 10, star.Width / 4));
-                    i++;
                 }
+
 
                 //Place Blackholes
-                for (int i = 0; i < sectorBlackholes.Length; i++)
+                if (sectorBlackholes.Length != 0)
                 {
-
-                    String temp = sectorBlackholes[i].ToString();
-                    if (i + 1 != sectorBlackholes.Length && sectorBlackholes[i + 1] != ',')
+                    String[] cellsB = sectorBlackholes.Split(',');
+                    for (int i = 0; i < cellsB.Length; i++)
                     {
-                        temp = temp + sectorBlackholes[i + 1].ToString();
+                        int cellNum;
+                        Int32.TryParse(cellsB[i], out cellNum);
+                        e.Graphics.DrawImage(blackhole, loc(cellNum % 10, cellNum / 10, gridSize / 1.25));
                     }
-                    int cellNum;
-                    Int32.TryParse(temp, out cellNum);
-                    e.Graphics.DrawImage(blackhole, loc(cellNum % 10, cellNum / 10, gridSize/1.25));
-                    i++;
                 }
+              
                 /*
+                 *
 			     * Draw the ship
 			     */
                 if (shipAngle == 0) e.Graphics.DrawImage(shipNorth, loc(col, row, shipNorth.Width / 2));
