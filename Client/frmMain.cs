@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Net;
 using System.Net.Sockets;
@@ -147,9 +148,9 @@ namespace Client
                                 row = Convert.ToInt32(parts[4]);
                                 lblSector.Invoke(new Action(() => lblSector.Text = sectorStr));
                                 prbHealth.Invoke(new Action(() => prbHealth.Value = hFull));
-                                progressBar1.Invoke(new Action(() => progressBar1.Value = fFull)); //fuel pod
-                                progressBar2.Invoke(new Action(() => progressBar2.Value = tFull)); //torpedo
-                                progressBar3.Invoke(new Action(() => progressBar3.Value = pFull)); //phasor
+                                prbFuel.Invoke(new Action(() => prbFuel.Value = fFull)); //fuel pod
+                                prbTorpedo.Invoke(new Action(() => prbTorpedo.Value = tFull)); //torpedo
+                                prbPhasor.Invoke(new Action(() => prbPhasor.Value = pFull)); //phasor
 
                                                          }
                             else
@@ -163,25 +164,37 @@ namespace Client
                         }
                         else if (parts[0].Equals("loc"))
                         {
-                            sectorStr = parts[1];
-                            lblSector.Invoke(new Action(() => lblSector.Text = sectorStr));
-                            col = Convert.ToInt32(parts[2]);
-                            row = Convert.ToInt32(parts[3]);
-                            if (parts[4].Equals("n"))
+                            if (parts[1].Equals("star"))
                             {
-                                shipAngle = 0;
+                                hitStar();
                             }
-                            else if (parts[4].Equals("s"))
+                            else if (parts[1].Equals("planet"))
                             {
-                                shipAngle = 180;
+                                hitPlanet();
+                                client.Send("yuh");
                             }
-                            else if (parts[4].Equals("e"))
+                            else
                             {
-                                shipAngle = 90;
-                            }
-                            else if (parts[4].Equals("w"))
-                            {
-                                shipAngle = 270;
+                                sectorStr = parts[1];
+                                lblSector.Invoke(new Action(() => lblSector.Text = sectorStr));
+                                col = Convert.ToInt32(parts[2]);
+                                row = Convert.ToInt32(parts[3]);
+                                if (parts[4].Equals("n"))
+                                {
+                                    shipAngle = 0;
+                                }
+                                else if (parts[4].Equals("s"))
+                                {
+                                    shipAngle = 180;
+                                }
+                                else if (parts[4].Equals("e"))
+                                {
+                                    shipAngle = 90;
+                                }
+                                else if (parts[4].Equals("w"))
+                                {
+                                    shipAngle = 270;
+                                }
                             }
                             panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
                         }
@@ -235,6 +248,23 @@ namespace Client
                             //Phasors = parts[3];
                             //Torpeados = parts[4]
                             //fuel = parts[5];
+                        }
+                        else if (parts[0].Equals("star"))
+                        {
+                            health = 0;
+                            hFull = health / 2;
+                            panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
+
+                        }
+
+                        else if (parts[0].Equals("planet"))
+                        {
+                            fFull = 100; fuelPods = 50;
+                            hFull = 100; health = 50;
+                            tFull = 100; torpedos = 50;
+                            pFull = 100; phasors = 50;
+                            panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
+
                         }
                         else
                         {
@@ -320,6 +350,8 @@ namespace Client
                 //	e.Graphics.FillPolygon(new SolidBrush(Color.Red), myShipPts.ToArray());
                 //	e.Graphics.DrawPolygon(Pens.White, myShipPts.ToArray());
                 //}
+
+                
             }
         }
 
@@ -327,7 +359,7 @@ namespace Client
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (!gameOn) return false;
-
+            
             try
             {
 
@@ -373,6 +405,7 @@ namespace Client
                         {
                             move("s");
                             fuelLoss();
+
                         }
                         break;
                     case Keys.Left:
@@ -386,6 +419,7 @@ namespace Client
                         {
                             move("w");
                             fuelLoss();
+
                         }
                         break;
                     case Keys.S:
@@ -475,6 +509,7 @@ namespace Client
         #region ================================================================================= <Fire Weapons>
         private void fireWeapon()
         {
+            if (!gameOn) return;
             if (phasorsEquiped == true)
             {
                 if (phasors != 0 && pFull >= 2)
@@ -483,7 +518,7 @@ namespace Client
                     pFull -= 2;
                     phasors--;
                     label10.Text = "" + phasors;
-                    progressBar3.Invoke(new Action(() => progressBar3.Value = pFull)); //phasor
+                    prbPhasor.Invoke(new Action(() => prbPhasor.Value = pFull)); //phasor
                 }
                 else
                 {
@@ -497,7 +532,7 @@ namespace Client
                     client.Send("ft");
                     tFull -= 10;
                     torpedos--;
-                    progressBar2.Invoke(new Action(() => progressBar2.Value = tFull)); //torpedo
+                    prbTorpedo.Invoke(new Action(() => prbTorpedo.Value = tFull)); //torpedo
                     label9.Text = "" + torpedos;
 
                 }
@@ -514,6 +549,7 @@ namespace Client
         #region ================================================================================== <fuel>
         private void fuelLoss()
         {
+            if (!gameOn) return;
             if (!shieldOn)
             {
                 if (fuelPods != 0 && fFull > 0)
@@ -526,7 +562,7 @@ namespace Client
 
                     fuelPods--;
                     label11.Text = "" + fuelPods;
-                    progressBar1.Invoke(new Action(() => progressBar1.Value = fFull)); //fuel pod
+                    prbFuel.Invoke(new Action(() => prbFuel.Value = fFull)); //fuel pod
                 }
                 else
                 {
@@ -534,12 +570,13 @@ namespace Client
                 }
 
                 label11.Text = "" + fuelPods;
-                progressBar1.Invoke(new Action(() => progressBar1.Value = fFull)); //fuel pod
+                prbFuel.Invoke(new Action(() => prbFuel.Value = fFull)); //fuel pod
             }
         }
 
         private void hFuelLoss()
         {
+            if (!gameOn) return;
             if (!shieldOn)
             {
                 if (fuelPods >= 5 && fFull >= 10)
@@ -547,7 +584,7 @@ namespace Client
                     fFull -= 10;
                     fuelPods -= 5;
                     label11.Text = "" + fuelPods;
-                    progressBar1.Invoke(new Action(() => progressBar1.Value = fFull)); //fuel pod
+                    prbFuel.Invoke(new Action(() => prbFuel.Value = fFull)); //fuel pod
                 }
                 else if (fuelPods > 0 && fuelPods < 5)
                 {
@@ -561,7 +598,7 @@ namespace Client
                 }
 
                 label11.Text = "" + fuelPods;
-                progressBar1.Invoke(new Action(() => progressBar1.Value = fFull)); //fuel pod
+                prbFuel.Invoke(new Action(() => prbFuel.Value = fFull)); //fuel pod
             }
         }
         #endregion
@@ -574,6 +611,7 @@ namespace Client
             {
                 hFull -= 10;
                 health -= 5;
+                label12.Text = "" + health;
                 prbHealth.Invoke(new Action(() => prbHealth.Value = hFull));
             }
 
@@ -604,10 +642,10 @@ namespace Client
 
         private void hitStar()
         {
-            fFull = 0; fuelPods = 0;
             hFull = 0; health = 0;
-            tFull = 0; torpedos = 0;
-            pFull = 0; phasors = 0;
+            prbHealth.Invoke(new Action(() => prbHealth.Value = hFull));
+            //label12.Text = "" + health;
+            label12.BeginInvoke(new Action(() => label12.Text = "" + health));
 
             client.Send("You Lose!");
         }
@@ -619,10 +657,27 @@ namespace Client
 
         private void hitPlanet()
         {
-            fFull = 100; fuelPods = 100;
-            hFull = 100; health = 100;
-            tFull = 100; torpedos = 100;
-            pFull = 100; phasors = 100;
+            fFull = 100; fuelPods = 50;
+            hFull = 100; health = 50;
+            tFull = 100; torpedos = 10;
+            pFull = 100; phasors = 50;
+
+            prbHealth.Invoke(new Action(() => prbHealth.Value = hFull));
+            //label12.Text = "" + health;
+            label12.BeginInvoke(new Action(() => label12.Text = "" + health));
+
+            prbTorpedo.Invoke(new Action(() => prbTorpedo.Value = tFull)); //torpedo
+            //label9.Text = "" + torpedos;
+            label9.BeginInvoke(new Action(() => label9.Text = "" + torpedos));
+
+            prbPhasor.Invoke(new Action(() => prbPhasor.Value = pFull)); //phasor                           
+            //label10.Text = "" + phasors;
+            label10.BeginInvoke(new Action(() => label10.Text = "" + phasors));
+
+            prbFuel.Invoke(new Action(() => prbFuel.Value = fFull)); //fuel pod
+            //label11.Text = "" + fuelPods;
+            label11.BeginInvoke(new Action(() => label11.Text = "" + fuelPods));
+
 
             client.Send("Resources replinished!");
         }
@@ -637,7 +692,6 @@ namespace Client
 
         private void label9_Click(object sender, EventArgs e)
         {
-
         }
 
         private void progressBar1_Click(object sender, EventArgs e)
@@ -649,6 +703,8 @@ namespace Client
         {
 
         }
+
+
 
         private void progressBar3_Click(object sender, EventArgs e)
         {

@@ -142,15 +142,19 @@ namespace UPDServer {
                                 {
                                     case 's': //Player is on a star
                                         p.Health = 0;
-                                        server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Health,p.Sheilds,p.Phasors, p.Torpedoes, p.FuelPods), received.Sender);
+                                        //server.Reply("star:", received.Sender);
+                                        server.Reply("loc:star", received.Sender);
+                                        //server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Health,p.Sheilds,p.Phasors, p.Torpedoes, p.FuelPods), received.Sender);
                                         break;
                                     case 'p'://Player is on a planet
-                                        p.Health = 100;
+                                        p.Health = 50;
                                         p.Sheilds = 15;
                                         p.Phasors = 50;
                                         p.Torpedoes = 10;
                                         p.FuelPods = 50;
-                                        server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Health, p.Sheilds, p.Phasors, p.Torpedoes, p.FuelPods), received.Sender);
+                                        //server.Reply("planet:", received.Sender);
+                                        server.Reply("loc:planet", received.Sender);
+                                        //server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Health, p.Sheilds, p.Phasors, p.Torpedoes, p.FuelPods), received.Sender);
                                         break;
                                     case 't':
                                         //Player found treasure
