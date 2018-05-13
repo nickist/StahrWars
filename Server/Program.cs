@@ -179,17 +179,12 @@ namespace UPDServer {
                             if (parts[1].Equals("u"))
                             {
                                 char sec = 'a';
-<<<<<<< HEAD
-                                while (sec != 'q') {
-                                    for (int i = 0; i < 16; i++) {
-                                        //server.Reply(String.Format("p:{0}",universe.getGalaxy(sec+""+i).PlayerCount), received.Sender);
-=======
+
                                 while (sec != 'q')
                                 {
                                     for (int i = 0; i < 16; i++)
                                     {
                                         server.Reply(String.Format("p:{0}", universe.getGalaxy(sec + "" + i).PlayerCount), received.Sender);
->>>>>>> 566ae8822b5651807dbd7bf6280a9cbfb6eb92ef
                                     }
                                     sec++;
                                 }

@@ -325,10 +325,10 @@ namespace Client
                 switch (keyData)
                 {
                     case Keys.V: 
-                           //frmUniverse frm = new frmUniverse();
-                           //frm.Show();
-                       
-                            break;
+
+                           frmUniverse frm = new frmUniverse();
+                           frm.Show();
+                           break;
 
 					case Keys.Up:
 						if (shipAngle != 0) {
@@ -431,7 +431,9 @@ namespace Client
             }
 
         }
+        private void panCanvas_Click(object sender, EventArgs e) {
 
+        }
         private void picShields_Click(object sender, EventArgs e)
         {
             switchShields();
@@ -456,6 +458,8 @@ namespace Client
             e.Graphics.FillEllipse(shieldOn ? Brushes.Green : Brushes.Red, 2, 2, picShields.Width - 4, picShields.Height - 4);
             e.Graphics.DrawEllipse(Pens.Gray, 2, 2, picShields.Width - 4, picShields.Height - 4);
         }
+
+
 
         #endregion
 

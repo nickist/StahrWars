@@ -9,12 +9,7 @@ namespace UPDServer
         private String blackholeLocations = "";
         private String treasureLocations = "";
         private String planetLocations = "";
-<<<<<<< HEAD
-        //private int playerCount;
-
-=======
         private int playerCount;
->>>>>>> 566ae8822b5651807dbd7bf6280a9cbfb6eb92ef
         private Dictionary<int, Char> cells = new Dictionary<int, Char>();
 
         public Galaxy(Random rnd)
@@ -139,6 +134,6 @@ namespace UPDServer
             }
         }
 
-        //public int PlayerCount { get => playerCount; set => playerCount = value; }
+        public int PlayerCount { get => playerCount; set => playerCount = value; }
     }
 }
