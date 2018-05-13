@@ -136,6 +136,19 @@ namespace UPDServer
             }
         }
 
+        public int PlayerCount
+        {
+            get
+            {
+                return playerCount;
+            }
+
+            set
+            {
+                playerCount = value;
+            }
+        }
+
         public void updatePlayer(String id, int cell)
         {
             if (players.ContainsKey(id))
@@ -153,6 +166,5 @@ namespace UPDServer
             //players.Remove(p.Connection);
         }
 
-        public int PlayerCount { get => playerCount; set => playerCount = value; }
     }
 }
