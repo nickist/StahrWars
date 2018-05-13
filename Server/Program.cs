@@ -198,7 +198,7 @@ namespace UPDServer {
                                     server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
                                 }
                             } else if (parts[0].Equals("v")) {
-                                string rply = "sec:";
+                                string rply = "unv:";
                                     char sec = 'a';
                                     while (sec != 'q') {
                                         for (int i = 0; i < 16; i++) {

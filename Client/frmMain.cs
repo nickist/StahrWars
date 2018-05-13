@@ -16,6 +16,7 @@ namespace Client
         bool gameOn = false, shieldOn = false, phasorsEquiped = true, sectorView = true;
         string sectorStars = "", sectorPlanets="", sectorBlackholes="";
         string sectorStr = "";
+        string tmp = "";
         UdpUser client = null;
         Pen gridPen = new Pen(System.Drawing.Color.White, 1);
         int gridSize = 0;
@@ -28,6 +29,7 @@ namespace Client
         Image shipEast = Image.FromFile("ShipEast.png");
         Image shipWest = Image.FromFile("ShipWest.png");
         Image torpedo = Image.FromFile("torpedo.png");
+        Image universe = Image.FromFile("universe.jpg");
         //Image phasor = Image.FromFile("laser.png");
 
         //List<Point> points = new List<Point>();
@@ -160,13 +162,12 @@ namespace Client
 
                             panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
 
-                        } else if (parts[0].Equals("sec")) {
-                            frmUniverse frm = new frmUniverse();
+                        } else if (parts[0].Equals("unv")) {
                             for (int i = 1; i < parts.Length; i++) {
-                                frm.setPlayerCount(parts[i]);
+                                tmp += parts[i].PadRight(7);
+                                if (i % 2 != 0) { tmp += " "; }
+                                if (i % 16 == 0) { tmp += "\n\n"; }
                             }
-                            frm.Show();
-                            
                         }
                         else if (parts[0].Equals("loc"))
                         {
@@ -258,20 +259,36 @@ namespace Client
             });
         }
 
+        private void drawUniverse() {
+            frmUniverse frm = new frmUniverse();
+            frm.setText(tmp);
+            frm.Show();
+        }
+
+        private void gridDraw(PaintEventArgs e) {
+            for (int i = gridSize; i < panCanvas.Height; i += gridSize) {
+                e.Graphics.DrawLine(gridPen, 0, i, panCanvas.Width, i);
+                e.Graphics.DrawLine(gridPen, i, 0, i, panCanvas.Height);
+            }
+        }
+
+        private void backgroundDraw(Image imageName, PaintEventArgs e) {
+            e.Graphics.DrawImage(imageName, 0, 0);
+        }
+
+
+
         private void panCanvas_Paint(object sender, PaintEventArgs e)
         {
             if (gameOn)
             {
                 if (chkShowBackground.Checked)
-                    e.Graphics.DrawImage(background, 0, 0);
+                    backgroundDraw(background, e);
                 if (chkShowGrid.Checked)
                 {
                     // Draw the grid
-                    for (int i = gridSize; i < panCanvas.Height; i += gridSize)
-                    {
-                        e.Graphics.DrawLine(gridPen, 0, i, panCanvas.Width, i);
-                        e.Graphics.DrawLine(gridPen, i, 0, i, panCanvas.Height);
-                    }
+                    gridDraw(e);
+                    
                 }
 
 
@@ -343,6 +360,7 @@ namespace Client
                 {
                     case Keys.V: 
                         client.Send("v");
+                        drawUniverse();
                         break;
 
 					case Keys.Up:

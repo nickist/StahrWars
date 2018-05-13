@@ -81,29 +81,28 @@ namespace Client
 
         }
 
-        public void setPlayerCount(string playerCount) {
-
+        public void setText(String txt) {
+            txtbox = txt;
         }
 
-
-        private void btnQuit_Click(object sender, EventArgs e) {
-            throw new NotImplementedException();
+        public string getText() {
+            return txtbox;
         }
-
-
 
 
         private void panCanvas_Paint(object sender, PaintEventArgs e) {
              e.Graphics.DrawImage(universe, 0, 0);
-
+            
+            Font drawFont = new Font("Arial", 12);
+            SolidBrush drawBrush = new SolidBrush(Color.Red);
+            e.Graphics.DrawString(getText(), drawFont, drawBrush, new Point(0,2));
+            
             // Draw the grid
             for (int i = gridSize; i < panCanvas.Height; i += gridSize) {
                 e.Graphics.DrawLine(gridPen, 0, i, panCanvas.Width, i);
                 e.Graphics.DrawLine(gridPen, i, 0, i, panCanvas.Height);
+
             }
-
-
-
         }
 
 
