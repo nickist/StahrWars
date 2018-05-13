@@ -327,7 +327,7 @@ namespace Client
                     case Keys.V: 
                         frmUniverse frm = new frmUniverse();
                         frm.Show();
-                        client.Send((sectorView ? sectorStr : "u") + " equipped");
+                        client.Send("v:" + (sectorView ? sectorStr : "u"));
                         break;
 
 					case Keys.Up:
@@ -595,13 +595,28 @@ namespace Client
 
         private void hitStar()
         {
-            
+            fFull = 0; fuelPods = 0;
+            hFull = 0; health = 0;
+            tFull = 0; torpedos = 0;
+            pFull = 0; phasors = 0;
+
+            client.Send("You Lose!");
         }
 
         #endregion
 
 
         #region ============================================================================== <planet>
+
+        private void hitPlanet()
+        {
+            fFull = 100; fuelPods = 100;
+            hFull = 100; health = 100;
+            tFull = 100; torpedos = 100;
+            pFull = 100; phasors = 100;
+
+            client.Send("Resources replinished!");
+        }
 
         #endregion
 
