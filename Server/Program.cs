@@ -75,10 +75,12 @@ namespace UPDServer {
                         players.TryGetValue(received.Sender.Address.MapToIPv4().ToString(), out p);
                             if (p.IsAlive == false) {
                                 server.Reply("You Are Dead!", received.Sender);
+                                
                             } else {
                             if (parts[0].Equals("mov")) {
                                 if (p.FuelPods != 0) {
                                     p.FuelPods--;
+                                    server.Reply(String.Format("f:{0}", p.FuelPods), received.Sender);
                                     if (parts[1].Equals("n")) p.Row--;
                                     else if (parts[1].Equals("s")) p.Row++;
                                     else if (parts[1].Equals("e")) p.Column++;
@@ -130,7 +132,7 @@ namespace UPDServer {
                                             p.Phasors = 0;
                                             p.Torpedoes = 0;
                                             p.Sheilds = 0;
-                                            server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Health, p.Sheilds, p.Phasors, p.Torpedoes, p.FuelPods), received.Sender);
+                                            server.Reply(String.Format("loc:star:{0}:{1}:{2}:{3}:{4}", p.Health, p.Sheilds, p.Phasors, p.Torpedoes, p.FuelPods), received.Sender);
                                             break;
                                         case 'p'://Player is on a planet
                                             p.Health = 100;
@@ -138,7 +140,7 @@ namespace UPDServer {
                                             p.Phasors = 50;
                                             p.Torpedoes = 10;
                                             p.FuelPods = 50;
-                                            server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Health, p.Sheilds, p.Phasors, p.Torpedoes, p.FuelPods), received.Sender);
+                                            server.Reply(String.Format("loc:planet:{0}:{1}:{2}:{3}:{4}", p.Health, p.Sheilds, p.Phasors, p.Torpedoes, p.FuelPods), received.Sender);
                                             break;
                                         case 't':
                                             //Player found treasure
