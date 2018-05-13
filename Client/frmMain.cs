@@ -14,7 +14,7 @@ namespace Client
         int sector = 0, col = 3, row = 7, shipAngle = 0, boxCount = 10, shields = 30, torpedos = 10, phasors = 50, fuelPods = 50, health = 50,
             pFull = 100, tFull = 100, fFull = 100, hFull = 100;
         bool gameOn = false, shieldOn = false, phasorsEquiped = true, sectorView = true;
-        string sectorStars = "", sectorPlanets="", sectorBlackholes="";
+        string sectorStars = "", sectorPlanets="", sectorBlackholes="", playerLocations="";
         string sectorStr = "";
         UdpUser client = null;
         Pen gridPen = new Pen(System.Drawing.Color.White, 1);
@@ -22,7 +22,7 @@ namespace Client
         Image planet = Image.FromFile("jupiter.png");
         Image star = Image.FromFile("star.png");
         Image background = Image.FromFile("background.jpg");
-       // Image blackhole = Image.FromFile("blackhole.jpg");
+        Image blackhole = Image.FromFile("blackhole.jpg");
         Image shipNorth = Image.FromFile("ShipNorth.png");
         Image shipSouth = Image.FromFile("ShipSouth.png");
         Image shipEast = Image.FromFile("ShipEast.png");
@@ -297,6 +297,21 @@ namespace Client
                     int cellNum;
                     Int32.TryParse(temp, out cellNum);
                     e.Graphics.DrawImage(star, loc(cellNum % 10, cellNum / 10, star.Width / 4));
+                    i++;
+                }
+
+                //Place Blackholes
+                for (int i = 0; i < sectorBlackholes.Length; i++)
+                {
+
+                    String temp = sectorBlackholes[i].ToString();
+                    if (i + 1 != sectorBlackholes.Length && sectorBlackholes[i + 1] != ',')
+                    {
+                        temp = temp + sectorBlackholes[i + 1].ToString();
+                    }
+                    int cellNum;
+                    Int32.TryParse(temp, out cellNum);
+                    e.Graphics.DrawImage(blackhole, loc(cellNum % 10, cellNum / 10, gridSize/1.25));
                     i++;
                 }
                 /*

@@ -148,11 +148,26 @@ namespace UPDServer
             }
         }
         
-        public void removePlayer(Player p)
+        public void removePlayer(String id)
         {
-            //players.Remove(p.Connection);
+            players.Remove(id);
         }
 
+        public String getPlayers()
+        {
+            String playersList = "";
+            foreach (String s in players.Keys)
+            {
+                playersList = "," + players[s].ToString();
+            }
+            playersList = playersList.Substring(1);
+            return playersList;
+        }
+
+        public void editCell(int cellNum, Char value)
+        {
+            cells[cellNum] = value;
+        }
         public int PlayerCount { get => playerCount; set => playerCount = value; }
     }
 }
