@@ -103,3 +103,4 @@ M:\383proj\StahrWars\Client\obj\Debug\Client.csproj.GenerateResource.Cache
 =======
 C:\Users\kistn\Desktop\StahrWars\Client\obj\Debug\Client.frmUniverse.resources
 >>>>>>> universevisual
+M:\383proj\StahrWars\Client\obj\Debug\Client.frmUniverse.resources

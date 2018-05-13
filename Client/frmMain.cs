@@ -325,10 +325,10 @@ namespace Client
                 switch (keyData)
                 {
                     case Keys.V: 
-
-                           frmUniverse frm = new frmUniverse();
-                           frm.Show();
-                           break;
+                        frmUniverse frm = new frmUniverse();
+                        frm.Show();
+                        client.Send((sectorView ? sectorStr : "u") + " equipped");
+                        break;
 
 					case Keys.Up:
 						if (shipAngle != 0) {
