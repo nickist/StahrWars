@@ -81,6 +81,10 @@ namespace Client
 
         }
 
+        public void setPlayerCount(string playerCount) {
+
+        }
+
 
         private void btnQuit_Click(object sender, EventArgs e) {
             throw new NotImplementedException();

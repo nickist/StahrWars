@@ -160,6 +160,13 @@ namespace Client
 
                             panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
 
+                        } else if (parts[0].Equals("sec")) {
+                            frmUniverse frm = new frmUniverse();
+                            for (int i = 1; i < parts.Length; i++) {
+                                frm.setPlayerCount(parts[i]);
+                            }
+                            frm.Show();
+                            
                         }
                         else if (parts[0].Equals("loc"))
                         {
@@ -335,15 +342,7 @@ namespace Client
                 switch (keyData)
                 {
                     case Keys.V: 
-                        frmUniverse frm = new frmUniverse();
-                        
-                        frm.Show();
                         client.Send("v");
-
-                        if (msg.ToString().Contains("sec:")) {
-
-                        }
-
                         break;
 
 					case Keys.Up:

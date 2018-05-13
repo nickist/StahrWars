@@ -198,11 +198,11 @@ namespace UPDServer {
                                     server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
                                 }
                             } else if (parts[0].Equals("v")) {
-                                string rply = "";
+                                string rply = "sec:";
                                     char sec = 'a';
                                     while (sec != 'q') {
                                         for (int i = 0; i < 16; i++) {
-                                        rply += universe.getGalaxy(sec + "" + i+":").PlayerCount;
+                                        rply += universe.getGalaxy(sec + "" + i).PlayerCount + ":";
                                         }
                                         sec++;
                                     }
