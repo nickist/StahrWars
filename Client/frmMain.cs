@@ -28,9 +28,14 @@ namespace Client
         Image shipSouth = Image.FromFile("ShipSouth.png");
         Image shipEast = Image.FromFile("ShipEast.png");
         Image shipWest = Image.FromFile("ShipWest.png");
-       // Image torpedo = Image.FromFile("torpedo.png");
+        Image torpedoNorth = Image.FromFile("torpedoNorth.png");
+        Image torpedoSouth = Image.FromFile("torpedoSouth.png");
+        Image torpedoEast = Image.FromFile("torpedoEast.png");
+        Image torpedoWest = Image.FromFile("torpedoWest.png");
 
-        
+
+
+
 
         //Image phasor = Image.FromFile("laser.png");
 
@@ -146,6 +151,7 @@ namespace Client
                                 btnConnect.Invoke(new Action(() => btnConnect.Enabled = false));
 
                                 addText("You have joined the game...\n");
+                                addText("Phasors equipped!\n");
                                 sectorStr = parts[2];
                                 col = Convert.ToInt32(parts[3]);
                                 row = Convert.ToInt32(parts[4]);
@@ -389,7 +395,7 @@ namespace Client
                     {
                         int cellNum;
                         Int32.TryParse(cellsW[i], out cellNum);
-                        //e.Graphics.DrawImage(torpedo, loc(cellNum % 10, cellNum / 10, gridSize / 4));
+                        e.Graphics.DrawImage(torpedoNorth, loc(cellNum % 10, cellNum / 10, gridSize / 4));
                     }
                 }
                 /*
@@ -481,7 +487,7 @@ namespace Client
                         break;
                     case Keys.Q:
                         phasorsEquiped = !phasorsEquiped;
-                        client.Send((phasorsEquiped ? "PHASOR" : "TORPEDO") + " equipped");
+                        client.Send("q:" + (phasorsEquiped ? "p" : "t"));
                         break;
                     case Keys.F:
                         fireWeapon();
@@ -563,9 +569,7 @@ namespace Client
 
         #endregion
 
-        
-
-
+                
         #region ====================================================== <Fire Weapons>
         private void fireWeapon()
         {
