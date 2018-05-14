@@ -151,6 +151,11 @@ namespace UPDServer
             }
         }
 
+        public int getPlayerCount()
+        {
+            return players.Count;
+        }
+
         public void removePlayer(String id) {
             players.Remove(id);
         }
@@ -173,7 +178,6 @@ namespace UPDServer
             cells.Remove(cellNum.ToString());
             planetLocations = string.Join(",", cells.ToArray());
         }
-        public int PlayerCount { get => playerCount; set => playerCount = value; }
 
        /* public int getNumBullets()
         {

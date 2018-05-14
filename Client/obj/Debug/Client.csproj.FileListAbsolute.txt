@@ -105,3 +105,14 @@ C:\Users\kistn\Downloads\StahrWars-Gerschjp-c19ceaab04113e7a7133f60282be70ce9067
 C:\Users\kistn\Downloads\StahrWars-Gerschjp-c19ceaab04113e7a7133f60282be70ce90674a44\Client\obj\Debug\Client.exe
 C:\Users\kistn\Downloads\StahrWars-Gerschjp-c19ceaab04113e7a7133f60282be70ce90674a44\Client\obj\Debug\Client.pdb
 C:\Users\kistn\Desktop\StahrWars\Client\obj\Debug\Client.frmUniverse.resources
+C:\Users\kistn\Documents\StahrWars\Client\bin\Debug\Client.exe.config
+C:\Users\kistn\Documents\StahrWars\Client\bin\Debug\Client.exe
+C:\Users\kistn\Documents\StahrWars\Client\bin\Debug\Client.pdb
+C:\Users\kistn\Documents\StahrWars\Client\obj\Debug\Client.csprojAssemblyReference.cache
+C:\Users\kistn\Documents\StahrWars\Client\obj\Debug\Client.frmMain.resources
+C:\Users\kistn\Documents\StahrWars\Client\obj\Debug\Client.frmUniverse.resources
+C:\Users\kistn\Documents\StahrWars\Client\obj\Debug\Client.Properties.Resources.resources
+C:\Users\kistn\Documents\StahrWars\Client\obj\Debug\Client.csproj.GenerateResource.cache
+C:\Users\kistn\Documents\StahrWars\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
+C:\Users\kistn\Documents\StahrWars\Client\obj\Debug\Client.exe
+C:\Users\kistn\Documents\StahrWars\Client\obj\Debug\Client.pdb

@@ -139,7 +139,7 @@ namespace UPDServer {
                                     newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
                                 }
                                 if (!sectorChanged)
-                                {
+                                { // sector is of type Galaxy
                                     sector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
                                     //server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), received.Sender);
                                 }
@@ -300,7 +300,7 @@ namespace UPDServer {
                             {
                                 for (int i = 0; i < 16; i++)
                                 {
-                                    rply += universe.getGalaxy(sec + "" + i).PlayerCount + ":";
+                                    rply += universe.getGalaxy(sec + "" + i).getPlayerCount() + ":";
                                 }
                                 sec++;
                             }
