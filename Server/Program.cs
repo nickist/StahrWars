@@ -89,9 +89,9 @@ namespace UPDServer {
                         {
                             if (parts[0].Equals("mov"))
                             {
-                                universe.updateWeps();                                
                                 if (p.FuelPods != 0)
-                                {                                   
+                                {
+                                    universe.updateWeps();
                                     p.FuelPods--;
                                     server.Reply(String.Format("update:fuelpods:{0}", p.FuelPods), received.Sender);
 
@@ -242,7 +242,6 @@ namespace UPDServer {
                                 {
                                     server.Reply("Out of fuel!", received.Sender);
                                     server.Reply(String.Format("update:fuelpods:{0}", p.FuelPods), received.Sender);
-                                    //server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, parts[1], p.FuelPods), received.Sender);
                                 }
                             }
                             else if (parts[0].Equals("q"))
@@ -337,12 +336,12 @@ namespace UPDServer {
                                     //Add code for handelig shooting phasors
                                     if (p.Phasors != 0 && p.ShieldOn == false)
                                     {
-                                        //server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
                                         Galaxy sector = universe.getGalaxy(p.SectorStr);
                                         sector.addWeapon('p', p.Column, p.Row, p.Oriantation, p.SectorStr);
                                         p.Phasors--;
                                         server.Reply(String.Format("update:phasors:{0}", p.Phasors), received.Sender);
                                         server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), received.Sender);
+                                        server.Reply(String.Format("update:weaponLoc:{0}:{1}}", p.Column, p.Row), received.Sender);
                                     }
                                     else if (p.ShieldOn == true)
                                     {
@@ -395,15 +394,11 @@ namespace UPDServer {
                                     server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
                                     sectorChanged = true;
                                 }
-                                else /*if (p.FuelPods > 0 && p.FuelPods < 5)*/
-                                { //Change this to a differnt reply in the future so user can be promted that they dont have enough fuel to hyperspace
+                                else
+                                { 
                                     server.Reply("Not enough fuel", received.Sender);
                                     server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
-                                } /*else {
-                                server.Reply("Out of Fuel", received.Sender);
-                                server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
-                                server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
-                            }*/
+                                } 
                             }
                             if (sectorChanged)
                             {
