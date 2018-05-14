@@ -30,10 +30,11 @@ namespace UPDServer {
             Console.WriteLine("============================================= Server");
 
             string[] parts;
-
+            
             //start listening for messages and copy the messages back to the client
             Task.Factory.StartNew(async () => {
-                while (true) {
+                while (true)
+                {
                     var received = await server.Receive();
                     string msg = received.Message.ToString();
                     parts = msg.Split(':');
@@ -41,243 +42,363 @@ namespace UPDServer {
                     Console.WriteLine(msg + " -- " + received.Sender.Address.MapToIPv4().ToString());
 
                     // Only add new connections to the list of clients
-                    if (!connections.ContainsKey(received.Sender.Address.MapToIPv4().ToString())) {
+                    if (!connections.ContainsKey(received.Sender.Address.MapToIPv4().ToString()))
+                    {
                         connections.Add(received.Sender.Address.MapToIPv4().ToString(), received.Sender);
-                        p1 = new Player(Environment.UserName); //add parameters later
+                        p1 = new Player(""); //add parameters later
                         p1.Sector = rnd.Next(0, 255);
-                        p1.IsAlive = true;
                         p1.Column = rnd.Next(0, 9);
                         p1.Row = rnd.Next(0, 9);
+                        p1.Name = Environment.UserName;
                         players.Add(received.Sender.Address.MapToIPv4().ToString(), p1);
                         p1.SectorStr = numToSectorID(p1.Sector);
                         server.Reply(String.Format("connected:true:{0}:{1}:{2}", p1.SectorStr, p1.Column, p1.Row), received.Sender);
                         Galaxy sector = universe.getGalaxy(p1.SectorStr);
-                        server.Reply(String.Format("si:{0}:{1}:{2}", sector.StarLocations, sector.PlanetLocations, sector.BlackholeLocations), received.Sender);
-                        sector.updatePlayer(Environment.UserName, (p1.Row * 10 + p1.Column % 10));
+                        sector.updatePlayer(p1.Name, (p1.Row*10+p1.Column%10));
+                        server.Reply(String.Format("si:{0}:{1}:{2}:{3}", sector.StarLocations, sector.PlanetLocations, sector.BlackholeLocations, sector.getPlayersLocs()), received.Sender);
+                        universe.updateWeps();
+
                     }
 
 
                     string ret = "[Connected Users]";
-                    if (received.Message.Equals("list")) {
+                    if (received.Message.Equals("list"))
+                    {
                         foreach (string s in connections.Keys)
                             ret += "\n>> " + s;
                         server.Reply(ret + "\n*****************", received.Sender);
-                    } else {
-                        // Okay, send message to everyone
-                        //foreach (IPEndPoint ep in connections.Values)
+                    }
+                    else
+                    {
+                         //Okay, send message to everyone
+                       // foreach (IPEndPoint ep in connections.Values)
                         //    server.Reply("[" + received.Sender.Address.ToString() + "] says: " + received.Message, ep);
                     }
 
-                    if (received.Message == "quit") {
+                    if (received.Message == "quit")
+                    {
                         connections.Remove(received.Sender.Address.ToString());     // Remove the IP Address from the list of connections
-                    } else {
+                    }
+                    else
+                    {
                         Player p;
                         players.TryGetValue(received.Sender.Address.MapToIPv4().ToString(), out p);
-                            if (p.IsAlive == false) {
-                                server.Reply("You Are Dead!", received.Sender);
-                                
-                            } else {
-                            if (parts[0].Equals("mov")) {
-                                if (p.FuelPods != 0) {
+                        // set clients health fuel phasors torpedos and sheilds
+                        server.Reply(String.Format("setup:{0}:{1}:{2}:{3}:{4}", p.Health, p.FuelPods, p.Phasors, p.Torpedoes, p.shields), received.Sender);
+                        if (p.IsAlive == true)
+                        {
+                            if (parts[0].Equals("mov"))
+                            {
+                                universe.updateWeps();
+                                if (p.FuelPods != 0)
+                                {
                                     p.FuelPods--;
-                                    server.Reply(String.Format("f:{0}", p.FuelPods), received.Sender);
+                                    server.Reply(String.Format("update:fuelpods:{0}", p.FuelPods), received.Sender);
+
                                     if (parts[1].Equals("n")) p.Row--;
                                     else if (parts[1].Equals("s")) p.Row++;
                                     else if (parts[1].Equals("e")) p.Column++;
                                     else if (parts[1].Equals("w")) p.Column--;
                                     Galaxy sector = universe.getGalaxy(p.SectorStr);
                                     //Checks for moving to different sector
-                                    if (p.Row == -1) {
+                                    if (p.Row == -1)
+                                    {
                                         p.Sector -= 16;
                                         p.SectorStr = numToSectorID(p.Sector);
                                         p.Row = 9;
                                         sectorChanged = true;
                                         Galaxy newSector = universe.getGalaxy(p.SectorStr);
-                                        //sector.removePlayer(p);
-                                        //newSector.updatePlayer(p);
-                                    } else if (p.Row == 10) {
+                                        sector.removePlayer(p.Name);
+                                        newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                    }
+                                    else if (p.Row == 10)
+                                    {
                                         p.Sector += 16;
                                         p.SectorStr = numToSectorID(p.Sector);
                                         p.Row = 0;
                                         sectorChanged = true;
                                         Galaxy newSector = universe.getGalaxy(p.SectorStr);
-                                        sector.removePlayer(p);
-                                        //newSector.updatePlayer(p);
-                                    } else if (p.Column == -1) {
+                                        sector.removePlayer(p.Name);
+                                        newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                    }
+                                    else if (p.Column == -1)
+                                    {
                                         p.Sector--;
                                         p.SectorStr = numToSectorID(p.Sector);
                                         p.Column = 9;
                                         sectorChanged = true;
                                         Galaxy newSector = universe.getGalaxy(p.SectorStr);
-                                        //sector.removePlayer(p);
-                                        //newSector.updatePlayer(p);
-                                    } else if (p.Column == 10) {
+                                        sector.removePlayer(p.Name);
+                                        newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                    }
+                                    else if (p.Column == 10)
+                                    {
                                         p.Sector++;
                                         p.SectorStr = numToSectorID(p.Sector);
                                         p.Column = 0;
                                         sectorChanged = true;
                                         Galaxy newSector = universe.getGalaxy(p.SectorStr);
-                                        //sector.removePlayer(p);
-                                        //newSector.updatePlayer(p);
+                                        sector.removePlayer(p.Name);
+                                        newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
                                     }
-                                    if (!sectorChanged) {
-                                        //sector.updatePlayer(p);
+                                    if (!sectorChanged)
+                                    { // sector is of type Galaxy
+                                        sector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                        //server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), received.Sender);
                                     }
                                     server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, parts[1], p.FuelPods), received.Sender);
+
                                     Char cellAction = onSpecialCell(p);
-                                    switch (cellAction) {
+                                    sector = universe.getGalaxy(p.SectorStr);
+                                    switch (cellAction)
+                                    {
+
                                         case 's': //Player is on a star
                                             p.Health = 0;
-                                            p.FuelPods = 0;
-                                            p.Phasors = 0;
-                                            p.Torpedoes = 0;
-                                            p.Sheilds = 0;
-                                            server.Reply(String.Format("loc:star:{0}:{1}:{2}:{3}:{4}", p.Health, p.Sheilds, p.Phasors, p.Torpedoes, p.FuelPods), received.Sender);
+                                            p.IsAlive = false;
+                                            server.Reply(String.Format("update:health:{0}", p.Health), received.Sender);
+                                            server.Reply("dead:", received.Sender);
                                             break;
                                         case 'p'://Player is on a planet
                                             p.Health = 100;
-                                            p.Sheilds = 15;
+                                            p.shields = 15;
                                             p.Phasors = 50;
                                             p.Torpedoes = 10;
                                             p.FuelPods = 50;
-                                            server.Reply(String.Format("loc:planet:{0}:{1}:{2}:{3}:{4}", p.Health, p.Sheilds, p.Phasors, p.Torpedoes, p.FuelPods), received.Sender);
+                                            server.Reply(String.Format("update:health:{0}", p.Health), received.Sender);
+                                            server.Reply(String.Format("update:shields:{0}", p.shields), received.Sender);
+                                            server.Reply(String.Format("update:phasors:{0}", p.Phasors), received.Sender);
+                                            server.Reply(String.Format("update:torpedos:{0}", p.Torpedoes), received.Sender);
+                                            server.Reply(String.Format("update:fuelpods:{0}", p.FuelPods), received.Sender);
+                                            server.Reply("You landed on a Planet", received.Sender);
+                                            sector.removePlanet(p.Row * 10 + p.Column % 10);
                                             break;
                                         case 't':
                                             //Player found treasure
                                             Random r = new Random();
-                                            int t = r.Next(0, 5);
-                                            switch (t) {
-                                                case 0:
-                                                    p.Health = 100;
-                                                    server.Reply("you Found Health", received.Sender);
-                                                    server.Reply(String.Format("h:{0}", p.Health), received.Sender);
-                                                    break;
-                                                case 1:
-                                                    p.Sheilds = 15;
-                                                    server.Reply("You found more Sheilds", received.Sender);
-                                                    break;
-                                                case 2:
-                                                    p.Phasors = 50;
-                                                    server.Reply("you found more Ammo", received.Sender);
-                                                    server.Reply("ph", received.Sender);
-                                                    break;
-                                                case 3:
-                                                    break;
-                                                case 4:
-                                                    break;
-                                                case 5:
-                                                    break;
+                                            int x = r.Next(0, 5);
+
+                                            if (x == 0) // health regeneration
+                                            {
+                                                p.Health = 100;
+                                                server.Reply("you Regenerated Health", received.Sender);
+                                                server.Reply(String.Format("update:health:{0}", p.Health), received.Sender);
+                                            }
+                                            else if (x == 1) // shields regenerated
+                                            {
+                                                p.shields = 15;
+                                                server.Reply("you Found Shields", received.Sender);
+                                                server.Reply(String.Format("update:shields:{0}", p.shields), received.Sender);
+                                            }
+                                            else if (x == 2) // more phasor ammo
+                                            {
+                                                p.Phasors = 50;
+                                                server.Reply("you found more Phasor Ammo", received.Sender);
+                                                server.Reply(String.Format("update:phasors:{0}", p.Phasors), received.Sender);
+                                            }
+                                            else if (x == 3) // torpedos replenished
+                                            {
+                                                p.Health = 10;
+                                                server.Reply("you Found torpedo ammo", received.Sender);
+                                                server.Reply(String.Format("update:torpedo:{0}", p.Torpedoes), received.Sender);
+                                            }
+                                            else if (x == 4) // fuelpods refilled
+                                            {
+                                                p.FuelPods = 50;
+                                                server.Reply("you Found Fuelpods", received.Sender);
+                                                server.Reply(String.Format("update:fuel:{0}", p.FuelPods), received.Sender);
                                             }
 
                                             break;
-                                        case 'b': //player is on a blackhole
+
+
+                                        case 'b':
+
+                                            sector = universe.getGalaxy(p.SectorStr);
                                             p.Sector = rnd.Next(0, 255);
                                             p.SectorStr = numToSectorID(p.Sector);
                                             p.Column = rnd.Next(0, 9);
                                             p.Row = rnd.Next(0, 9);
+                                            Galaxy newSector = universe.getGalaxy(p.SectorStr);
+                                            sector.removePlayer(p.Name);
+                                            newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
                                             server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
+                                            server.Reply("you went through a blackhole", received.Sender);
                                             sectorChanged = true;
                                             break;
                                     }
-                                } else {
+                                    //Send message to all users in sector
 
-                                    server.Reply("Out of Fuelpods!", received.Sender);
-                                    server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, parts[1], p.FuelPods), received.Sender);
+                                    /*foreach(String s in players.Keys)
+                                    {
+                                        if (players[s].Sector == p.Sector)
+                                        {
+                                            server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), players[s].Connection);
+                                        }
+                                    }*/
 
-                                    server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, parts[1], p.FuelPods), received.Sender);
                                 }
-                            } else if (parts[0].Equals("r")) {
-                                if (parts[1].Equals("n")) {
-                                    p.Oriantation = "n";
-                                    server.Reply(String.Format("or:{0}", parts[1]), received.Sender);
-                                } else if (parts[1].Equals("s")) {
-                                    p.Oriantation = "s";
-                                    server.Reply(String.Format("or:{0}", parts[1]), received.Sender);
-                                } else if (parts[1].Equals("e")) {
-                                    p.Oriantation = "e";
-                                    server.Reply(String.Format("or:{0}", parts[1]), received.Sender);
-                                } else if (parts[1].Equals("w")) {
-                                    p.Oriantation = "w";
+                                else
+                                {
+                                    server.Reply(String.Format("update:fuelpods:{0}", p.FuelPods), received.Sender);
+                                    //server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, parts[1], p.FuelPods), received.Sender);
+                                }
+                            }
+                            else if (p.Health <= 0)
+                            {
+                                server.Reply("You are Dead!", received.Sender);
+                                server.Reply(String.Format("update:health:{0}", p.Health), received.Sender);
+                            }
+                            else if (parts[0].Equals("r"))
+                            {
+                                if (parts[1].Equals("n"))
+                                {
+                                    p.Oriantation = 'n';
                                     server.Reply(String.Format("or:{0}", parts[1]), received.Sender);
                                 }
-                            } else if (parts[0].Equals("s")) {
-                                if (parts[1].Equals("1")) {
-                                    if (p.Sheilds != 0) {
-                                        p.Sheilds--;
+                                else if (parts[1].Equals("s"))
+                                {
+                                    p.Oriantation = 's';
+                                    server.Reply(String.Format("or:{0}", parts[1]), received.Sender);
+                                }
+                                else if (parts[1].Equals("e"))
+                                {
+                                    p.Oriantation = 'e';
+                                    server.Reply(String.Format("or:{0}", parts[1]), received.Sender);
+                                }
+                                else if (parts[1].Equals("w"))
+                                {
+                                    p.Oriantation = 'w';
+                                    server.Reply(String.Format("or:{0}", parts[1]), received.Sender);
+                                }
+                            }
+                            else if (parts[0].Equals("s"))
+                            {
+                                if (parts[1].Equals("2"))
+                                {
+                                    server.Reply("Out of Sheilds", received.Sender);
+                                }
+                                else if (parts[1].Equals("1"))
+                                {
+                                    if (p.shields > 0)
+                                    {
+                                        p.shields--;
+                                        server.Reply(String.Format("update:shields:{0}", p.shields), received.Sender);
                                         p.ShieldOn = true;
                                         server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
-                                    } else {
-                                        parts[1] = "2";
-                                        server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
                                     }
-                                } else if (parts[1].Equals("0")) {
+                                    else
+                                    {
+                                        server.Reply("Out of Shields", received.Sender);
+                                        server.Reply(String.Format("sh:{0}", 2), received.Sender);
+                                    }
+                                }
+                                else if (parts[1].Equals("0"))
+                                {
                                     p.ShieldOn = false;
                                     server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
                                 }
-                            } else if (parts[0].Equals("v")) {
+                            }
+                            else if (parts[0].Equals("v"))
+                            {
                                 string rply = "unv:";
                                 char sec = 'a';
-                                while (sec != 'q') {
-                                    for (int i = 0; i < 16; i++) {
-                                        rply += universe.getGalaxy(sec + "" + i).PlayerCount + ":";
+                                while (sec != 'q')
+                                {
+                                    for (int i = 0; i < 16; i++)
+                                    {
+                                        rply += universe.getGalaxy(sec + "" + i).getPlayerCount() + ":";
                                     }
                                     sec++;
                                 }
                                 server.Reply(rply, received.Sender);
-
-
-
-                            } else if (parts[0].Equals("fp")) {
-                                //Add code for handelig shooting phasors
-                                if (p.Phasors != 0) {
-                                    p.Phasors--;
-                                    server.Reply(String.Format("sh:{0}", p.Phasors), received.Sender);
-                                } else {
-                                    server.Reply("Out of Phasors!", received.Sender);
-                                    server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, parts[1], p.Phasors), received.Sender);
-                                }
-                                server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
-                            } else if (parts[1].Equals("ft")) {
-                                //Add code for handeling shooting torpedo
-                                if (p.Torpedoes != 0) {
-                                    p.Torpedoes--;
-                                    server.Reply(String.Format("t:{0}", p.Torpedoes), received.Sender);
-                                } else {
-                                    server.Reply("Out of Torpedos!", received.Sender);
-                                    server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, parts[1], p.Torpedoes), received.Sender);
-                                }
-                                server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
-                            } else if (parts[0].Equals("h")) {
-                                    if (p.FuelPods >= 5) {
-                                        p.Sector = rnd.Next(0, 255);
-                                        p.SectorStr = numToSectorID(p.Sector);
-                                        p.Column = rnd.Next(0, 9);
-                                        p.Row = rnd.Next(0, 9);
-                                        p.FuelPods -= 5;
-                                        server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
-                                        sectorChanged = true;
-                                    } else if (p.FuelPods > 0 && p.FuelPods < 5) { //Change this to a differnt reply in the future so user can be promted that they dont have enough fuel to hyperspace
-                                        server.Reply("Not enough fuel", received.Sender);
-                                        server.Reply(String.Format("f:{0}", p.FuelPods), received.Sender);
-                                        server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
-                                    } else {
-                                        server.Reply("Out of Fuel", received.Sender);
-                                        server.Reply(String.Format("f:{0}", p.FuelPods), received.Sender);
-                                        server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
-                                        server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
+                            }
+                            else if (parts[0].Equals("f"))
+                            {
+                                if (parts[1].Equals("p"))
+                                {
+                                    //Add code for handelig shooting phasors
+                                    if (p.Phasors != 0)
+                                    {
+                                        //server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
+                                        Galaxy sector = universe.getGalaxy(p.SectorStr);
+                                        // sector.addWeapon('p', p.Column, p.Row, p.Oriantation, p.SectorStr);
+                                        p.Phasors--;
+                                        server.Reply(String.Format("update:phasors:{0}", p.Phasors), received.Sender);
+                                        // server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), received.Sender);
                                     }
-                                } else if (parts[0].Equals("ls")) {
-                                    server.Reply(String.Format("Health:{0}", p.Health), received.Sender);
+                                    else
+                                    {
+                                        server.Reply("Out of Phasors!", received.Sender);
+                                        server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, parts[1], p.Phasors), received.Sender);
+                                        server.Reply(String.Format("Out of Phasors"), received.Sender);
+                                    }
+                                    server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
                                 }
-                                if (sectorChanged) {
-                                    Galaxy sector = universe.getGalaxy(p.SectorStr);
-                                    server.Reply(String.Format("si:{0}:{1}:{2}", sector.StarLocations, sector.PlanetLocations, sector.BlackholeLocations), received.Sender);
-                                    sectorChanged = false;
+                                else if (parts[1].Equals("t"))
+                                {
+                                    //Add code for handeling shooting torpedo
+                                    if (p.Torpedoes != 0)
+                                    {
+                                        Galaxy sector = universe.getGalaxy(p.SectorStr);
+                                        // sector.addWeapon('t', p.Column, p.Row, p.Oriantation, p.SectorStr);
+                                        p.Torpedoes--;
+                                        server.Reply(String.Format("update:torpedos:{0}", p.Torpedoes), received.Sender);
+                                        // server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), received.Sender);  
+                                    }
+                                    else
+                                    {
+                                        server.Reply("Out of Torpedos!", received.Sender);
+                                        server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, parts[1], p.Torpedoes), received.Sender);
+
+                                    }
+                                    server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
                                 }
                             }
+                            else if (parts[0].Equals("h"))
+                            {
+                                if (p.FuelPods >= 5)
+                                {
+                                    Galaxy sector = universe.getGalaxy(p.SectorStr);
+                                    p.Sector = rnd.Next(0, 255);
+                                    p.SectorStr = numToSectorID(p.Sector);
+                                    p.Column = rnd.Next(0, 9);
+                                    p.Row = rnd.Next(0, 9);
+                                    p.FuelPods -= 5;
+                                    server.Reply(String.Format("update:fuelpods:{0}", p.FuelPods), received.Sender);
+                                    Galaxy newSector = universe.getGalaxy(p.SectorStr);
+                                    sector.removePlayer(p.Name);
+                                    newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                    server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
+                                    sectorChanged = true;
+                                }
+                                else /*if (p.FuelPods > 0 && p.FuelPods < 5)*/
+                                { //Change this to a differnt reply in the future so user can be promted that they dont have enough fuel to hyperspace
+                                    server.Reply("Not enough fuel", received.Sender);
+                                    server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
+                                } /*else {
+                                server.Reply("Out of Fuel", received.Sender);
+                                server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
+                                server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
+                            }*/
+                            }
+                            if (sectorChanged)
+                            {
+                                p.SectorStr = numToSectorID(p.Sector);
+                                Galaxy sector = universe.getGalaxy(p.SectorStr);
+                                server.Reply(String.Format("si:{0}:{1}:{2}:{3}", sector.StarLocations, sector.PlanetLocations, sector.BlackholeLocations, sector.getPlayersLocs()), received.Sender);
+                                sectorChanged = false;
+                            }
+                        }
+                        else
+                        {
+                            server.Reply("You Are Dead!", received.Sender);
+
+                        }
                     }
                 }
             });
+
 
             // Endless loop for user's to send messages to Client
             string read;
@@ -308,5 +429,6 @@ namespace UPDServer {
             return sector.GetCell(playerCell);
             
         }
+
     }
 }
