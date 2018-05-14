@@ -43,6 +43,7 @@ namespace Client
             this.lblSector = new System.Windows.Forms.Label();
             this.chkShowBackground = new System.Windows.Forms.CheckBox();
             this.grpStatus = new System.Windows.Forms.GroupBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -59,7 +60,6 @@ namespace Client
             this.lblShielsUp = new System.Windows.Forms.Label();
             this.prbHealth = new System.Windows.Forms.ProgressBar();
             this.label4 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.panCanvas)).BeginInit();
             this.grpStatus.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -213,14 +213,23 @@ namespace Client
             this.grpStatus.TabStop = false;
             this.grpStatus.Text = "Status";
             // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(223, 202);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(19, 13);
+            this.label13.TabIndex = 24;
+            this.label13.Text = "15";
+            // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(417, 44);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(19, 13);
+            this.label12.Size = new System.Drawing.Size(25, 13);
             this.label12.TabIndex = 23;
-            this.label12.Text = "50";
+            this.label12.Text = "100";
             // 
             // label11
             // 
@@ -368,15 +377,6 @@ namespace Client
             this.label4.Size = new System.Drawing.Size(38, 13);
             this.label4.TabIndex = 0;
             this.label4.Text = "Health";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(223, 202);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(19, 13);
-            this.label13.TabIndex = 24;
-            this.label13.Text = "15";
             // 
             // frmMain
             // 
