@@ -11,7 +11,7 @@ namespace Client
 {
     public partial class frmMain : Form
     {
-        int sector = 0, col = 3, row = 7, shipAngle = 0, weaponAngle = 0, boxCount = 10, shields, torpedos, phasors, fuelPods, health;
+        int sector = 0, col = 3, row = 7, shipAngle = 0, weaponAngle = 0, weaponRow, weaponColumn, boxCount = 10, shields, torpedos, phasors, fuelPods, health;
         bool gameOn = false, shieldOn = false, phasorsEquiped = true, isAlive = true;
         string sectorStars = "", sectorPlanets="", sectorBlackholes="", playerLocations="";
         string sectorStr = "", bulletLocations = "";
@@ -200,6 +200,11 @@ namespace Client
                             if (parts[1].Equals("shields"))
                             {
                                 Int32.TryParse(parts[2], out shields);
+                            }
+                            else if (parts[1].Equals("weaponLoc"))
+                            {
+                                Int32.TryParse(parts[2], out weaponColumn);
+                                Int32.TryParse(parts[3], out weaponRow);
                             }
                             else if (parts[1].Equals("weaponAngle"))
                             {
@@ -400,19 +405,18 @@ namespace Client
                     {
                         int cellNum;
                         Int32.TryParse(cellsW[i].Substring(0, cellsW[i].Length - 2), out cellNum);
-                        Char wepType = cellsW[i][cellsW[i].Length - 2];
-                        Char wepAngle = cellsW[i][cellsW[i].Length - 1];
-                        if (wepType == 't')
+
+                        if (!phasorsEquiped)
                         {
-                            if (wepAngle == 'n')
+                            if (weaponAngle == 0)
                             {
                                 e.Graphics.DrawImage(torpedoNorth, loc(cellNum % 10, cellNum / 10, gridSize / 3));
                             }
-                            else if (wepAngle == 's')
+                            else if (weaponAngle == 180)
                             {
                                 e.Graphics.DrawImage(torpedoSouth, loc(cellNum % 10, cellNum / 10, gridSize / 3));
                             }
-                            else if (wepAngle == 'e')
+                            else if (weaponAngle == 90)
                             {
                                 e.Graphics.DrawImage(torpedoEast, loc(cellNum % 10, cellNum / 10, gridSize / 3));
                             }
@@ -639,8 +643,7 @@ namespace Client
                 if (phasors >= 0)
                 {
                     client.Send("f:p");
-                    label10.Invoke(new Action(() => label10.Text = "" + phasors));
-                    progressBar3.Invoke(new Action(() => progressBar3.Value = phasors*2)); //phasor
+                    
                 }
 
             }
