@@ -28,7 +28,7 @@ namespace Client
         Image shipSouth = Image.FromFile("ShipSouth.png");
         Image shipEast = Image.FromFile("ShipEast.png");
         Image shipWest = Image.FromFile("ShipWest.png");
-        Image torpedo = Image.FromFile("torpedo.png");
+       // Image torpedo = Image.FromFile("torpedo.png");
 
         
 
@@ -198,6 +198,8 @@ namespace Client
                             else if ((parts[1].Equals("fuelpods")))
                             {
                                 Int32.TryParse(parts[2], out fuelPods);
+                                label11.Invoke(new Action(() => label11.Text = "" + fuelPods));
+                                progressBar1.Invoke(new Action(() => progressBar1.Value = fuelPods * 2)); //fuel pod
 
                             }
                             else if ((parts[1].Equals("health")))
@@ -367,7 +369,7 @@ namespace Client
                     }
                 }
 
-
+                
                 //Place Blackholes
                 if (sectorBlackholes.Length != 0)
                 {
@@ -387,7 +389,7 @@ namespace Client
                     {
                         int cellNum;
                         Int32.TryParse(cellsW[i], out cellNum);
-                        e.Graphics.DrawImage(torpedo, loc(cellNum % 10, cellNum / 10, gridSize / 4));
+                        //e.Graphics.DrawImage(torpedo, loc(cellNum % 10, cellNum / 10, gridSize / 4));
                     }
                 }
                 /*
@@ -545,6 +547,11 @@ namespace Client
         }
 
         private void label10_Click(object sender, EventArgs e) {
+
+        }
+
+        private void drawTorpedo(PaintEventArgs e)
+        {
 
         }
 
