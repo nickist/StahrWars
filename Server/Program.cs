@@ -157,6 +157,7 @@ namespace UPDServer {
                                         p.Health = 0;
                                         p.IsAlive = false;
                                         server.Reply(String.Format("update:health:{0}", p.Health), received.Sender);
+                                        
                                         server.Reply("dead", received.Sender);
                                         break;
                                     case 'p'://Player is on a planet

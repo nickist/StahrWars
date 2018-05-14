@@ -32,11 +32,6 @@ namespace Client
         Image torpedoSouth = Image.FromFile("torpedoSouth.png");
         Image torpedoEast = Image.FromFile("torpedoEast.png");
         Image torpedoWest = Image.FromFile("torpedoWest.png");
-
-
-
-
-
         //Image phasor = Image.FromFile("laser.png");
 
         //List<Point> points = new List<Point>();
