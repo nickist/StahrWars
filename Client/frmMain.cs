@@ -208,12 +208,15 @@ namespace Client
                             else if ((parts[1].Equals("phasors")))
                             {
                                 Int32.TryParse(parts[2], out phasors);
+                                label10.Invoke(new Action(() => label10.Text = "" + phasors));
+                                progressBar3.Invoke(new Action(() => progressBar3.Value = phasors * 2)); //phasor
 
                             }
                             else if ((parts[1].Equals("torpedos")))
                             {
                                 Int32.TryParse(parts[2], out torpedos);
-
+                                progressBar2.Invoke(new Action(() => progressBar2.Value = torpedos * 10)); //torpedo
+                                label9.Invoke(new Action(() => label9.Text = "" + torpedos));
                             }
 
                         }
@@ -549,6 +552,9 @@ namespace Client
         }
 
         #endregion
+
+        
+
 
         #region ====================================================== <Fire Weapons>
         private void fireWeapon()
