@@ -244,6 +244,14 @@ namespace UPDServer {
                                     //server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, parts[1], p.FuelPods), received.Sender);
                                 }
                             }
+                            else if (parts[0].Equals("q"))
+                            {
+                                if (parts[1].Equals("p"))
+                                    server.Reply("Phasors equipped!", received.Sender);
+                                else
+                                    server.Reply("Torpedos equipped!", received.Sender);
+
+                            }
                             else if (parts[0].Equals("damage"))
                             {
                                 int damage = 0;
