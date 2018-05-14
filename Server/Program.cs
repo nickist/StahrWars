@@ -242,7 +242,7 @@ namespace UPDServer {
                                 //server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, parts[1], p.FuelPods), received.Sender);
                             }
                         } 
-                        else if (p.Health == 0)
+                        else if (p.Health <= 0)
                         {
                             server.Reply("You are Dead!", received.Sender);
                             server.Reply(String.Format("update:health:{0}", p.Health), received.Sender);
@@ -325,7 +325,7 @@ namespace UPDServer {
                                 {
                                    server.Reply("Out of Phasors!", received.Sender);
                                    server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, parts[1], p.Phasors), received.Sender);
-                                    //server.Reply(String.Format("Out of Phasors"), received.Sender);
+                                    server.Reply(String.Format("Out of Phasors"), received.Sender);
                                 }
                                 server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
                             }

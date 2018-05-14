@@ -12,7 +12,7 @@ namespace Client
     public partial class frmMain : Form
     {
         int sector = 0, col = 3, row = 7, shipAngle = 0, boxCount = 10, shields, torpedos, phasors , fuelPods , health ,
-            pFull , tFull , fFull , hFull ;
+            pFull, tFull , fFull , hFull ;
         bool gameOn = false, shieldOn = false, phasorsEquiped = true, isAlive = true;
         string sectorStars = "", sectorPlanets="", sectorBlackholes="", playerLocations="";
         string sectorStr = "", bulletLocations = "";
@@ -477,7 +477,7 @@ namespace Client
                         switchShields();
                         break;
                     case Keys.H:
-                        client.Send("h");
+                        client.Send("h:");
                         progressBar1.Invoke(new Action(() => progressBar1.Value = fuelPods)); //fuel pod
                         break;
                     case Keys.Q:
@@ -558,30 +558,25 @@ namespace Client
         {
             if (phasorsEquiped == true)
             {
-                if (pFull != 0)
+
+                if (phasors != 0)
                 {
                     client.Send("f:p");
-                    pFull -= 2;
-                    progressBar3.Invoke(new Action(() => progressBar3.Value = pFull)); //phasor
+                    phasors--;
+                    progressBar3.Invoke(new Action(() => progressBar3.Value = phasors)); //phasor
                 }
-                else
-                {
-                    client.Send("fp Out of pHASORS!");
-                }
+
             }
             else
             {
-                if (tFull != 0)
+                if (torpedos != 0)
                 {
                     client.Send("f:t");
-                    tFull -= 10;
-                    progressBar2.Invoke(new Action(() => progressBar2.Value = tFull)); //torpedo
+                    torpedos--;
+                    progressBar2.Invoke(new Action(() => progressBar2.Value = torpedos)); //torpedo
 
                 }
-                else
-                {
-                    client.Send("ft Out of tORPEDOS!");
-                }
+
             }
         }
 
@@ -595,28 +590,9 @@ namespace Client
             {
                 progressBar1.Invoke(new Action(() => progressBar1.Value = fuelPods)); //fuel pod
             }
-            else
-            {
-                client.Send("Out of Fuelpods!");
-            }
+
         }
 
-        /*private void hFuelLoss()
-        {
-            if (fuelPods >= 5)
-            {
-                client.Send(String.Format("h:"));
-                progressBar1.Invoke(new Action(() => progressBar1.Value = fuelPods)); //fuel pod
-            }
-            else if(fFull > 0 && fFull < 5)
-            {
-                client.Send("Not enough fuel!");
-            }
-            else
-            {
-                client.Send("Out of fuel!");
-            }
-        }*/
         #endregion
 
         #region ==================================================================================================== <Local click>
