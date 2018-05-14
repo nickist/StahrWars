@@ -151,8 +151,8 @@ namespace UPDServer {
                                 {
                                     
                                     case 's': //Player is on a star
-                                        server.Reply(String.Format("update:health:{0}", p.Health = 0), received.Sender);
-                                        server.Reply(String.Format("me:{0}:{1}:{2}:{3}:{4}", p.Health,p.shields,p.Phasors, p.Torpedoes, p.FuelPods), received.Sender);
+                                        p.Health = 0;
+                                        server.Reply(String.Format("update:health:{0}", p.Health), received.Sender);
                                         server.Reply("You hit a star!", received.Sender);
                                         break;
                                     case 'p'://Player is on a planet
@@ -177,7 +177,7 @@ namespace UPDServer {
                                         if(x == 0) // health regeneration
                                         {
                                             p.Health = 100;
-                                            server.Reply("you Found Health", received.Sender);
+                                            server.Reply("you Regenerated Health", received.Sender);
                                             server.Reply(String.Format("update:health:{0}", p.Health), received.Sender);
                                         } 
                                         else if (x == 1) // shields regenerated
@@ -219,7 +219,7 @@ namespace UPDServer {
                                         sector.removePlayer(p.Name);
                                         newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
                                         server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
-                                        //server.Reply("On a Blackhole", received.Sender);
+                                        server.Reply("you went through a blackhole", received.Sender);
                                         sectorChanged = true;
                                         break;
                                 }
@@ -275,8 +275,8 @@ namespace UPDServer {
                             {
                                 if (p.shields != 0)
                                 {
-                                    server.Reply(String.Format("update:shields:{0}", p.shields--), received.Sender);
-                                    server.Reply(String.Format("shields{0}", p.shields), received.Sender);
+                                    p.shields--;
+                                    server.Reply(String.Format("update:shields:{0}", p.shields), received.Sender);
                                     p.ShieldOn = true;
                                     server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
                                 }
@@ -317,6 +317,7 @@ namespace UPDServer {
                                     Galaxy sector = universe.getGalaxy(p.SectorStr);
                                    // sector.addWeapon('p', p.Column, p.Row, p.Oriantation, p.SectorStr);
                                     p.Phasors--;
+                                    server.Reply(String.Format("update:phasors:{0}", p.Phasors), received.Sender);
                                    // server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), received.Sender);
                                 }
                                 else
@@ -335,15 +336,13 @@ namespace UPDServer {
                                     Galaxy sector = universe.getGalaxy(p.SectorStr);
                                    // sector.addWeapon('t', p.Column, p.Row, p.Oriantation, p.SectorStr);
                                     p.Torpedoes--;
+                                    server.Reply(String.Format("update:torpedos:{0}", p.Torpedoes), received.Sender);
                                     // server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), received.Sender);  
                                 }
                                 else
                                 {
                                    server.Reply("Out of Torpedos!", received.Sender);
                                    server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, parts[1], p.Torpedoes), received.Sender);
-
-
-                                    // server.Reply(String.Format("Out of Torpedos"));
 
                                 }
                                 server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);

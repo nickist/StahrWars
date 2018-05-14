@@ -11,15 +11,15 @@ namespace Client
 {
     public partial class frmMain : Form
     {
-        int sector = 0, col = 3, row = 7, shipAngle = 0, boxCount = 10, shields = 30, torpedos = 10, phasors = 50, fuelPods = 50, health = 50,
-            pFull = 100, tFull = 100, fFull = 100, hFull = 100;
-        bool gameOn = false, shieldOn = false, phasorsEquiped = true, sectorView = true;
+        int sector = 0, col = 3, row = 7, shipAngle = 0, boxCount = 10, shields, torpedos, phasors , fuelPods , health ,
+            pFull , tFull , fFull , hFull ;
+        bool gameOn = false, shieldOn = false, phasorsEquiped = true;
         string sectorStars = "", sectorPlanets="", sectorBlackholes="", playerLocations="";
         string sectorStr = "", bulletLocations = "";
         UdpUser client = null;
         Pen gridPen = new Pen(System.Drawing.Color.White, 1);
         int gridSize = 0;
-        String unvString;
+        String unvString = "";
         Image planet = Image.FromFile("jupiter.png");
         Image star = Image.FromFile("star.png");
         Image background = Image.FromFile("background.jpg");
@@ -29,6 +29,9 @@ namespace Client
         Image shipEast = Image.FromFile("ShipEast.png");
         Image shipWest = Image.FromFile("ShipWest.png");
         Image torpedo = Image.FromFile("torpedo.png");
+
+        
+
         //Image phasor = Image.FromFile("laser.png");
 
         //List<Point> points = new List<Point>();
@@ -313,7 +316,14 @@ namespace Client
             frm.Show();
         }
 
-
+        private void drawGrid(PaintEventArgs e)
+        {
+            for (int i = gridSize; i < panCanvas.Height; i += gridSize)
+            {
+                e.Graphics.DrawLine(gridPen, 0, i, panCanvas.Width, i);
+                e.Graphics.DrawLine(gridPen, i, 0, i, panCanvas.Height);
+            }
+        }
 
 
         private void panCanvas_Paint(object sender, PaintEventArgs e)
@@ -325,11 +335,7 @@ namespace Client
                 if (chkShowGrid.Checked)
                 {
                     // Draw the grid
-                    for (int i = gridSize; i < panCanvas.Height; i += gridSize)
-                    {
-                        e.Graphics.DrawLine(gridPen, 0, i, panCanvas.Width, i);
-                        e.Graphics.DrawLine(gridPen, i, 0, i, panCanvas.Height);
-                    }
+                    drawGrid(e);
                 }
 
 
@@ -718,6 +724,17 @@ namespace Client
         }
 
         #endregion
+
+        #region
+
+        public int Shields { get => shields; set => shields = value; }
+        public int Torpedos { get => torpedos; set => torpedos = value; }
+        public int Phasors { get => phasors; set => phasors = value; }
+        public int FuelPods { get => fuelPods; set => fuelPods = value; }
+        public int Health { get => health; set => health = value; }
+
+        #endregion
+
     }
 }
 
