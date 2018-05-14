@@ -509,19 +509,24 @@ namespace Client
         private void switchShields()
         {
             if (!gameOn) return;
-            if (shields == 0)
+            if (shields > 0)
             {
-                client.Send("Out of Sheilds!");
-            }
-            else
-            {
+            
                 shieldOn = !shieldOn;
-                client.Send("s" + (shieldOn ? "1" : "0"));
+                client.Send("s:" + (shieldOn ? "1" : "0"));
                 lblShielsUp.ForeColor = (shieldOn ? Color.Green : Color.Red);
                 lblShielsUp.Text = (shieldOn ? "ON" : "OFF");
                 panCanvas.Refresh();
                 picShields.Refresh();
-                shields--;
+            } else
+            {
+                shieldOn = false;
+                client.Send("s:2");
+                lblShielsUp.ForeColor = Color.Red;
+                lblShielsUp.Text = "OFF";
+                panCanvas.Refresh();
+                picShields.Refresh();
+
             }
 
         }
@@ -562,7 +567,6 @@ namespace Client
                 if (phasors != 0)
                 {
                     client.Send("f:p");
-                    phasors--;
                     progressBar3.Invoke(new Action(() => progressBar3.Value = phasors)); //phasor
                 }
 
@@ -572,7 +576,6 @@ namespace Client
                 if (torpedos != 0)
                 {
                     client.Send("f:t");
-                    torpedos--;
                     progressBar2.Invoke(new Action(() => progressBar2.Value = torpedos)); //torpedo
 
                 }

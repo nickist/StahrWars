@@ -17,6 +17,7 @@ namespace UPDServer {
         private int phasors;
         private int fuelPods;
         private Char oriantation;
+        private bool isAlive;
         private bool shieldOn;
 
         public void setLocation() {
@@ -26,10 +27,23 @@ namespace UPDServer {
         public Player(string name) {
             Name = name;
             Health = 100;
+            isAlive = true;
             shields = 15;
             FuelPods = 50;
             Torpedoes = 10;
             Phasors = 50;
+        }
+
+        public bool IsAlive
+        {
+            get
+            {
+                return isAlive;
+            }
+            set
+            {
+                isAlive = value;
+            }
         }
 
         public string Name {
