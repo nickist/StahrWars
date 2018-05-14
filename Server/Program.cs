@@ -240,6 +240,7 @@ namespace UPDServer {
                                 }
                                 else
                                 {
+                                    server.Reply("Out of fuel!", received.Sender);
                                     server.Reply(String.Format("update:fuelpods:{0}", p.FuelPods), received.Sender);
                                     //server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, parts[1], p.FuelPods), received.Sender);
                                 }
