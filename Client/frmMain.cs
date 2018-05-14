@@ -478,7 +478,7 @@ namespace Client
                         break;
                     case Keys.H:
                         client.Send("h");
-                        hFuelLoss();
+                        progressBar1.Invoke(new Action(() => progressBar1.Value = fuelPods)); //fuel pod
                         break;
                     case Keys.Q:
                         phasorsEquiped = !phasorsEquiped;
@@ -593,8 +593,6 @@ namespace Client
         {
             if (fuelPods > 0)
             {
-                fuelPods --;
-                //client.Send(String.Format("update:fuelpods:{0}", -2));
                 progressBar1.Invoke(new Action(() => progressBar1.Value = fuelPods)); //fuel pod
             }
             else
@@ -603,12 +601,11 @@ namespace Client
             }
         }
 
-        private void hFuelLoss()
+        /*private void hFuelLoss()
         {
             if (fuelPods >= 5)
             {
-                fuelPods -= 5;
-                //client.Send(String.Format("update:fuelpods:{0}", -5));
+                client.Send(String.Format("h:"));
                 progressBar1.Invoke(new Action(() => progressBar1.Value = fuelPods)); //fuel pod
             }
             else if(fFull > 0 && fFull < 5)
@@ -619,7 +616,7 @@ namespace Client
             {
                 client.Send("Out of fuel!");
             }
-        }
+        }*/
         #endregion
 
         #region ==================================================================================================== <Local click>
@@ -724,16 +721,6 @@ namespace Client
         {
             if (client != null) client.Send("quit");
         }
-
-        #endregion
-
-        #region
-
-        public int Shields { get => shields; set => shields = value; }
-        public int Torpedos { get => torpedos; set => torpedos = value; }
-        public int Phasors { get => phasors; set => phasors = value; }
-        public int FuelPods { get => fuelPods; set => fuelPods = value; }
-        public int Health { get => health; set => health = value; }
 
         #endregion
 
