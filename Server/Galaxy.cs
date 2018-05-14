@@ -14,7 +14,7 @@ namespace UPDServer
         private Dictionary<int, Char> cells = new Dictionary<int, Char>();
         private Dictionary<String, int> players = new Dictionary<String, int>();
         private List<IPEndPoint> playerIPs = new List<IPEndPoint>();
-        //private List<Weapons> bullets = new List<Weapons>();
+        private List<Weapons> bullets = new List<Weapons>();
 
         public Galaxy(Random rnd)
         {
@@ -178,7 +178,7 @@ namespace UPDServer
             planetLocations = string.Join(",", cells.ToArray());
         }
 
-       /* public int getNumBullets()
+       public int getNumBullets()
         {
             return bullets.Count;
         }
@@ -201,7 +201,7 @@ namespace UPDServer
             {
                 int x = 1;
                 int y = 1;
-                switch(w.Angle)
+                switch (w.Angle)
                 {
                     case 'n':
                         x = w.Col;
@@ -230,10 +230,10 @@ namespace UPDServer
                 }
                 else
                 {
-                locs = locs + "," + (y*10 + x % 10).ToString();
+                    locs = locs + "," + (y * 10 + x % 10).ToString() + w.WeaponType.ToString() + w.Angle.ToString();
                 }
             }
-            foreach(Weapons w in outOfRange)
+            foreach (Weapons w in outOfRange)
             {
                 bullets.Remove(w);
             }
@@ -250,7 +250,7 @@ namespace UPDServer
         public void addWeapon(Char type, int col, int row, Char angle, String sector)
         {
             bullets.Add(new Weapons(type, col, row, angle, sector));
-        }*/
+        }
 
         public Dictionary<String, int> getPlayers()
         {
