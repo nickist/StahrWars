@@ -510,7 +510,6 @@ namespace Client
             if (!gameOn) return;
             if (shields > 0)
             {
-                label13.Invoke(new Action(() => label13.Text = "" + shields));
                 shieldOn = !shieldOn;
                 client.Send("s:" + (shieldOn ? "1" : "0"));
                 lblShielsUp.ForeColor = (shieldOn ? Color.Green : Color.Red);
@@ -528,6 +527,7 @@ namespace Client
                 picShields.Refresh();
 
             }
+            label13.Invoke(new Action(() => label13.Text = "" + shields));
 
         }
 
