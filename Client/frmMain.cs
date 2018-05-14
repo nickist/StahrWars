@@ -101,12 +101,6 @@ namespace Client
             gridPen.DashPattern = new float[] { 1, 4 };
             gridSize = panCanvas.Width / boxCount;
 
-            // Design out my ship... We could just use an image here
-            //myShipPts.Add(new Point(0, 0));
-            //myShipPts.Add(new Point(10, 5));
-            //myShipPts.Add(new Point(0, -20));
-            //myShipPts.Add(new Point(-10, 5));
-
         }
 
         private void beginMessages()
