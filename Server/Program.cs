@@ -154,7 +154,7 @@ namespace UPDServer {
                                     case 's': //Player is on a star
                                         p.Health = 0;
                                         server.Reply(String.Format("update:health:{0}", p.Health), received.Sender);
-                                        server.Reply("You hit a star!", received.Sender);
+                                        server.Reply("dead:", received.Sender);
                                         break;
                                     case 'p'://Player is on a planet
                                         p.Health = 100;
@@ -244,8 +244,8 @@ namespace UPDServer {
                         } 
                         else if (p.Health == 0)
                         {
+                            server.Reply("You are Dead!", received.Sender);
                             server.Reply(String.Format("update:health:{0}", p.Health), received.Sender);
-                            server.Reply("You Are Dead!",received.Sender);
                         }
                         else if (parts[0].Equals("r"))
                         {

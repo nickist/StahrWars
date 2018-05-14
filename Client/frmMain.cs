@@ -13,7 +13,7 @@ namespace Client
     {
         int sector = 0, col = 3, row = 7, shipAngle = 0, boxCount = 10, shields, torpedos, phasors , fuelPods , health ,
             pFull , tFull , fFull , hFull ;
-        bool gameOn = false, shieldOn = false, phasorsEquiped = true;
+        bool gameOn = false, shieldOn = false, phasorsEquiped = true, isAlive = true;
         string sectorStars = "", sectorPlanets="", sectorBlackholes="", playerLocations="";
         string sectorStr = "", bulletLocations = "";
         UdpUser client = null;
@@ -22,6 +22,7 @@ namespace Client
         String unvString = "";
         Image planet = Image.FromFile("jupiter.png");
         Image star = Image.FromFile("star.png");
+        Image deadShip = Image.FromFile("deadship.png");
         Image background = Image.FromFile("background.jpg");
         Image blackhole = Image.FromFile("blackhole.jpg");
         Image shipNorth = Image.FromFile("ShipNorth.png");
@@ -150,7 +151,6 @@ namespace Client
                                 col = Convert.ToInt32(parts[3]);
                                 row = Convert.ToInt32(parts[4]);
                                 lblSector.Invoke(new Action(() => lblSector.Text = sectorStr));
-                               // prbHealth.Invoke(new Action(() => prbHealth.Value = 100));
                                 prbHealth.Invoke(new Action(() => prbHealth.Value = 100));
                                 progressBar1.Invoke(new Action(() => progressBar1.Value = 100)); //fuel pod
                                 progressBar2.Invoke(new Action(() => progressBar2.Value = 100)); //torpedo
@@ -173,6 +173,13 @@ namespace Client
                             Int32.TryParse(parts[3], out phasors);
                             Int32.TryParse(parts[4], out torpedos);
                             Int32.TryParse(parts[5], out shields);
+                        }
+                        else if (parts[0].Equals("dead"))
+                        {
+                            isAlive = false;
+                            panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
+
+
                         }
                         else if (parts[0].Equals("unv"))
                         {
@@ -390,25 +397,15 @@ namespace Client
                  *
 			     * Draw the ship
 			     */
-                if (shipAngle == 0) e.Graphics.DrawImage(shipNorth, loc(col, row, shipNorth.Width / 2));
-                else if (shipAngle == 90) e.Graphics.DrawImage(shipEast, loc(col, row, shipEast.Width / 2));
-                else if (shipAngle == 180) e.Graphics.DrawImage(shipSouth, loc(col, row, shipSouth.Width / 2));
-                else e.Graphics.DrawImage(shipWest, loc(col, row, shipWest.Width / 2));
+                if (isAlive == false) e.Graphics.DrawImage(deadShip, loc(col, row, shipNorth.Width / 2)); 
+            else if (shipAngle == 0) e.Graphics.DrawImage(shipNorth, loc(col, row, shipNorth.Width / 2));
+            else if (shipAngle == 90) e.Graphics.DrawImage(shipEast, loc(col, row, shipEast.Width / 2));
+            else if (shipAngle == 180) e.Graphics.DrawImage(shipSouth, loc(col, row, shipSouth.Width / 2));
+            else e.Graphics.DrawImage(shipWest, loc(col, row, shipWest.Width / 2));
+               
 
                 if (shieldOn)
                     e.Graphics.DrawEllipse(new Pen(Brushes.Gold, 2), loc(col, row, gridSize / 1.5));
-
-
-                // scale the drawing larger:
-                //using (Matrix m = new Matrix()) {
-                //	m.Translate((int)((col + .5) * gridSize), (int)((row + .5) * gridSize));
-                //	m.Rotate(shipAngle);
-                //	m.Scale(.6f, .6f);
-                //	e.Graphics.Transform = m;
-
-                //	e.Graphics.FillPolygon(new SolidBrush(Color.Red), myShipPts.ToArray());
-                //	e.Graphics.DrawPolygon(Pens.White, myShipPts.ToArray());
-                //}
             }
         }
 
@@ -597,7 +594,7 @@ namespace Client
             if (fuelPods != 0)
             {
                 fuelPods -= 2;
-                client.Send(String.Format("update:fuelpods:{0}", fuelPods));
+                client.Send(String.Format("update:fuelpods:{0}", -2));
                 progressBar1.Invoke(new Action(() => progressBar1.Value = fuelPods)); //fuel pod
             }
             else
@@ -608,14 +605,15 @@ namespace Client
 
         private void hFuelLoss()
         {
-            if (fFull >= 5)
+            if (fuelPods >= 5)
             {
-                fFull -= 5;
-                progressBar1.Invoke(new Action(() => progressBar1.Value = fFull)); //fuel pod
+                fuelPods -= 5;
+                client.Send(String.Format("update:fuelpods:{0}", -5));
+                progressBar1.Invoke(new Action(() => progressBar1.Value = fuelPods)); //fuel pod
             }
             else if(fFull > 0 && fFull < 5)
             {
-                client.Send("Not enough of fuel!");
+                client.Send("Not enough fuel!");
             }
             else
             {
