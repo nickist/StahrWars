@@ -283,15 +283,6 @@ namespace Client
                             sectorBlackholes = parts[3];
                             panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
                         }
-                        else if (parts[0].Equals("me"))
-                        {
-                            //Handle Changes to health/shields/ammo/fuel 
-                            //Health = parts[1];
-                            //Shields = parts[2]
-                            //Phasors = parts[3];
-                            //Torpeados = parts[4]
-                            //fuel = parts[5];
-                        }
                         else if (parts[0].Equals("ni")) //Update planet and players in sector
                         {
                             sectorPlanets = parts[1];
@@ -511,7 +502,7 @@ namespace Client
             if (!gameOn) return;
             if (shields > 0)
             {
-            
+                label13.Invoke(new Action(() => label13.Text = "" + shields));
                 shieldOn = !shieldOn;
                 client.Send("s:" + (shieldOn ? "1" : "0"));
                 lblShielsUp.ForeColor = (shieldOn ? Color.Green : Color.Red);
@@ -520,6 +511,7 @@ namespace Client
                 picShields.Refresh();
             } else
             {
+                label13.Invoke(new Action(() => label13.Text = "" + shields));
                 shieldOn = false;
                 client.Send("s:2");
                 lblShielsUp.ForeColor = Color.Red;

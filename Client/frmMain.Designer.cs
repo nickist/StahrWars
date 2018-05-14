@@ -59,6 +59,7 @@ namespace Client
             this.lblShielsUp = new System.Windows.Forms.Label();
             this.prbHealth = new System.Windows.Forms.ProgressBar();
             this.label4 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.panCanvas)).BeginInit();
             this.grpStatus.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -191,6 +192,7 @@ namespace Client
             // 
             // grpStatus
             // 
+            this.grpStatus.Controls.Add(this.label13);
             this.grpStatus.Controls.Add(this.label12);
             this.grpStatus.Controls.Add(this.label11);
             this.grpStatus.Controls.Add(this.label10);
@@ -367,6 +369,15 @@ namespace Client
             this.label4.TabIndex = 0;
             this.label4.Text = "Health";
             // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(223, 202);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(19, 13);
+            this.label13.TabIndex = 24;
+            this.label13.Text = "15";
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -434,6 +445,7 @@ namespace Client
         private Label label11;
         private Label label10;
         private Label label9;
+        private Label label13;
     }
 }
 
