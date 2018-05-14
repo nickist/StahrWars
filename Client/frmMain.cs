@@ -11,8 +11,7 @@ namespace Client
 {
     public partial class frmMain : Form
     {
-        int sector = 0, col = 3, row = 7, shipAngle = 0, boxCount = 10, shields, torpedos, phasors , fuelPods , health ,
-            pFull, tFull , fFull , hFull ;
+        int sector = 0, col = 3, row = 7, shipAngle = 0, boxCount = 10, shields, torpedos, phasors, fuelPods, health;
         bool gameOn = false, shieldOn = false, phasorsEquiped = true, isAlive = true;
         string sectorStars = "", sectorPlanets="", sectorBlackholes="", playerLocations="";
         string sectorStr = "", bulletLocations = "";
@@ -355,6 +354,7 @@ namespace Client
                         int cellNum;
                         Int32.TryParse(cellsP[i], out cellNum);
                         e.Graphics.DrawImage(planet, loc(cellNum % 10, cellNum / 10, gridSize / 1.5));
+                        
                     }
                 }
 
@@ -478,7 +478,7 @@ namespace Client
                         break;
                     case Keys.H:
                         client.Send("h:");
-                        progressBar1.Invoke(new Action(() => progressBar1.Value = fuelPods)); //fuel pod
+                        fuelLoss();
                         break;
                     case Keys.Q:
                         phasorsEquiped = !phasorsEquiped;
@@ -564,22 +564,22 @@ namespace Client
             if (phasorsEquiped == true)
             {
 
-                if (phasors != 0)
+                if (phasors >= 0)
                 {
                     client.Send("f:p");
-                    progressBar3.Invoke(new Action(() => progressBar3.Value = phasors)); //phasor
+                    label10.Invoke(new Action(() => label10.Text = "" + phasors));
+                    progressBar3.Invoke(new Action(() => progressBar3.Value = phasors*2)); //phasor
                 }
 
             }
             else
             {
-                if (torpedos != 0)
+                if (torpedos >= 0)
                 {
                     client.Send("f:t");
-                    progressBar2.Invoke(new Action(() => progressBar2.Value = torpedos)); //torpedo
-
+                    progressBar2.Invoke(new Action(() => progressBar2.Value = torpedos*10)); //torpedo
+                    label9.Invoke(new Action(() => label9.Text = "" + torpedos ));
                 }
-
             }
         }
 
@@ -591,8 +591,10 @@ namespace Client
         {
             if (fuelPods > 0)
             {
-                progressBar1.Invoke(new Action(() => progressBar1.Value = fuelPods)); //fuel pod
+                label11.Invoke(new Action(() => label11.Text = "" + fuelPods));
+                progressBar1.Invoke(new Action(() => progressBar1.Value = fuelPods*2)); //fuel pod
             }
+ 
 
         }
 

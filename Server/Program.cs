@@ -244,10 +244,13 @@ namespace UPDServer {
                                     //server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, parts[1], p.FuelPods), received.Sender);
                                 }
                             }
-                            else if (p.Health <= 0)
+                            else if (parts[0].Equals("damage"))
                             {
-                                server.Reply("You are Dead!", received.Sender);
-                                server.Reply(String.Format("update:health:{0}", p.Health), received.Sender);
+                                int damage = 0;
+                                Int32.TryParse(parts[1], out damage);
+                                p.Health -= damage;
+
+
                             }
                             else if (parts[0].Equals("r"))
                             {
@@ -318,7 +321,7 @@ namespace UPDServer {
                                 if (parts[1].Equals("p"))
                                 {
                                     //Add code for handelig shooting phasors
-                                    if (p.Phasors != 0)
+                                    if (p.Phasors != 0 && p.ShieldOn == false)
                                     {
                                         //server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
                                         Galaxy sector = universe.getGalaxy(p.SectorStr);
@@ -327,24 +330,30 @@ namespace UPDServer {
                                         server.Reply(String.Format("update:phasors:{0}", p.Phasors), received.Sender);
                                         // server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), received.Sender);
                                     }
+                                    else if (p.ShieldOn == true)
+                                    {
+                                        server.Reply("Can't shoot with shields on", received.Sender);
+                                    }
                                     else
                                     {
-                                        server.Reply("Out of Phasors!", received.Sender);
                                         server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, parts[1], p.Phasors), received.Sender);
                                         server.Reply(String.Format("Out of Phasors"), received.Sender);
                                     }
-                                    server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
                                 }
                                 else if (parts[1].Equals("t"))
                                 {
                                     //Add code for handeling shooting torpedo
-                                    if (p.Torpedoes != 0)
+                                    if (p.Torpedoes > 0 && p.ShieldOn == false)
                                     {
                                         Galaxy sector = universe.getGalaxy(p.SectorStr);
                                         // sector.addWeapon('t', p.Column, p.Row, p.Oriantation, p.SectorStr);
                                         p.Torpedoes--;
                                         server.Reply(String.Format("update:torpedos:{0}", p.Torpedoes), received.Sender);
                                         // server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), received.Sender);  
+                                    }
+                                    else if(p.ShieldOn == true)
+                                    {
+                                        server.Reply("Can't shoot with shields on", received.Sender);
                                     }
                                     else
                                     {
