@@ -149,97 +149,86 @@ namespace UPDServer {
                                     }
                                     server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, parts[1], p.FuelPods), received.Sender);
 
-                                Char cellAction = onSpecialCell(p);
-                                sector = universe.getGalaxy(p.SectorStr);
-                                switch (cellAction)
-                                {
-
-                                    case 's': //Player is on a star
-                                        p.Health = 0;
-                                        p.IsAlive = false;
-                                        server.Reply(String.Format("update:health:{0}", p.Health), received.Sender);
-                                        
-                                        server.Reply("dead", received.Sender);
-                                        break;
-                                    case 'p'://Player is on a planet
-                                        p.Health = 100;
-                                        p.shields = 15;
-                                        p.Phasors = 50;
-                                        p.Torpedoes = 10;
-                                        p.FuelPods = 50;
-                                        server.Reply(String.Format("update:health:{0}", p.Health), received.Sender);
-                                        server.Reply(String.Format("update:shields:{0}", p.shields), received.Sender);
-                                        server.Reply(String.Format("update:phasors:{0}", p.Phasors), received.Sender);
-                                        server.Reply(String.Format("update:torpedos:{0}", p.Torpedoes), received.Sender);
-                                        server.Reply(String.Format("update:fuelpods:{0}", p.FuelPods), received.Sender);
-                                        server.Reply("You landed on a Planet", received.Sender);
-                                        sector.removePlanet(p.Row * 10 + p.Column % 10);
-                                        break;
-                                    case 't':
-                                        //Player found treasure
-                                        Random r = new Random();
-                                        int x = r.Next(0, 5);
-
-                                        if (x == 0) // health regeneration
-                                        {
-                                            p.Health = 100;
-                                            server.Reply("you Regenerated Health", received.Sender);
-                                            server.Reply(String.Format("update:health:{0}", p.Health), received.Sender);
-                                        }
-                                        else if (x == 1) // shields regenerated
-                                        {
-                                            p.shields = 15;
-                                            server.Reply("you Found Shields", received.Sender);
-                                            server.Reply(String.Format("update:shields:{0}", p.shields), received.Sender);
-                                        }
-                                        else if (x == 2) // more phasor ammo
-                                        {
-                                            p.Phasors = 50;
-                                            server.Reply("you found more Phasor Ammo", received.Sender);
-                                            server.Reply(String.Format("update:phasors:{0}", p.Phasors), received.Sender);
-                                        }
-                                        else if (x == 3) // torpedos replenished
-                                        {
-                                            p.Health = 10;
-                                            server.Reply("you Found torpedo ammo", received.Sender);
-                                            server.Reply(String.Format("update:torpedo:{0}", p.Torpedoes), received.Sender);
-                                        }
-                                        else if (x == 4) // fuelpods refilled
-                                        {
-                                            p.FuelPods = 50;
-                                            server.Reply("you Found Fuelpods", received.Sender);
-                                            server.Reply(String.Format("update:fuel:{0}", p.FuelPods), received.Sender);
-                                        }
-
-                                        break;
-
-
-                                    case 'b':
-
-                                        sector = universe.getGalaxy(p.SectorStr);
-                                        p.Sector = rnd.Next(0, 255);
-                                        p.SectorStr = numToSectorID(p.Sector);
-                                        p.Column = rnd.Next(0, 9);
-                                        p.Row = rnd.Next(0, 9);
-                                        Galaxy newSector = universe.getGalaxy(p.SectorStr);
-                                        sector.removePlayer(p.Name);
-                                        newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
-                                        server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
-                                        server.Reply("you went through a blackhole", received.Sender);
-                                        sectorChanged = true;
-                                        break;
-                                }
-                                //Send message to all users in sector
-
-                                /*foreach(String s in players.Keys)
-                                {
-                                    if (players[s].Sector == p.Sector)
+                                    Char cellAction = onSpecialCell(p);
+                                    sector = universe.getGalaxy(p.SectorStr);
+                                    switch (cellAction)
                                     {
-                                        server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), players[s].Connection);
+
+                                        case 's': //Player is on a star
+                                            p.Health = 0;
+                                            p.IsAlive = false;
+                                            server.Reply(String.Format("update:health:{0}", p.Health), received.Sender);
+
+                                            server.Reply("dead", received.Sender);
+                                            break;
+                                        case 'p'://Player is on a planet
+                                            p.Health = 100;
+                                            p.shields = 15;
+                                            p.Phasors = 50;
+                                            p.Torpedoes = 10;
+                                            p.FuelPods = 50;
+                                            server.Reply(String.Format("update:health:{0}", p.Health), received.Sender);
+                                            server.Reply(String.Format("update:shields:{0}", p.shields), received.Sender);
+                                            server.Reply(String.Format("update:phasors:{0}", p.Phasors), received.Sender);
+                                            server.Reply(String.Format("update:torpedos:{0}", p.Torpedoes), received.Sender);
+                                            server.Reply(String.Format("update:fuelpods:{0}", p.FuelPods), received.Sender);
+                                            server.Reply("You landed on a Planet", received.Sender);
+                                            sector.removePlanet(p.Row * 10 + p.Column % 10);
+                                            break;
+                                        case 't':
+                                            //Player found treasure
+                                            Random r = new Random();
+                                            int x = r.Next(0, 5);
+
+                                            if (x == 0) // health regeneration
+                                            {
+                                                p.Health = 100;
+                                                server.Reply("you Regenerated Health", received.Sender);
+                                                server.Reply(String.Format("update:health:{0}", p.Health), received.Sender);
+                                            }
+                                            else if (x == 1) // shields regenerated
+                                            {
+                                                p.shields = 15;
+                                                server.Reply("you Found Shields", received.Sender);
+                                                server.Reply(String.Format("update:shields:{0}", p.shields), received.Sender);
+                                            }
+                                            else if (x == 2) // more phasor ammo
+                                            {
+                                                p.Phasors = 50;
+                                                server.Reply("you found more Phasor Ammo", received.Sender);
+                                                server.Reply(String.Format("update:phasors:{0}", p.Phasors), received.Sender);
+                                            }
+                                            else if (x == 3) // torpedos replenished
+                                            {
+                                                p.Health = 10;
+                                                server.Reply("you Found torpedo ammo", received.Sender);
+                                                server.Reply(String.Format("update:torpedo:{0}", p.Torpedoes), received.Sender);
+                                            }
+                                            else if (x == 4) // fuelpods refilled
+                                            {
+                                                p.FuelPods = 50;
+                                                server.Reply("you Found Fuelpods", received.Sender);
+                                                server.Reply(String.Format("update:fuel:{0}", p.FuelPods), received.Sender);
+                                            }
+
+                                            break;
+
+
+                                        case 'b':
+
+                                            sector = universe.getGalaxy(p.SectorStr);
+                                            p.Sector = rnd.Next(0, 255);
+                                            p.SectorStr = numToSectorID(p.Sector);
+                                            p.Column = rnd.Next(0, 9);
+                                            p.Row = rnd.Next(0, 9);
+                                            Galaxy newSector = universe.getGalaxy(p.SectorStr);
+                                            sector.removePlayer(p.Name);
+                                            newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                            server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
+                                            server.Reply("you went through a blackhole", received.Sender);
+                                            sectorChanged = true;
+                                            break;
                                     }
-                                }*/
-                                    server.Reply("Out of fuel!", received.Sender);
-                                    server.Reply(String.Format("update:fuelpods:{0}", p.FuelPods), received.Sender);
                                 }
                             
                             
