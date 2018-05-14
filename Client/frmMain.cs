@@ -11,7 +11,7 @@ namespace Client
 {
     public partial class frmMain : Form
     {
-        int sector = 0, col = 3, row = 7, shipAngle = 0, boxCount = 10, shields, torpedos, phasors, fuelPods, health;
+        int sector = 0, col = 3, row = 7, shipAngle = 0, weaponAngle = 0, boxCount = 10, shields, torpedos, phasors, fuelPods, health;
         bool gameOn = false, shieldOn = false, phasorsEquiped = true, isAlive = true;
         string sectorStars = "", sectorPlanets="", sectorBlackholes="", playerLocations="";
         string sectorStr = "", bulletLocations = "";
@@ -200,6 +200,10 @@ namespace Client
                             if (parts[1].Equals("shields"))
                             {
                                 Int32.TryParse(parts[2], out shields);
+                            }
+                            else if (parts[1].Equals("weaponAngle"))
+                            {
+                                Int32.TryParse(parts[2], out weaponAngle);
                             }
                             else if ((parts[1].Equals("fuelpods")))
                             {
