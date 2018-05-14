@@ -194,7 +194,7 @@ namespace Client
                             }
                         }
                         else if (parts[0].Equals("update"))
-                        {
+                        { // all update commands should be update:variable:{newamount}
                             if (parts[1].Equals("shields"))
                             {
                                 Int32.TryParse(parts[2], out shields);
@@ -600,6 +600,7 @@ namespace Client
         #region ================================================================================== <fuel>
         private void fuelLoss()
         {
+<<<<<<< HEAD
             if (!gameOn) return;
             if (!isAlive) return;
 
@@ -624,6 +625,13 @@ namespace Client
 
                 label11.Text = "" + fuelPods;
                 prbFuel.Invoke(new Action(() => prbFuel.Value = fFull)); //fuel pod
+=======
+            if (fuelPods > 0)
+            {
+                fuelPods --;
+                //client.Send(String.Format("update:fuelpods:{0}", -2));
+                progressBar1.Invoke(new Action(() => progressBar1.Value = fuelPods)); //fuel pod
+>>>>>>> 3c8c4fa8b6523d285c7aef87096daa84f9fbc37a
             }
         }
 
@@ -671,7 +679,13 @@ namespace Client
 
             else
             {
+<<<<<<< HEAD
                 client.Send("YOU LOSE!");
+=======
+                fuelPods -= 5;
+                //client.Send(String.Format("update:fuelpods:{0}", -5));
+                progressBar1.Invoke(new Action(() => progressBar1.Value = fuelPods)); //fuel pod
+>>>>>>> 3c8c4fa8b6523d285c7aef87096daa84f9fbc37a
             }
         }
 
