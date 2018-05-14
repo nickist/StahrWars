@@ -101,12 +101,6 @@ namespace Client
             gridPen.DashPattern = new float[] { 1, 4 };
             gridSize = panCanvas.Width / boxCount;
 
-            // Design out my ship... We could just use an image here
-            //myShipPts.Add(new Point(0, 0));
-            //myShipPts.Add(new Point(10, 5));
-            //myShipPts.Add(new Point(0, -20));
-            //myShipPts.Add(new Point(-10, 5));
-
         }
 
         private void beginMessages()
@@ -200,6 +194,10 @@ namespace Client
                             if (parts[1].Equals("shields"))
                             {
                                 Int32.TryParse(parts[2], out shields);
+                            }
+                            else if (parts[1].Equals("isAlive"))
+                            {
+                                isAlive = Convert.ToBoolean(parts[2]);
                             }
                             else if (parts[1].Equals("weaponAngle"))
                             {
