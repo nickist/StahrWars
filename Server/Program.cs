@@ -144,7 +144,7 @@ namespace UPDServer {
                                     if (!sectorChanged)
                                     { // sector is of type Galaxy
                                         sector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
-                                        //server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), received.Sender);
+                                        server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), received.Sender);
                                     }
                                     server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, parts[1], p.FuelPods), received.Sender);
 
@@ -339,10 +339,10 @@ namespace UPDServer {
                                     {
                                         //server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
                                         Galaxy sector = universe.getGalaxy(p.SectorStr);
-                                        // sector.addWeapon('p', p.Column, p.Row, p.Oriantation, p.SectorStr);
+                                        sector.addWeapon('p', p.Column, p.Row, p.Oriantation, p.SectorStr);
                                         p.Phasors--;
                                         server.Reply(String.Format("update:phasors:{0}", p.Phasors), received.Sender);
-                                        // server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), received.Sender);
+                                        server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), received.Sender);
                                     }
                                     else if (p.ShieldOn == true)
                                     {
@@ -360,10 +360,10 @@ namespace UPDServer {
                                     if (p.Torpedoes > 0 && p.ShieldOn == false)
                                     {
                                         Galaxy sector = universe.getGalaxy(p.SectorStr);
-                                        // sector.addWeapon('t', p.Column, p.Row, p.Oriantation, p.SectorStr);
+                                        sector.addWeapon('t', p.Column, p.Row, p.Oriantation, p.SectorStr);
                                         p.Torpedoes--;
                                         server.Reply(String.Format("update:torpedos:{0}", p.Torpedoes), received.Sender);
-                                        // server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), received.Sender);  
+                                        server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), received.Sender);  
                                     }
                                     else if(p.ShieldOn == true)
                                     {

@@ -391,6 +391,7 @@ namespace Client
                         e.Graphics.DrawImage(blackhole, loc(cellNum % 10, cellNum / 10, gridSize / 1.25));
                     }
                 }
+                
                 //Place Phasors/Torps
                 if (bulletLocations.Length != 0)
                 {
@@ -398,8 +399,33 @@ namespace Client
                     for (int i = 0; i < cellsW.Length; i++)
                     {
                         int cellNum;
-                        Int32.TryParse(cellsW[i], out cellNum);
-                        e.Graphics.DrawImage(torpedoNorth, loc(cellNum % 10, cellNum / 10, gridSize / 4));
+                        Int32.TryParse(cellsW[i].Substring(0, cellsW[i].Length - 2), out cellNum);
+                        Char wepType = cellsW[i][cellsW[i].Length - 2];
+                        Char wepAngle = cellsW[i][cellsW[i].Length - 1];
+                        if (wepType == 't')
+                        {
+                            if (wepAngle == 'n')
+                            {
+                                e.Graphics.DrawImage(torpedoNorth, loc(cellNum % 10, cellNum / 10, gridSize / 3));
+                            }
+                            else if (wepAngle == 's')
+                            {
+                                e.Graphics.DrawImage(torpedoSouth, loc(cellNum % 10, cellNum / 10, gridSize / 3));
+                            }
+                            else if (wepAngle == 'e')
+                            {
+                                e.Graphics.DrawImage(torpedoEast, loc(cellNum % 10, cellNum / 10, gridSize / 3));
+                            }
+                            else
+                            {
+                                e.Graphics.DrawImage(torpedoWest, loc(cellNum % 10, cellNum / 10, gridSize / 3));
+                            }
+                        }
+                        else
+                        {
+                            //e.Graphics.DrawImage(phasor, loc(cellNum % 10, cellNum / 10, gridSize / 4));
+                        }
+
                     }
                 }
                 /*
@@ -416,6 +442,36 @@ namespace Client
                 if (shieldOn)
                     e.Graphics.DrawEllipse(new Pen(Brushes.Gold, 2), loc(col, row, gridSize / 1.5));
             }
+            //Draw Enemy Ships
+            /**
+            if (playerLocations.Length != 0)
+            {
+                String[] playerCells = playerLocations.Split(',');
+                for (int i = 0; i < playerCells.Length; i++)
+                {
+                    int cellNum;
+                    Int32.TryParse(playerCells[i].Substring(0,playerCells[i].Length - 1), out cellNum);
+                    Char playerAngle = playerCells[i][playerCells[i].Length - 1];
+                    if (cellNum != (col % 10)+(row * 10))
+                    {
+                        if (playerAngle == 'n')
+                        {
+                            e.Graphics.DrawImage(shipNorthEnemy, loc(cellNum % 10, cellNum / 10, shipNorthEnemy.Width / 2));
+                        } else if (playerAngle == 's')
+                        {
+                            e.Graphics.DrawImage(shipSouthEnemy, loc(cellNum % 10, cellNum / 10, shipSouthEnemy.Width / 2));
+                        }
+                        else if (playerAngle == 'e')
+                        {
+                            e.Graphics.DrawImage(shipEastEnemy, loc(cellNum % 10, cellNum / 10, shipEastEnemy.Width / 2));
+                        }
+                        else
+                        {
+                            e.Graphics.DrawImage(shipWestEnemy, loc(cellNum % 10, cellNum / 10, shipWestEnemy.Width / 2));
+                        }
+                    }
+                }
+            } **/
         }
 
 

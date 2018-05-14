@@ -30,7 +30,7 @@ namespace UPDServer {
         {
             foreach(String id in galaxies.Keys)
             {
-               /* for (int i = 0; i < galaxies[id].getNumBullets(); i++)
+               for (int i = 0; i < galaxies[id].getNumBullets(); i++)
                 {
                     Weapons wep = galaxies[id].getWeapon(i);
                     //Torp speed = 1 cell every 400 ms
@@ -46,7 +46,7 @@ namespace UPDServer {
                         wep.Offset = offset;
                     }
                     
-                }*/
+                }
             }
         }
     }
