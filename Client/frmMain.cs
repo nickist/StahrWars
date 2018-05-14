@@ -203,6 +203,9 @@ namespace Client
                             else if ((parts[1].Equals("health")))
                             {
                                 Int32.TryParse(parts[2], out health);
+                                label12.Invoke(new Action(() => label12.Text = "" + health));
+                                prbHealth.Invoke(new Action(() => prbHealth.Value = health));
+
 
                             }
                             else if ((parts[1].Equals("phasors")))
