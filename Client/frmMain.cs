@@ -150,7 +150,7 @@ namespace Client
                                 col = Convert.ToInt32(parts[3]);
                                 row = Convert.ToInt32(parts[4]);
                                 lblSector.Invoke(new Action(() => lblSector.Text = sectorStr));
-                                prbHealth.Invoke(new Action(() => prbHealth.Value = 100));
+                               // prbHealth.Invoke(new Action(() => prbHealth.Value = 100));
                                 prbHealth.Invoke(new Action(() => prbHealth.Value = 100));
                                 progressBar1.Invoke(new Action(() => progressBar1.Value = 100)); //fuel pod
                                 progressBar2.Invoke(new Action(() => progressBar2.Value = 100)); //torpedo
@@ -594,10 +594,11 @@ namespace Client
         #region =============================================== <fuel>
         private void fuelLoss()
         {
-            if (fFull != 0)
+            if (fuelPods != 0)
             {
-                fFull -= 2;
-                progressBar1.Invoke(new Action(() => progressBar1.Value = fFull)); //fuel pod
+                fuelPods -= 2;
+                client.Send(String.Format("update:fuelpods:{0}", fuelPods));
+                progressBar1.Invoke(new Action(() => progressBar1.Value = fuelPods)); //fuel pod
             }
             else
             {
@@ -622,6 +623,9 @@ namespace Client
             }
         }
         #endregion
+
+        #region ==================================================================================================== <Local click>
+
         private void label4_Click(object sender, EventArgs e)
         {
 
@@ -656,7 +660,7 @@ namespace Client
         {
 
         }
-
+        #endregion
         #region ====================================================================================== <Local Settings>
 
         private void chkShowGrid_CheckedChanged(object sender, EventArgs e)

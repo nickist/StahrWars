@@ -90,7 +90,8 @@ namespace UPDServer {
                             universe.updateWeps();
                             if (p.FuelPods != 0)
                             {
-                                server.Reply(String.Format("update:fuelpods:{0}",p.FuelPods--), received.Sender);
+                                p.FuelPods--;
+                                server.Reply(String.Format("update:fuelpods:{0}",p.FuelPods), received.Sender);
 
                                 if (parts[1].Equals("n")) p.Row--;
                                 else if (parts[1].Equals("s")) p.Row++;
@@ -357,6 +358,7 @@ namespace UPDServer {
                                 p.Column = rnd.Next(0, 9);
                                 p.Row = rnd.Next(0, 9);
                                 p.FuelPods -= 5;
+                                server.Reply(String.Format("update:fuelpods:{0}", p.FuelPods), received.Sender);
                                 Galaxy newSector = universe.getGalaxy(p.SectorStr);
                                 sector.removePlayer(p.Name);
                                 newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
