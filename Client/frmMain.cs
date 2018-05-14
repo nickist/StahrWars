@@ -195,10 +195,6 @@ namespace Client
                             {
                                 Int32.TryParse(parts[2], out shields);
                             }
-                            else if (parts[1].Equals("isAlive"))
-                            {
-                                isAlive = Convert.ToBoolean(parts[2]);
-                            }
                             else if (parts[1].Equals("weaponAngle"))
                             {
                                 Int32.TryParse(parts[2], out weaponAngle);

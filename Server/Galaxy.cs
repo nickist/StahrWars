@@ -11,7 +11,6 @@ namespace UPDServer
         private String blackholeLocations = "";
         private String treasureLocations = "";
         private String planetLocations = "";
-        private int playerCount;
         private Dictionary<int, Char> cells = new Dictionary<int, Char>();
         private Dictionary<String, int> players = new Dictionary<String, int>();
         private List<IPEndPoint> playerIPs = new List<IPEndPoint>();
