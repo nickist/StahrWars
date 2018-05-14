@@ -600,7 +600,6 @@ namespace Client
         #region ================================================================================== <fuel>
         private void fuelLoss()
         {
-<<<<<<< HEAD
             if (!gameOn) return;
             if (!isAlive) return;
 
@@ -615,28 +614,29 @@ namespace Client
                         fFull -= 1;
 
                     fuelPods--;
-                    label11.Text = "" + fuelPods;
+                    label11.Invoke(new Action(() => label11.Text = "" + fuelPods));
                     prbFuel.Invoke(new Action(() => prbFuel.Value = fFull)); //fuel pod
+                }
+
+                else if (fuelPods > 0)
+                {
+                    fuelPods--;
+                    label11.Invoke(new Action(() => label11.Text = "" + fuelPods));
+                    prbFuel.Invoke(new Action(() => prbFuel.Value = fFull)); //fuel pod
+                    //client.Send(String.Format("update:fuelpods:{0}", -2));
                 }
                 else
                 {
                     client.Send("Out of Fuel!");
                 }
 
-                label11.Text = "" + fuelPods;
-                prbFuel.Invoke(new Action(() => prbFuel.Value = fFull)); //fuel pod
-=======
-            if (fuelPods > 0)
-            {
-                fuelPods --;
-                //client.Send(String.Format("update:fuelpods:{0}", -2));
-                progressBar1.Invoke(new Action(() => progressBar1.Value = fuelPods)); //fuel pod
->>>>>>> 3c8c4fa8b6523d285c7aef87096daa84f9fbc37a
+                
+                
             }
         }
 
-        private void hFuelLoss()
-        {
+       private void hFuelLoss()
+            {
             if (!gameOn) return;
             if (!shieldOn)
             {
@@ -657,10 +657,7 @@ namespace Client
                     client.Send("Out of fuel!");
 
                 }
-
-                label11.Invoke(new Action(() => label11.Text = "" + fuelPods));
-                prbFuel.Invoke(new Action(() => prbFuel.Value = fFull)); //fuel pod
-            }
+                       }
         }
         #endregion
 
@@ -679,13 +676,10 @@ namespace Client
 
             else
             {
-<<<<<<< HEAD
                 client.Send("YOU LOSE!");
-=======
                 fuelPods -= 5;
                 //client.Send(String.Format("update:fuelpods:{0}", -5));
-                progressBar1.Invoke(new Action(() => progressBar1.Value = fuelPods)); //fuel pod
->>>>>>> 3c8c4fa8b6523d285c7aef87096daa84f9fbc37a
+                prbFuel.Invoke(new Action(() => prbFuel.Value = fuelPods)); //fuel pod
             }
         }
 
