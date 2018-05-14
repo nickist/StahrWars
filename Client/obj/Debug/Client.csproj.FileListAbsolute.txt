@@ -116,3 +116,14 @@ C:\Users\kistn\Documents\StahrWars\Client\obj\Debug\Client.csproj.GenerateResour
 C:\Users\kistn\Documents\StahrWars\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
 C:\Users\kistn\Documents\StahrWars\Client\obj\Debug\Client.exe
 C:\Users\kistn\Documents\StahrWars\Client\obj\Debug\Client.pdb
+C:\Users\stevi_000\Desktop\383proj\StahrWars\Client\bin\Debug\Client.exe.config
+C:\Users\stevi_000\Desktop\383proj\StahrWars\Client\bin\Debug\Client.exe
+C:\Users\stevi_000\Desktop\383proj\StahrWars\Client\bin\Debug\Client.pdb
+C:\Users\stevi_000\Desktop\383proj\StahrWars\Client\obj\Debug\Client.csprojAssemblyReference.cache
+C:\Users\stevi_000\Desktop\383proj\StahrWars\Client\obj\Debug\Client.frmMain.resources
+C:\Users\stevi_000\Desktop\383proj\StahrWars\Client\obj\Debug\Client.frmUniverse.resources
+C:\Users\stevi_000\Desktop\383proj\StahrWars\Client\obj\Debug\Client.Properties.Resources.resources
+C:\Users\stevi_000\Desktop\383proj\StahrWars\Client\obj\Debug\Client.csproj.GenerateResource.cache
+C:\Users\stevi_000\Desktop\383proj\StahrWars\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
+C:\Users\stevi_000\Desktop\383proj\StahrWars\Client\obj\Debug\Client.exe
+C:\Users\stevi_000\Desktop\383proj\StahrWars\Client\obj\Debug\Client.pdb

@@ -167,6 +167,7 @@ namespace UPDServer {
                                         server.Reply(String.Format("update:phasors:{0}", p.Phasors), received.Sender);
                                         server.Reply(String.Format("update:torpedos:{0}", p.Torpedoes), received.Sender);
                                         server.Reply(String.Format("update:fuelpods:{0}", p.FuelPods), received.Sender);
+                                        server.Reply("replenish:", received.Sender);
                                         server.Reply("You landed on a Planet", received.Sender);
                                         sector.removePlanet(p.Row * 10 + p.Column % 10);
                                         break;

@@ -50,9 +50,9 @@ namespace Client
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.progressBar2 = new System.Windows.Forms.ProgressBar();
-            this.progressBar3 = new System.Windows.Forms.ProgressBar();
+            this.prbFuel = new System.Windows.Forms.ProgressBar();
+            this.prbTorpedo = new System.Windows.Forms.ProgressBar();
+            this.prbPhasor = new System.Windows.Forms.ProgressBar();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.picShields = new System.Windows.Forms.PictureBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -118,6 +118,7 @@ namespace Client
             this.panCanvas.Size = new System.Drawing.Size(480, 480);
             this.panCanvas.TabIndex = 6;
             this.panCanvas.TabStop = false;
+            this.panCanvas.Click += new System.EventHandler(this.panCanvas_Click);
             this.panCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.panCanvas_Paint);
             // 
             // chkShowGrid
@@ -198,9 +199,9 @@ namespace Client
             this.grpStatus.Controls.Add(this.label8);
             this.grpStatus.Controls.Add(this.label7);
             this.grpStatus.Controls.Add(this.label6);
-            this.grpStatus.Controls.Add(this.progressBar1);
-            this.grpStatus.Controls.Add(this.progressBar2);
-            this.grpStatus.Controls.Add(this.progressBar3);
+            this.grpStatus.Controls.Add(this.prbFuel);
+            this.grpStatus.Controls.Add(this.prbTorpedo);
+            this.grpStatus.Controls.Add(this.prbPhasor);
             this.grpStatus.Controls.Add(this.groupBox1);
             this.grpStatus.Controls.Add(this.prbHealth);
             this.grpStatus.Controls.Add(this.label4);
@@ -276,35 +277,35 @@ namespace Client
             this.label6.TabIndex = 17;
             this.label6.Text = "Phasors";
             // 
-            // progressBar1
+            // prbFuel
             // 
-            this.progressBar1.BackColor = System.Drawing.SystemColors.Control;
-            this.progressBar1.Location = new System.Drawing.Point(110, 70);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(290, 20);
-            this.progressBar1.Step = 1;
-            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.progressBar1.TabIndex = 14;
+            this.prbFuel.BackColor = System.Drawing.SystemColors.Control;
+            this.prbFuel.Location = new System.Drawing.Point(110, 70);
+            this.prbFuel.Name = "prbFuel";
+            this.prbFuel.Size = new System.Drawing.Size(290, 20);
+            this.prbFuel.Step = 1;
+            this.prbFuel.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.prbFuel.TabIndex = 14;
             // 
-            // progressBar2
+            // prbTorpedo
             // 
-            this.progressBar2.BackColor = System.Drawing.SystemColors.Control;
-            this.progressBar2.Location = new System.Drawing.Point(110, 122);
-            this.progressBar2.Name = "progressBar2";
-            this.progressBar2.Size = new System.Drawing.Size(290, 20);
-            this.progressBar2.Step = 1;
-            this.progressBar2.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.progressBar2.TabIndex = 15;
+            this.prbTorpedo.BackColor = System.Drawing.SystemColors.Control;
+            this.prbTorpedo.Location = new System.Drawing.Point(110, 122);
+            this.prbTorpedo.Name = "prbTorpedo";
+            this.prbTorpedo.Size = new System.Drawing.Size(290, 20);
+            this.prbTorpedo.Step = 1;
+            this.prbTorpedo.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.prbTorpedo.TabIndex = 15;
             // 
-            // progressBar3
+            // prbPhasor
             // 
-            this.progressBar3.BackColor = System.Drawing.SystemColors.Control;
-            this.progressBar3.Location = new System.Drawing.Point(110, 96);
-            this.progressBar3.Name = "progressBar3";
-            this.progressBar3.Size = new System.Drawing.Size(290, 20);
-            this.progressBar3.Step = 1;
-            this.progressBar3.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.progressBar3.TabIndex = 16;
+            this.prbPhasor.BackColor = System.Drawing.SystemColors.Control;
+            this.prbPhasor.Location = new System.Drawing.Point(110, 96);
+            this.prbPhasor.Name = "prbPhasor";
+            this.prbPhasor.Size = new System.Drawing.Size(290, 20);
+            this.prbPhasor.Step = 1;
+            this.prbPhasor.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.prbPhasor.TabIndex = 16;
             // 
             // groupBox1
             // 
@@ -405,18 +406,23 @@ namespace Client
 
         }
 
+        private void panCanvas_Click(object sender, EventArgs e)
+        {
+
+        }
+
         #endregion
         private TextBox txtIP;
         private Label label1;
         private Button btnConnect;
         private Button btnQuit;
-		private PictureBox panCanvas;
-		private CheckBox chkShowGrid;
-		private TextBox txtServerMessages;
-		private Label label2;
-		private Label label3;
-		private Label lblSector;
-		private CheckBox chkShowBackground;
+        private PictureBox panCanvas;
+        private CheckBox chkShowGrid;
+        private TextBox txtServerMessages;
+        private Label label2;
+        private Label label3;
+        private Label lblSector;
+        private CheckBox chkShowBackground;
         private GroupBox grpStatus;
         private Label label4;
         private ProgressBar prbHealth;
@@ -424,9 +430,9 @@ namespace Client
         private PictureBox picShields;
         private Label label5;
         private Label lblShielsUp;
-        private ProgressBar progressBar1;
-        private ProgressBar progressBar2;
-        private ProgressBar progressBar3;
+        private ProgressBar prbFuel;
+        private ProgressBar prbTorpedo;
+        private ProgressBar prbPhasor;
         private Label label8;
         private Label label7;
         private Label label6;
@@ -436,4 +442,3 @@ namespace Client
         private Label label9;
     }
 }
-

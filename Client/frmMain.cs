@@ -12,7 +12,7 @@ namespace Client
     public partial class frmMain : Form
     {
         int sector = 0, col = 3, row = 7, shipAngle = 0, boxCount = 10, shields, torpedos, phasors , fuelPods , health ,
-            pFull , tFull , fFull , hFull ;
+            pFull = 100 , tFull = 100, fFull = 100, hFull = 100;
         bool gameOn = false, shieldOn = false, phasorsEquiped = true, isAlive = true;
         string sectorStars = "", sectorPlanets="", sectorBlackholes="", playerLocations="";
         string sectorStr = "", bulletLocations = "";
@@ -152,9 +152,9 @@ namespace Client
                                 row = Convert.ToInt32(parts[4]);
                                 lblSector.Invoke(new Action(() => lblSector.Text = sectorStr));
                                 prbHealth.Invoke(new Action(() => prbHealth.Value = 100));
-                                progressBar1.Invoke(new Action(() => progressBar1.Value = 100)); //fuel pod
-                                progressBar2.Invoke(new Action(() => progressBar2.Value = 100)); //torpedo
-                                progressBar3.Invoke(new Action(() => progressBar3.Value = 100)); //phasor
+                                prbFuel.Invoke(new Action(() => prbFuel.Value = 100)); //fuel pod
+                                prbTorpedo.Invoke(new Action(() => prbTorpedo.Value = 100)); //torpedo
+                                prbPhasor.Invoke(new Action(() => prbPhasor.Value = 100)); //phasor
 
                             }
                             else
@@ -178,8 +178,11 @@ namespace Client
                         {
                             isAlive = false;
                             panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
-
-
+                            hitStar();
+                        }
+                        else if (parts[0].Equals("replenish"))
+                        {
+                            hitPlanet();
                         }
                         else if (parts[0].Equals("unv"))
                         {
@@ -553,34 +556,40 @@ namespace Client
 
         #endregion
 
-        #region ====================================================== <Fire Weapons>
+        #region ================================================================================= <Fire Weapons>
         private void fireWeapon()
         {
+            if (!gameOn) return;
+            if (!isAlive) return;
             if (phasorsEquiped == true)
             {
-                if (pFull != 0)
+                if (phasors != 0 && pFull >= 2)
                 {
                     client.Send("f:p");
                     pFull -= 2;
-                    progressBar3.Invoke(new Action(() => progressBar3.Value = pFull)); //phasor
+                    phasors--;
+                    label10.Invoke(new Action(() => label10.Text = "" + phasors));
+                    prbPhasor.Invoke(new Action(() => prbPhasor.Value = pFull)); //phasor
                 }
                 else
                 {
-                    client.Send("fp Out of pHASORS!");
+                    client.Send("Out of PHASORS!");
                 }
             }
             else
             {
-                if (tFull != 0)
+                if (phasors != 0 && tFull >= 10)
                 {
                     client.Send("f:t");
                     tFull -= 10;
-                    progressBar2.Invoke(new Action(() => progressBar2.Value = tFull)); //torpedo
+                    torpedos--;
+                    prbTorpedo.Invoke(new Action(() => prbTorpedo.Value = tFull)); //torpedo
+                    label9.Invoke(new Action(() => label9.Text = "" + torpedos));
 
                 }
                 else
                 {
-                    client.Send("ft Out of tORPEDOS!");
+                    client.Send("Out of TORPEDOS!");
                 }
             }
         }
@@ -588,39 +597,153 @@ namespace Client
 
         #endregion
 
-        #region =============================================== <fuel>
+        #region ================================================================================== <fuel>
         private void fuelLoss()
         {
-            if (fuelPods != 0)
+            if (!gameOn) return;
+            if (!isAlive) return;
+
+            if (!shieldOn)
             {
-                fuelPods -= 2;
-                client.Send(String.Format("update:fuelpods:{0}", -2));
-                progressBar1.Invoke(new Action(() => progressBar1.Value = fuelPods)); //fuel pod
-            }
-            else
-            {
-                client.Send("Out of Fuelpods!");
+                if (fuelPods != 0 && fFull > 0)
+                {
+                    if (fFull >= 2)
+                        fFull -= 2;
+
+                    else if (fFull == 1)
+                        fFull -= 1;
+
+                    fuelPods--;
+                    label11.Text = "" + fuelPods;
+                    prbFuel.Invoke(new Action(() => prbFuel.Value = fFull)); //fuel pod
+                }
+                else
+                {
+                    client.Send("Out of Fuel!");
+                }
+
+                label11.Text = "" + fuelPods;
+                prbFuel.Invoke(new Action(() => prbFuel.Value = fFull)); //fuel pod
             }
         }
 
         private void hFuelLoss()
         {
-            if (fuelPods >= 5)
+            if (!gameOn) return;
+            if (!shieldOn)
             {
-                fuelPods -= 5;
-                client.Send(String.Format("update:fuelpods:{0}", -5));
-                progressBar1.Invoke(new Action(() => progressBar1.Value = fuelPods)); //fuel pod
-            }
-            else if(fFull > 0 && fFull < 5)
-            {
-                client.Send("Not enough fuel!");
-            }
-            else
-            {
-                client.Send("Out of fuel!");
+                if (fuelPods >= 5 && fFull >= 10)
+                {
+                    fFull -= 10;
+                    fuelPods -= 5;
+                    label11.Invoke(new Action(() => label11.Text = "" + fuelPods));
+                    prbFuel.Invoke(new Action(() => prbFuel.Value = fFull)); //fuel pod
+                }
+                else if (fuelPods > 0 && fuelPods < 5)
+                {
+                    client.Send("Not enough fuel!");
+
+                }
+                else if (fuelPods == 0)
+                {
+                    client.Send("Out of fuel!");
+
+                }
+
+                label11.Invoke(new Action(() => label11.Text = "" + fuelPods));
+                prbFuel.Invoke(new Action(() => prbFuel.Value = fFull)); //fuel pod
             }
         }
         #endregion
+
+        #region ================================================================================== <health>
+
+        private void hitByPhasor()
+        {
+            if (health != 0 && hFull >= 10)
+            {
+                hFull -= 10;
+                health -= 5;
+                label12.Text = "" + health;
+                prbHealth.Invoke(new Action(() => prbHealth.Value = hFull));
+                label12.Invoke(new Action(() => label12.Text = "" + health));
+            }
+
+            else
+            {
+                client.Send("YOU LOSE!");
+            }
+        }
+
+        private void hitByTorpedo()
+        {
+            if (health != 0 && hFull >= 30)
+            {
+                hFull -= 30;
+                health -= 15;
+                label12.Invoke(new Action(() => label12.Text = "" + health));
+                prbHealth.Invoke(new Action(() => prbHealth.Value = hFull));
+            }
+
+            else
+            {
+                client.Send("YOU LOSE!");
+            }
+        }
+
+
+
+        #endregion
+
+        #region ============================================================================== <star>
+
+        private void hitStar()
+        {
+            hFull = 0; health = 0;
+            prbHealth.Invoke(new Action(() => prbHealth.Value = hFull));
+            label12.Invoke(new Action(() => label12.Text = "" + health));
+
+            client.Send("You Lose!");
+        }
+
+        #endregion
+
+
+        #region ============================================================================== <planet>
+
+        private void hitPlanet()
+        {
+            if (!isAlive) return;
+
+            fFull = 100; fuelPods = 50;
+            hFull = 100; health = 100;
+            tFull = 100; torpedos = 10;
+            pFull = 100; phasors = 50;
+
+            prbHealth.Invoke(new Action(() => prbHealth.Value = hFull)); //health
+            label12.Invoke(new Action(() => label12.Text = "" + health));
+
+            prbTorpedo.Invoke(new Action(() => prbTorpedo.Value = tFull)); //torpedo
+            label9.Invoke(new Action(() => label9.Text = "" + torpedos));
+
+            prbPhasor.Invoke(new Action(() => prbPhasor.Value = pFull)); //phasor                           
+            label10.Invoke(new Action(() => label10.Text = "" + phasors));
+
+            prbFuel.Invoke(new Action(() => prbFuel.Value = fFull)); //fuel pod
+            label11.Invoke(new Action(() => label11.Text = "" + fuelPods));
+
+
+            client.Send("Resources replinished!");
+        }
+
+        #endregion
+
+
+
+        private void frmMain_Load(object sender, EventArgs e)
+        {
+
+        }       
 
         #region ==================================================================================================== <Local click>
 
