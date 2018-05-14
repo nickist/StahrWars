@@ -638,7 +638,7 @@ namespace Client
             }
             else
             {
-                if (torpedos >= 0)
+                if (torpedos >= 0) 
                 {
                     client.Send("f:t");
                     progressBar2.Invoke(new Action(() => progressBar2.Value = torpedos*10)); //torpedo
