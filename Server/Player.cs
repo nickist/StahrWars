@@ -9,15 +9,14 @@ namespace UPDServer {
         private int sector;
         private string sectorStr;
         private IPEndPoint connection;
-        private int column;
-        private bool isAlive;
+        private int column; 
         private int row;
         private int health;
         private int sheilds;
         private int torpedoes;
         private int phasors;
         private int fuelPods;
-        private string oriantation;
+        private Char oriantation;
         private bool shieldOn;
 
         public void setLocation() {
@@ -27,7 +26,7 @@ namespace UPDServer {
         public Player(string name) {
             Name = name;
             Health = 100;
-            Sheilds = 15;
+            shields = 15;
             FuelPods = 50;
             Torpedoes = 10;
             Phasors = 50;
@@ -93,7 +92,7 @@ namespace UPDServer {
             }
         }
 
-        public int Sheilds {
+        public int shields {
             get {
                 return sheilds;
             }
@@ -132,7 +131,7 @@ namespace UPDServer {
                 fuelPods = value;
             }
         }
-        public string Oriantation {
+        public Char Oriantation {
             get {
                 return oriantation;
             }
@@ -162,7 +161,5 @@ namespace UPDServer {
                 sectorStr = value;
             }
         }
-
-        public bool IsAlive { get => isAlive; set => isAlive = value; }
     }
 }
