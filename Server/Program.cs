@@ -52,12 +52,12 @@ namespace UPDServer {
                         p1.Name = Environment.UserName;
                         players.Add(received.Sender.Address.MapToIPv4().ToString(), p1);
                         p1.SectorStr = numToSectorID(p1.Sector);
+                        p1.Connection = received.Sender;
                         server.Reply(String.Format("connected:true:{0}:{1}:{2}", p1.SectorStr, p1.Column, p1.Row), received.Sender);
                         Galaxy sector = universe.getGalaxy(p1.SectorStr);
                         sector.updatePlayer(p1.Name, (p1.Row*10+p1.Column%10));
                         server.Reply(String.Format("si:{0}:{1}:{2}:{3}", sector.StarLocations, sector.PlanetLocations, sector.BlackholeLocations, sector.getPlayersLocs()), received.Sender);
                         universe.updateWeps();
-
                     }
 
 
@@ -81,6 +81,12 @@ namespace UPDServer {
                     }
                     else
                     {
+                        universe.updateWeps();
+                        foreach (Player player in players.Values)
+                        {
+                            Galaxy playersSector = universe.getGalaxy(player.SectorStr);
+                            server.Reply(String.Format("ni:{0}:{1}:{2}", playersSector.PlanetLocations, playersSector.getPlayersLocs(), playersSector.getWeaponLocations()), player.Connection);
+                        }
                         Player p;
                         players.TryGetValue(received.Sender.Address.MapToIPv4().ToString(), out p);
                         // set clients health fuel phasors torpedos and sheilds
@@ -88,8 +94,7 @@ namespace UPDServer {
                         if (p.IsAlive == true)
                         {
                             if (parts[0].Equals("mov"))
-                            {
-                                universe.updateWeps();                                
+                            {                             
                                 if (p.FuelPods != 0)
                                 {                                   
                                     p.FuelPods--;
@@ -227,15 +232,6 @@ namespace UPDServer {
                                             sectorChanged = true;
                                             break;
                                     }
-                                    //Send message to all users in sector
-
-                                    /*foreach(String s in players.Keys)
-                                    {
-                                        if (players[s].Sector == p.Sector)
-                                        {
-                                            server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), players[s].Connection);
-                                        }
-                                    }*/
 
                                 }
                                 else
@@ -421,8 +417,7 @@ namespace UPDServer {
                     }
                 }
             });
-
-
+            
             // Endless loop for user's to send messages to Client
             string read;
             do
