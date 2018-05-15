@@ -81,7 +81,7 @@ namespace UPDServer {
                     }
                     else
                     {
-                        universe.updateWeps();
+
                         foreach (Player player in players.Values)
                         {
                             Galaxy playersSector = universe.getGalaxy(player.SectorStr);
@@ -91,8 +91,14 @@ namespace UPDServer {
                         players.TryGetValue(received.Sender.Address.MapToIPv4().ToString(), out p);
                         // set clients health fuel phasors torpedos and sheilds
                         server.Reply(String.Format("setup:{0}:{1}:{2}:{3}:{4}", p.Health, p.FuelPods, p.Phasors, p.Torpedoes, p.shields), received.Sender);
-                        if (p.IsAlive == true)
+                        for (int i = 0; i < universe.getGalaxy(p.SectorStr).getWeaponCount(); i++)
                         {
+
+                            universe.updateWeps();
+                        }
+                        if (p.IsAlive == true) 
+                        {
+
                             if (parts[0].Equals("mov"))
                             {                             
                                 if (p.FuelPods != 0)
@@ -331,6 +337,7 @@ namespace UPDServer {
                                         Galaxy sector = universe.getGalaxy(p.SectorStr);
                                         sector.addWeapon('p', p.Column, p.Row, p.Oriantation, p.SectorStr);
                                         p.Phasors--;
+                                        server.Reply(String.Format("update:weaponAngle:{0}", p.Oriantation), received.Sender);
                                         server.Reply(String.Format("update:weaponLoc:{0}:{1}", p.Column, p.Row), received.Sender);
                                         server.Reply(String.Format("update:phasors:{0}", p.Phasors), received.Sender);
                                         server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), received.Sender);

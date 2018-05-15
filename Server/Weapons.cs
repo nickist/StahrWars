@@ -19,9 +19,9 @@ namespace UPDServer
         public Weapons(Char type, int col, int row, Char angle, String sector)
         {
             this.weaponType = type;
-            this.col = col;
-            this.row = row;
-            this.angle = angle;
+            this.Col = col;
+            this.Row = row;
+            this.Angle = angle;
             this.sector = sector;
             this.time = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
             this.offset = 0;
@@ -38,39 +38,7 @@ namespace UPDServer
                 time = value;
             }
         }
-        public Char Angle
-        {
-            get
-            {
-                return angle;
-            }
-            set
-            {
-                angle = value;
-            }
-        }
-        public int Row
-        {
-            get
-            {
-                return row;
-            }
-            set
-            {
-                row = value;
-            }
-        }
-        public int Col
-        {
-            get
-            {
-                return col;
-            }
-            set
-            {
-                col = value;
-            }
-        }
+       
         public Char WeaponType
         {
             get
@@ -93,5 +61,9 @@ namespace UPDServer
                 offset = value;
             }
         }
+
+        public char Angle { get => angle; set => angle = value; }
+        public int Col { get => col; set => col = value; }
+        public int Row { get => row; set => row = value; }
     }
 }

@@ -11,7 +11,6 @@ namespace UPDServer
         private String blackholeLocations = "";
         private String treasureLocations = "";
         private String planetLocations = "";
-        private int playerCount;
         private Dictionary<int, Char> cells = new Dictionary<int, Char>();
         private Dictionary<String, int> players = new Dictionary<String, int>();
         private List<IPEndPoint> playerIPs = new List<IPEndPoint>();
@@ -189,9 +188,20 @@ namespace UPDServer
             return bullets.ElementAt(i);
         }
 
+        public int getWeaponCount()
+        {
+            return bullets.Capacity;
+        }
+
         public void removeWeapon(Weapons w)
         {
             bullets.Remove(w);
+        }
+
+        public void addBullet(string playerStr)
+        {
+           // Weapons w = new Weapons(players.ContainsKey(playerStr),3, 3, '', "");
+           // bullets.Add(w);
         }
 
         public string getWeaponLocations()
@@ -250,7 +260,8 @@ namespace UPDServer
 
         public void moveBullet(int column, int row)
         {
-            
+            //bullets.Col += 2;
+            //bullets.Row;
         }
 
         public void addWeapon(Char type, int col, int row, Char angle, String sector)
