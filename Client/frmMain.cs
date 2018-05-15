@@ -235,22 +235,6 @@ namespace Client
                             lblSector.Invoke(new Action(() => lblSector.Text = sectorStr));
                             col = Convert.ToInt32(parts[2]);
                             row = Convert.ToInt32(parts[3]);
-                            if (parts[4].Equals("n"))
-                            {
-                                shipAngle = 0;
-                            }
-                            else if (parts[4].Equals("s"))
-                            {
-                                shipAngle = 180;
-                            }
-                            else if (parts[4].Equals("e"))
-                            {
-                                shipAngle = 90;
-                            }
-                            else if (parts[4].Equals("w"))
-                            {
-                                shipAngle = 270;
-                            }
                             panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
                         }
                         else if (parts[0].Equals("or"))
@@ -397,6 +381,7 @@ namespace Client
 
                         if (!phasorsEquiped)
                         {
+                            client.Send(string.Format("an{0}", weaponAngle));
                             if (weaponAngle == 0)
                             {
                                 e.Graphics.DrawImage(torpedoNorth, loc(cellNum % 10, cellNum / 10, gridSize / 3));
@@ -436,8 +421,8 @@ namespace Client
                     e.Graphics.DrawEllipse(new Pen(Brushes.Gold, 2), loc(col, row, gridSize / 1.5));
             }
             //Draw Enemy Ships
-            /**
-            if (playerLocations.Length != 0)
+            
+            /*if (playerLocations.Length != 0)
             {
                 String[] playerCells = playerLocations.Split(',');
                 for (int i = 0; i < playerCells.Length; i++)
@@ -449,22 +434,22 @@ namespace Client
                     {
                         if (playerAngle == 'n')
                         {
-                            e.Graphics.DrawImage(shipNorthEnemy, loc(cellNum % 10, cellNum / 10, shipNorthEnemy.Width / 2));
+                            e.Graphics.DrawImage(shipNorth, loc(cellNum % 10, cellNum / 10, shipNorth.Width / 2));
                         } else if (playerAngle == 's')
                         {
-                            e.Graphics.DrawImage(shipSouthEnemy, loc(cellNum % 10, cellNum / 10, shipSouthEnemy.Width / 2));
+                            e.Graphics.DrawImage(shipSouth, loc(cellNum % 10, cellNum / 10, shipSouth.Width / 2));
                         }
                         else if (playerAngle == 'e')
                         {
-                            e.Graphics.DrawImage(shipEastEnemy, loc(cellNum % 10, cellNum / 10, shipEastEnemy.Width / 2));
+                            e.Graphics.DrawImage(shipEast, loc(cellNum % 10, cellNum / 10, shipEast.Width / 2));
                         }
                         else
                         {
-                            e.Graphics.DrawImage(shipWestEnemy, loc(cellNum % 10, cellNum / 10, shipWestEnemy.Width / 2));
+                            e.Graphics.DrawImage(shipWest, loc(cellNum % 10, cellNum / 10, shipWest.Width / 2));
                         }
                     }
                 }
-            } **/
+            } */
         }
 
 

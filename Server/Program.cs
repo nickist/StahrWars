@@ -313,8 +313,8 @@ namespace UPDServer {
                                 if (parts[1].Equals("n"))
                                 {
                                     p.Oriantation = 'n';
-                                    server.Reply(String.Format("or:{0}", parts[1]), received.Sender);
                                     server.Reply(String.Format("update:weaponAngle:{0}", 0), received.Sender);
+                                    server.Reply(String.Format("or:{0}", parts[1]), received.Sender);
 
                                 }
                                 else if (parts[1].Equals("s"))
