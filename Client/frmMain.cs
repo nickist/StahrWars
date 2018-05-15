@@ -32,12 +32,10 @@ namespace Client
         Image torpedoSouth = Image.FromFile("torpedoSouth.png");
         Image torpedoEast = Image.FromFile("torpedoEast.png");
         Image torpedoWest = Image.FromFile("torpedoWest.png");
-
-
-
-
-
-        //Image phasor = Image.FromFile("laser.png");
+        Image phasorNorth = Image.FromFile("phasorNorth.jpg");
+        Image phasorSouth = Image.FromFile("phasorSouth.jpg");
+        Image phasorEast = Image.FromFile("phasorEast.jpg");
+        Image phasorWest = Image.FromFile("phasorWest.jpg");
 
         //List<Point> points = new List<Point>();
         //List<Point> myShipPts = new List<Point>();
@@ -201,10 +199,6 @@ namespace Client
                             {
                                 Int32.TryParse(parts[2], out shields);
                             }
-                            else if (parts[1].Equals("weaponAngle"))
-                            {
-                                Int32.TryParse(parts[2], out weaponAngle);
-                            }
                             else if ((parts[1].Equals("fuelpods")))
                             {
                                 Int32.TryParse(parts[2], out fuelPods);
@@ -264,6 +258,7 @@ namespace Client
                             if (parts[1].Equals("n"))
                             {
                                 shipAngle = 0;
+                                client.Send("");
                             }
                             else if (parts[1].Equals("s"))
                             {
@@ -423,7 +418,22 @@ namespace Client
                         }
                         else
                         {
-                            //e.Graphics.DrawImage(phasor, loc(cellNum % 10, cellNum / 10, gridSize / 4));
+                            if (wepAngle == 'n')
+                            {
+                                e.Graphics.DrawImage(phasorNorth, loc(cellNum % 10, cellNum / 10, gridSize / 3));
+                            }
+                            else if (wepAngle == 's')
+                            {
+                                e.Graphics.DrawImage(phasorSouth, loc(cellNum % 10, cellNum / 10, gridSize / 3));
+                            }
+                            else if (wepAngle == 'e')
+                            {
+                                e.Graphics.DrawImage(phasorEast, loc(cellNum % 10, cellNum / 10, gridSize / 3));
+                            }
+                            else
+                            {
+                                e.Graphics.DrawImage(phasorWest, loc(cellNum % 10, cellNum / 10, gridSize / 2));
+                            }
                         }
 
                     }
@@ -492,6 +502,7 @@ namespace Client
 					case Keys.Up:
 						if (shipAngle != 0) {
 							shipAngle = 0;
+                            weaponAngle = 0;
 							panCanvas.Refresh();
 							client.Send("r:n");
 						} else {
@@ -503,6 +514,7 @@ namespace Client
                         if (shipAngle != 90)
                         {
                             shipAngle = 90;
+                            weaponAngle = 90;
                             panCanvas.Refresh();
                             client.Send("r:e");
                         }
@@ -516,6 +528,7 @@ namespace Client
                         if (shipAngle != 180)
                         {
                             shipAngle = 180;
+                            weaponAngle = 180;
                             panCanvas.Refresh();
                             client.Send("r:s");
                         }
@@ -529,6 +542,7 @@ namespace Client
                         if (shipAngle != 270)
                         {
                             shipAngle = 270;
+                            weaponAngle = 270;
                             panCanvas.Refresh();
                             client.Send("r:w");
                         }

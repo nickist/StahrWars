@@ -263,26 +263,20 @@ namespace UPDServer {
                                 {
                                     p.Oriantation = 'n';
                                     server.Reply(String.Format("or:{0}", parts[1]), received.Sender);
-                                    server.Reply(String.Format("update:weaponAngle:{0}", 0), received.Sender);
-
                                 }
                                 else if (parts[1].Equals("s"))
                                 {
                                     p.Oriantation = 's';
-                                    server.Reply(String.Format("or:{0}", parts[1]), received.Sender);
-                                    server.Reply(String.Format("update:weaponAngle:{0}", 180), received.Sender);
-                                }
+                                    server.Reply(String.Format("or:{0}", parts[1]), received.Sender);                                }
                                 else if (parts[1].Equals("e"))
                                 {
                                     p.Oriantation = 'e';
                                     server.Reply(String.Format("or:{0}", parts[1]), received.Sender);
-                                    server.Reply(String.Format("update:weaponAngle:{0}", 90), received.Sender);
                                 }
                                 else if (parts[1].Equals("w"))
                                 {
                                     p.Oriantation = 'w';
                                     server.Reply(String.Format("or:{0}", parts[1]), received.Sender);
-                                    server.Reply(String.Format("update:weaponAngle:{0}", 270), received.Sender);
                                 }
                             }
                             else if (parts[0].Equals("s"))
