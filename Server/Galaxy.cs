@@ -248,6 +248,11 @@ namespace UPDServer
             }
         }
 
+        public void moveBullet(int column, int row)
+        {
+            
+        }
+
         public void addWeapon(Char type, int col, int row, Char angle, String sector)
         {
             bullets.Add(new Weapons(type, col, row, angle, sector));

@@ -331,6 +331,7 @@ namespace UPDServer {
                                         Galaxy sector = universe.getGalaxy(p.SectorStr);
                                         sector.addWeapon('p', p.Column, p.Row, p.Oriantation, p.SectorStr);
                                         p.Phasors--;
+                                        server.Reply(String.Format("update:weaponLoc:{0}:{1}", p.Column, p.Row), received.Sender);
                                         server.Reply(String.Format("update:phasors:{0}", p.Phasors), received.Sender);
                                         server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), received.Sender);
                                     }
@@ -417,6 +418,8 @@ namespace UPDServer {
                     server.Reply(read, ep);
             } while (read != "quit");
         }
+
+        
 
         private static void fixParts(string[] parts)
         {

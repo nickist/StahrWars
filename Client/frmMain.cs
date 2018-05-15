@@ -258,19 +258,26 @@ namespace Client
                             if (parts[1].Equals("n"))
                             {
                                 shipAngle = 0;
+                                weaponAngle = 0;
                                 client.Send("");
                             }
                             else if (parts[1].Equals("s"))
                             {
                                 shipAngle = 180;
+                                weaponAngle = 180;
+
                             }
                             else if (parts[1].Equals("e"))
                             {
                                 shipAngle = 90;
+                                weaponAngle = 90;
+
                             }
                             else if (parts[1].Equals("w"))
                             {
                                 shipAngle = 270;
+                                weaponAngle = 270;
+
                             }
                             panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
                         }
