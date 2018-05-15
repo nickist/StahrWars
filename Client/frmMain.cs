@@ -37,10 +37,10 @@ namespace Client
         Image phasorSouth = Image.FromFile("phasorSouth.jpg");
         Image phasorEast = Image.FromFile("phasorEast.jpg");
         Image phasorWest = Image.FromFile("phasorWest.jpg");
-        Image shipNorthEnemy = Image.FromFile("ShipNorthEnemy.png");
-        Image shipSouthEnemy = Image.FromFile("ShipSouthEnemy.png");
-        Image shipEastEnemy = Image.FromFile("ShipEastEnemy.png");
-        Image shipWestEnemy = Image.FromFile("ShipWestEnemy.png");
+        Image enemyShipNorth = Image.FromFile("ShipNorthEnemy.png");
+        Image enemyShipSouth = Image.FromFile("ShipSouthEnemy.png");
+        Image enemyShipEast = Image.FromFile("ShipEastEnemy.png");
+        Image enemyShipWest = Image.FromFile("ShipWestEnemy.png");
 
 
         //List<Point> points = new List<Point>();
@@ -483,35 +483,36 @@ namespace Client
                     e.Graphics.DrawEllipse(new Pen(Brushes.Gold, 2), loc(col, row, gridSize / 1.5));
             }
             //Draw Enemy Ships
-            
+
             if (playerLocations.Length != 0)
             {
                 String[] playerCells = playerLocations.Split(',');
                 for (int i = 0; i < playerCells.Length; i++)
                 {
                     int cellNum;
-                    Int32.TryParse(playerCells[i].Substring(0,playerCells[i].Length - 1), out cellNum);
+                    Int32.TryParse(playerCells[i].Substring(0, playerCells[i].Length - 1), out cellNum);
                     Char playerAngle = playerCells[i][playerCells[i].Length - 1];
-                    if (cellNum != (col % 10)+(row * 10))
+                    if (cellNum != (col % 10) + (row * 10))
                     {
                         if (playerAngle == 'n')
                         {
-                            e.Graphics.DrawImage(shipNorthEnemy, loc(cellNum % 10, cellNum / 10, shipNorthEnemy.Width / 2));
-                        } else if (playerAngle == 's')
+                            e.Graphics.DrawImage(enemyShipNorth, loc(cellNum % 10, cellNum / 10, enemyShipNorth.Width / 2));
+                        }
+                        else if (playerAngle == 's')
                         {
-                            e.Graphics.DrawImage(shipSouthEnemy, loc(cellNum % 10, cellNum / 10, shipSouthEnemy.Width / 2));
+                            e.Graphics.DrawImage(enemyShipSouth, loc(cellNum % 10, cellNum / 10, enemyShipSouth.Width / 2));
                         }
                         else if (playerAngle == 'e')
                         {
-                            e.Graphics.DrawImage(shipEastEnemy, loc(cellNum % 10, cellNum / 10, shipEastEnemy.Width / 2));
+                            e.Graphics.DrawImage(enemyShipEast, loc(cellNum % 10, cellNum / 10, enemyShipEast.Width / 2));
                         }
                         else
                         {
-                            e.Graphics.DrawImage(shipWestEnemy, loc(cellNum % 10, cellNum / 10, shipWestEnemy.Width / 2));
+                            e.Graphics.DrawImage(enemyShipWest, loc(cellNum % 10, cellNum / 10, enemyShipWest.Width / 2));
                         }
                     }
                 }
-            } 
+            }
         }
 
 
