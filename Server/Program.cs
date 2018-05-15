@@ -391,15 +391,11 @@ namespace UPDServer {
                                     server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
                                     sectorChanged = true;
                                 }
-                                else /*if (p.FuelPods > 0 && p.FuelPods < 5)*/
-                                { //Change this to a differnt reply in the future so user can be promted that they dont have enough fuel to hyperspace
+                                else
+                                { 
                                     server.Reply("Not enough fuel", received.Sender);
                                     server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
-                                } /*else {
-                                server.Reply("Out of Fuel", received.Sender);
-                                server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.Sector, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
-                                server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
-                            }*/
+                                } 
                             }
                             if (sectorChanged)
                             {
