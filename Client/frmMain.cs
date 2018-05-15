@@ -11,7 +11,8 @@ namespace Client
 {
     public partial class frmMain : Form
     {
-        int sector = 0, col = 3, row = 7, shipAngle = 0, weaponAngle = 0, boxCount = 10, shields, torpedos, phasors, fuelPods, health;
+        int sector = 0, col = 3, row = 7, shipAngle = 0, weaponAngle = 0, boxCount = 10;
+        int weaponCo, weaponRow, shields, torpedos, phasors, fuelPods, health;
         bool gameOn = false, shieldOn = false, phasorsEquiped = true, isAlive = true;
         string sectorStars = "", sectorPlanets="", sectorBlackholes="", playerLocations="";
         string sectorStr = "", bulletLocations = "";
@@ -214,6 +215,13 @@ namespace Client
 
 
                             }
+                            else if ((parts[1].Equals("weaponLoc")))
+                            {
+                                Int32.TryParse(parts[2], out weaponCo);
+                                Int32.TryParse(parts[3], out weaponRow);
+                                panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
+                                
+                            }
                             else if ((parts[1].Equals("phasors")))
                             {
                                 Int32.TryParse(parts[2], out phasors);
@@ -409,6 +417,8 @@ namespace Client
                             if (weaponAngle == 0)
                             {
                                 e.Graphics.DrawImage(torpedoNorth, loc(cellNum % 10, cellNum / 10, gridSize / 3));
+                                //e.Graphics.DrawImage(torpedoNorth, loc(weaponRow, weaponRow, gridSize / 3));
+
                             }
                             else if (weaponAngle == 180)
                             {
