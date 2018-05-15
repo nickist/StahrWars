@@ -258,10 +258,24 @@ namespace UPDServer
             }
         }
 
-        public void moveBullet(int column, int row)
+        public void moveBullet(int index, int column, int row)
         {
-            //bullets.Col += 2;
-            //bullets.Row;
+           if ( bullets[index].Angle == 'n')
+            {
+                bullets[index].Row++;
+            }
+            else if (bullets[index].Angle == 's')
+            {
+                bullets[index].Row--;
+            }
+            else if (bullets[index].Angle == 'e')
+            {
+                bullets[index].Col++;
+            }
+            else 
+            {
+                bullets[index].Col--;
+            }
         }
 
         public void addWeapon(Char type, int col, int row, Char angle, String sector)

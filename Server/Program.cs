@@ -25,7 +25,7 @@ namespace UPDServer {
             Random rnd = new Random();
             Dictionary<string, IPEndPoint> connections = new Dictionary<string, IPEndPoint>();
             Dictionary<string, Player> players = new Dictionary<string, Player>();
-            List<Weapons> rounds = new List<Weapons>();
+           // List<Weapons> rounds = new List<Weapons>();
             bool sectorChanged = false;
 
             Console.WriteLine("============================================= Server");
@@ -92,11 +92,11 @@ namespace UPDServer {
                         players.TryGetValue(received.Sender.Address.MapToIPv4().ToString(), out p);
                         // set clients health fuel phasors torpedos and sheilds
                         server.Reply(String.Format("setup:{0}:{1}:{2}:{3}:{4}", p.Health, p.FuelPods, p.Phasors, p.Torpedoes, p.shields), received.Sender);
-                        for (int i = 0; i < universe.getGalaxy(p.SectorStr).getWeaponCount(); i++)
+                       /* for (int i = 0; i < universe.getGalaxy(p.SectorStr).getWeaponCount(); i++)
                         {
-
-                            universe.updateWeps();
-                        }
+                            //universe.updateWeps();
+                            universe.getGalaxy(p.SectorStr).moveBullet();
+                        }*/
                         if (p.IsAlive == true) 
                         {
 
@@ -337,6 +337,7 @@ namespace UPDServer {
                                         //server.Reply(String.Format("sh:{0}", parts[1]), received.Sender);
                                         Galaxy sector = universe.getGalaxy(p.SectorStr);
                                         sector.addWeapon('p', p.Column, p.Row, p.Oriantation, p.SectorStr);
+                                       // rounds.Add(new Weapons('p', p.Column, p.Row, p.Oriantation, p.SectorStr));
                                         p.Phasors--;
                                         server.Reply(String.Format("update:weaponAngle:{0}", p.Oriantation), received.Sender);
                                         server.Reply(String.Format("update:weaponLoc:{0}:{1}", p.Column, p.Row), received.Sender);
