@@ -14,6 +14,7 @@ namespace UPDServer
         private int playerCount;
         private Dictionary<int, Char> cells = new Dictionary<int, Char>();
         private Dictionary<String, int> players = new Dictionary<String, int>();
+        private List<Player> sectorPlayers = new List<Player>();
         private List<IPEndPoint> playerIPs = new List<IPEndPoint>();
         private List<Weapons> bullets = new List<Weapons>();
 
@@ -163,9 +164,9 @@ namespace UPDServer
         public String getPlayersLocs()
         {
             String playersList = "";
-            foreach (String s in players.Keys)
+           for (int i = 0; i  < sectorPlayers.Count; i++)
             {
-                playersList = "," + players[s].ToString();
+                playersList += "," + (sectorPlayers[i].Row * 10 + sectorPlayers[i].Column % 10).ToString() + sectorPlayers[i].Oriantation.ToString();
             }
             playersList = playersList.Substring(1);
             return playersList;
@@ -174,12 +175,20 @@ namespace UPDServer
         public void removePlanet(int cellNum)
         {
 
-            List<String> cells = planetLocations.Split(',').ToList();
-            cells.Remove(cellNum.ToString());
-            planetLocations = string.Join(",", cells.ToArray());
+            List<String> cell = planetLocations.Split(',').ToList();
+            cell.Remove(cellNum.ToString());
+            planetLocations = string.Join(",", cell.ToArray());
+            cells[cellNum] = 'e';
         }
+        public void removeTreasure(int cellNum)
+        {
 
-       public int getNumBullets()
+            List<String> cell = treasureLocations.Split(',').ToList();
+            cell.Remove(cellNum.ToString());
+            treasureLocations = string.Join(",", cell.ToArray());
+            cells[cellNum] = 'e';
+        }
+        public int getNumBullets()
         {
             return bullets.Count;
         }
@@ -256,6 +265,20 @@ namespace UPDServer
         public Dictionary<String, int> getPlayers()
         {
             return players;
+        }
+
+        public void addSectorPlayer(Player p)
+        {
+            sectorPlayers.Add(p);
+        }
+
+        public void removeSectorPlayer(Player p)
+        {
+            sectorPlayers.Remove(p);
+        }
+        public List<Player> getSectorPlayers()
+        {
+            return sectorPlayers;
         }
     }
 }
