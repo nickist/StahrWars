@@ -404,17 +404,17 @@ namespace Client
                         Int32.TryParse(cellsW[i].Substring(0, cellsW[i].Length - 2), out cellNum);
                         Char wepType = cellsW[i][cellsW[i].Length - 2];
                         Char wepAngle = cellsW[i][cellsW[i].Length - 1];
-                        if (wepType == 't')
+                        if (!phasorsEquiped)
                         {
-                            if (wepAngle == 'n')
+                            if (weaponAngle == 0)
                             {
                                 e.Graphics.DrawImage(torpedoNorth, loc(cellNum % 10, cellNum / 10, gridSize / 3));
                             }
-                            else if (wepAngle == 's')
+                            else if (weaponAngle == 180)
                             {
                                 e.Graphics.DrawImage(torpedoSouth, loc(cellNum % 10, cellNum / 10, gridSize / 3));
                             }
-                            else if (wepAngle == 'e')
+                            else if (weaponAngle == 270)
                             {
                                 e.Graphics.DrawImage(torpedoEast, loc(cellNum % 10, cellNum / 10, gridSize / 3));
                             }
@@ -425,15 +425,15 @@ namespace Client
                         }
                         else
                         {
-                            if (wepAngle == 'n')
+                            if (weaponAngle == 0)
                             {
                                 e.Graphics.DrawImage(phasorNorth, loc(cellNum % 10, cellNum / 10, gridSize / 3));
                             }
-                            else if (wepAngle == 's')
+                            else if (weaponAngle == 180)
                             {
                                 e.Graphics.DrawImage(phasorSouth, loc(cellNum % 10, cellNum / 10, gridSize / 3));
                             }
-                            else if (wepAngle == 'e')
+                            else if (weaponAngle == 270)
                             {
                                 e.Graphics.DrawImage(phasorEast, loc(cellNum % 10, cellNum / 10, gridSize / 3));
                             }
