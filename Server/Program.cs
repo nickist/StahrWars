@@ -96,7 +96,6 @@ namespace UPDServer {
                         {
                             if (parts[0].Equals("mov"))
                             {
-                                server.Reply(universe.getGalaxy(p.SectorStr).getPlayersLocs(), received.Sender);
                                 if (p.FuelPods != 0)
                                 {                                   
                                     p.FuelPods--;
