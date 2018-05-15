@@ -33,7 +33,10 @@ namespace Client
         Image torpedoEast = Image.FromFile("torpedoEast.png");
         Image torpedoWest = Image.FromFile("torpedoWest.png");
 
-
+        Image enemyShipNorth = Image.FromFile("ShipNorthEnemy.png");
+        Image enemyShipSouth = Image.FromFile("ShipSouthEnemy.png");
+        Image enemyShipEast = Image.FromFile("ShipEastEnemy.png");
+        Image enemyShipWest = Image.FromFile("ShipWestEnemy.png");
 
 
 
@@ -447,7 +450,7 @@ namespace Client
                     e.Graphics.DrawEllipse(new Pen(Brushes.Gold, 2), loc(col, row, gridSize / 1.5));
             }
             //Draw Enemy Ships
-            /**
+            
             if (playerLocations.Length != 0)
             {
                 String[] playerCells = playerLocations.Split(',');
@@ -460,22 +463,22 @@ namespace Client
                     {
                         if (playerAngle == 'n')
                         {
-                            e.Graphics.DrawImage(shipNorthEnemy, loc(cellNum % 10, cellNum / 10, shipNorthEnemy.Width / 2));
+                            e.Graphics.DrawImage(enemyShipNorth, loc(cellNum % 10, cellNum / 10, enemyShipNorth.Width / 2));
                         } else if (playerAngle == 's')
                         {
-                            e.Graphics.DrawImage(shipSouthEnemy, loc(cellNum % 10, cellNum / 10, shipSouthEnemy.Width / 2));
+                            e.Graphics.DrawImage(enemyShipSouth, loc(cellNum % 10, cellNum / 10, enemyShipSouth.Width / 2));
                         }
                         else if (playerAngle == 'e')
                         {
-                            e.Graphics.DrawImage(shipEastEnemy, loc(cellNum % 10, cellNum / 10, shipEastEnemy.Width / 2));
+                            e.Graphics.DrawImage(enemyShipEast, loc(cellNum % 10, cellNum / 10, enemyShipEast.Width / 2));
                         }
                         else
                         {
-                            e.Graphics.DrawImage(shipWestEnemy, loc(cellNum % 10, cellNum / 10, shipWestEnemy.Width / 2));
+                            e.Graphics.DrawImage(enemyShipWest, loc(cellNum % 10, cellNum / 10, enemyShipWest.Width / 2));
                         }
                     }
                 }
-            } **/
+            } 
         }
 
 

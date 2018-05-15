@@ -5,7 +5,6 @@ using System.Net.Sockets;
 namespace UPDServer {
     class UdpListener : UdpBase {
         private IPEndPoint _listenOn;
-
         public UdpListener() : this(new IPEndPoint(IPAddress.Any, 32123)) { }
 
         public UdpListener(IPEndPoint endpoint) {

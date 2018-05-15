@@ -45,7 +45,52 @@ namespace UPDServer {
                         int offset = (int)((DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - wep.Time) / 200;
                         wep.Offset = offset;
                     }
-                    
+                    int x = 0;
+                    int y = 0;
+                    switch (wep.Angle)
+                    {
+                        case 'n':
+                            x = wep.Col;
+                            y = wep.Row;
+                            y -= wep.Offset;
+                            break;
+                        case 'e':
+                            x = wep.Col;
+                            y = wep.Row;
+                            x += wep.Offset;
+                            break;
+                        case 's':
+                            x = wep.Col;
+                            y = wep.Row;
+                            y += wep.Offset;
+                            break;
+                        case 'w':
+                            x = wep.Col;
+                            y = wep.Row;
+                            x -= wep.Offset;
+                            break;
+                    }
+                    List<Player> players = galaxies[id].getSectorPlayers();
+                    for (int j = 0; i < players.Count; i++) 
+                    {
+                        if (players[j].Row == wep.Row && players[j].Column == wep.Col)
+                        {
+                            if (players[j].ShieldOn)
+                            {
+                                players[j].ShieldOn = false;
+                                players[j].shields--;
+                            }
+                            else {
+                                if (wep.WeaponType == 't')
+                                {
+                                    players[j].Health -= 15;
+                                } else
+                                {
+                                    players[j].Health -= 5;
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

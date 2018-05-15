@@ -52,12 +52,13 @@ namespace UPDServer {
                         p1.Name = Environment.UserName;
                         players.Add(received.Sender.Address.MapToIPv4().ToString(), p1);
                         p1.SectorStr = numToSectorID(p1.Sector);
+                        p1.Connection = received.Sender;
                         server.Reply(String.Format("connected:true:{0}:{1}:{2}", p1.SectorStr, p1.Column, p1.Row), received.Sender);
                         Galaxy sector = universe.getGalaxy(p1.SectorStr);
-                        sector.updatePlayer(p1.Name, (p1.Row*10+p1.Column%10));
+                        sector.addSectorPlayer(p1);
+                        sector.updatePlayer(received.Sender.Address.MapToIPv4().ToString(), (p1.Row*10+p1.Column%10));
                         server.Reply(String.Format("si:{0}:{1}:{2}:{3}", sector.StarLocations, sector.PlanetLocations, sector.BlackholeLocations, sector.getPlayersLocs()), received.Sender);
                         universe.updateWeps();
-
                     }
 
 
@@ -81,6 +82,12 @@ namespace UPDServer {
                     }
                     else
                     {
+                        universe.updateWeps();
+                        foreach (Player player in players.Values)
+                        {
+                            Galaxy playersSector = universe.getGalaxy(player.SectorStr);
+                            server.Reply(String.Format("ni:{0}:{1}:{2}", playersSector.PlanetLocations, playersSector.getPlayersLocs(), playersSector.getWeaponLocations()), player.Connection);
+                        }
                         Player p;
                         players.TryGetValue(received.Sender.Address.MapToIPv4().ToString(), out p);
                         // set clients health fuel phasors torpedos and sheilds
@@ -94,7 +101,7 @@ namespace UPDServer {
                                     universe.updateWeps();
                                     p.FuelPods--;
                                     server.Reply(String.Format("update:fuelpods:{0}", p.FuelPods), received.Sender);
-
+                                    server.Reply(String.Format("update:health:{0}", p.Health), received.Sender);
                                     if (parts[1].Equals("n")) p.Row--;
                                     else if (parts[1].Equals("s")) p.Row++;
                                     else if (parts[1].Equals("e")) p.Column++;
@@ -108,8 +115,10 @@ namespace UPDServer {
                                         p.Row = 9;
                                         sectorChanged = true;
                                         Galaxy newSector = universe.getGalaxy(p.SectorStr);
-                                        sector.removePlayer(p.Name);
-                                        newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                        sector.removePlayer(received.Sender.Address.MapToIPv4().ToString());
+                                        newSector.updatePlayer(received.Sender.Address.MapToIPv4().ToString(), (p.Row * 10 + p.Column % 10));
+                                        sector.removeSectorPlayer(p);
+                                        newSector.addSectorPlayer(p);
                                     }
                                     else if (p.Row == 10)
                                     {
@@ -118,8 +127,10 @@ namespace UPDServer {
                                         p.Row = 0;
                                         sectorChanged = true;
                                         Galaxy newSector = universe.getGalaxy(p.SectorStr);
-                                        sector.removePlayer(p.Name);
-                                        newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                        sector.removePlayer(received.Sender.Address.MapToIPv4().ToString());
+                                        newSector.updatePlayer(received.Sender.Address.MapToIPv4().ToString(), (p.Row * 10 + p.Column % 10));
+                                        sector.removeSectorPlayer(p);
+                                        newSector.addSectorPlayer(p);
                                     }
                                     else if (p.Column == -1)
                                     {
@@ -128,8 +139,10 @@ namespace UPDServer {
                                         p.Column = 9;
                                         sectorChanged = true;
                                         Galaxy newSector = universe.getGalaxy(p.SectorStr);
-                                        sector.removePlayer(p.Name);
-                                        newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                        sector.removePlayer(received.Sender.Address.MapToIPv4().ToString());
+                                        newSector.updatePlayer(received.Sender.Address.MapToIPv4().ToString(), (p.Row * 10 + p.Column % 10));
+                                        sector.removeSectorPlayer(p);
+                                        newSector.addSectorPlayer(p);
                                     }
                                     else if (p.Column == 10)
                                     {
@@ -138,12 +151,14 @@ namespace UPDServer {
                                         p.Column = 0;
                                         sectorChanged = true;
                                         Galaxy newSector = universe.getGalaxy(p.SectorStr);
-                                        sector.removePlayer(p.Name);
-                                        newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                        sector.removePlayer(received.Sender.Address.MapToIPv4().ToString());
+                                        newSector.updatePlayer(received.Sender.Address.MapToIPv4().ToString(), (p.Row * 10 + p.Column % 10));
+                                        sector.removeSectorPlayer(p);
+                                        newSector.addSectorPlayer(p);
                                     }
                                     if (!sectorChanged)
                                     { // sector is of type Galaxy
-                                        sector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                        sector.updatePlayer(received.Sender.Address.MapToIPv4().ToString(), (p.Row * 10 + p.Column % 10));
                                         server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), received.Sender);
                                     }
                                     server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, parts[1], p.FuelPods), received.Sender);
@@ -174,7 +189,7 @@ namespace UPDServer {
                                             sector.removePlanet(p.Row * 10 + p.Column % 10);
                                             break;
                                         case 't':
-                                            //Player found treasure
+                                            sector.removeTreasure(p.Row * 10 + p.Column % 10);
                                             Random r = new Random();
                                             int x = r.Next(0, 5);
 
@@ -220,22 +235,15 @@ namespace UPDServer {
                                             p.Column = rnd.Next(0, 9);
                                             p.Row = rnd.Next(0, 9);
                                             Galaxy newSector = universe.getGalaxy(p.SectorStr);
-                                            sector.removePlayer(p.Name);
-                                            newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                            sector.removeSectorPlayer(p);
+                                            newSector.addSectorPlayer(p);
+                                            sector.removePlayer(received.Sender.Address.MapToIPv4().ToString());
+                                            newSector.updatePlayer(received.Sender.Address.MapToIPv4().ToString(), (p.Row * 10 + p.Column % 10));
                                             server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
                                             server.Reply("you went through a blackhole", received.Sender);
                                             sectorChanged = true;
                                             break;
                                     }
-                                    //Send message to all users in sector
-
-                                    /*foreach(String s in players.Keys)
-                                    {
-                                        if (players[s].Sector == p.Sector)
-                                        {
-                                            server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), players[s].Connection);
-                                        }
-                                    }*/
 
                                 }
                                 else
@@ -337,7 +345,23 @@ namespace UPDServer {
                                     if (p.Phasors != 0 && p.ShieldOn == false)
                                     {
                                         Galaxy sector = universe.getGalaxy(p.SectorStr);
-                                        sector.addWeapon('p', p.Column, p.Row, p.Oriantation, p.SectorStr);
+                                        if(p.Oriantation == 'n')
+                                        {
+                                            sector.addWeapon('p', p.Column , p.Row-1, p.Oriantation, p.SectorStr);
+                                        }
+                                        else if (p.Oriantation == 's')
+                                        {
+                                            sector.addWeapon('p', p.Column, p.Row+1, p.Oriantation, p.SectorStr);
+                                        }
+                                        else if (p.Oriantation == 'e')
+                                        {
+                                            sector.addWeapon('p', p.Column+1, p.Row, p.Oriantation, p.SectorStr);
+                                        }
+                                        else
+                                        {
+                                            sector.addWeapon('p', p.Column-1, p.Row, p.Oriantation, p.SectorStr);
+                                        }
+                                        
                                         p.Phasors--;
                                         server.Reply(String.Format("update:phasors:{0}", p.Phasors), received.Sender);
                                         server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), received.Sender);
@@ -359,7 +383,22 @@ namespace UPDServer {
                                     if (p.Torpedoes > 0 && p.ShieldOn == false)
                                     {
                                         Galaxy sector = universe.getGalaxy(p.SectorStr);
-                                        sector.addWeapon('t', p.Column, p.Row, p.Oriantation, p.SectorStr);
+                                        if (p.Oriantation == 'n')
+                                        {
+                                            sector.addWeapon('t', p.Column , p.Row -1, p.Oriantation, p.SectorStr);
+                                        }
+                                        else if (p.Oriantation == 's')
+                                        {
+                                            sector.addWeapon('t', p.Column, p.Row+1, p.Oriantation, p.SectorStr);
+                                        }
+                                        else if (p.Oriantation == 'e')
+                                        {
+                                            sector.addWeapon('t', p.Column+1, p.Row, p.Oriantation, p.SectorStr);
+                                        }
+                                        else
+                                        {
+                                            sector.addWeapon('t', p.Column-1, p.Row, p.Oriantation, p.SectorStr);
+                                        }
                                         p.Torpedoes--;
                                         server.Reply(String.Format("update:torpedos:{0}", p.Torpedoes), received.Sender);
                                         server.Reply(String.Format("ni:{0}:{1}:{2}", sector.PlanetLocations, sector.getPlayersLocs(), sector.getWeaponLocations()), received.Sender);  
@@ -389,8 +428,8 @@ namespace UPDServer {
                                     p.FuelPods -= 5;
                                     server.Reply(String.Format("update:fuelpods:{0}", p.FuelPods), received.Sender);
                                     Galaxy newSector = universe.getGalaxy(p.SectorStr);
-                                    sector.removePlayer(p.Name);
-                                    newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                    sector.removePlayer(received.Sender.Address.MapToIPv4().ToString());
+                                    newSector.updatePlayer(received.Sender.Address.MapToIPv4().ToString(), (p.Row * 10 + p.Column % 10));
                                     server.Reply(String.Format("loc:{0}:{1}:{2}:{3}:{4}", p.SectorStr, p.Column, p.Row, p.Oriantation, p.FuelPods), received.Sender);
                                     sectorChanged = true;
                                 }
@@ -416,8 +455,7 @@ namespace UPDServer {
                     }
                 }
             });
-
-
+            
             // Endless loop for user's to send messages to Client
             string read;
             do
