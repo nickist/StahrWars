@@ -25,6 +25,7 @@ namespace UPDServer {
             Random rnd = new Random();
             Dictionary<string, IPEndPoint> connections = new Dictionary<string, IPEndPoint>();
             Dictionary<string, Player> players = new Dictionary<string, Player>();
+            List<Weapons> rounds = new List<Weapons>();
             bool sectorChanged = false;
 
             Console.WriteLine("============================================= Server");
