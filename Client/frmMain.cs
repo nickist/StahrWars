@@ -11,7 +11,7 @@ namespace Client
 {
     public partial class frmMain : Form
     {
-        int sector = 0, col = 3, row = 7, shipAngle = 0, weaponAngle = 0, weaponRow, weaponColumn, boxCount = 10, shields, torpedos, phasors, fuelPods, health;
+        int sector = 0, col = 3, row = 7, shipAngle = 0, weaponAngle = 0, boxCount = 10, shields, torpedos, phasors, fuelPods, health;
         bool gameOn = false, shieldOn = false, phasorsEquiped = true, isAlive = true;
         string sectorStars = "", sectorPlanets="", sectorBlackholes="", playerLocations="";
         string sectorStr = "", bulletLocations = "";
@@ -32,6 +32,11 @@ namespace Client
         Image torpedoSouth = Image.FromFile("torpedoSouth.png");
         Image torpedoEast = Image.FromFile("torpedoEast.png");
         Image torpedoWest = Image.FromFile("torpedoWest.png");
+
+
+
+
+
         //Image phasor = Image.FromFile("laser.png");
 
         //List<Point> points = new List<Point>();
@@ -95,6 +100,12 @@ namespace Client
             // set up the grid look - 1 dot, 4 spaces, 1 dot, 4 spaces
             gridPen.DashPattern = new float[] { 1, 4 };
             gridSize = panCanvas.Width / boxCount;
+
+            // Design out my ship... We could just use an image here
+            //myShipPts.Add(new Point(0, 0));
+            //myShipPts.Add(new Point(10, 5));
+            //myShipPts.Add(new Point(0, -20));
+            //myShipPts.Add(new Point(-10, 5));
 
         }
 
@@ -190,11 +201,6 @@ namespace Client
                             {
                                 Int32.TryParse(parts[2], out shields);
                             }
-                            else if (parts[1].Equals("weaponLoc"))
-                            {
-                                Int32.TryParse(parts[2], out weaponColumn);
-                                Int32.TryParse(parts[3], out weaponRow);
-                            }
                             else if (parts[1].Equals("weaponAngle"))
                             {
                                 Int32.TryParse(parts[2], out weaponAngle);
@@ -235,6 +241,22 @@ namespace Client
                             lblSector.Invoke(new Action(() => lblSector.Text = sectorStr));
                             col = Convert.ToInt32(parts[2]);
                             row = Convert.ToInt32(parts[3]);
+                            if (parts[4].Equals("n"))
+                            {
+                                shipAngle = 0;
+                            }
+                            else if (parts[4].Equals("s"))
+                            {
+                                shipAngle = 180;
+                            }
+                            else if (parts[4].Equals("e"))
+                            {
+                                shipAngle = 90;
+                            }
+                            else if (parts[4].Equals("w"))
+                            {
+                                shipAngle = 270;
+                            }
                             panCanvas.Invoke(new Action(() => panCanvas.Refresh()));
                         }
                         else if (parts[0].Equals("or"))
@@ -378,19 +400,19 @@ namespace Client
                     {
                         int cellNum;
                         Int32.TryParse(cellsW[i].Substring(0, cellsW[i].Length - 2), out cellNum);
-
-                        if (!phasorsEquiped)
+                        Char wepType = cellsW[i][cellsW[i].Length - 2];
+                        Char wepAngle = cellsW[i][cellsW[i].Length - 1];
+                        if (wepType == 't')
                         {
-                            client.Send(string.Format("an{0}", weaponAngle));
-                            if (weaponAngle == 0)
+                            if (wepAngle == 'n')
                             {
                                 e.Graphics.DrawImage(torpedoNorth, loc(cellNum % 10, cellNum / 10, gridSize / 3));
                             }
-                            else if (weaponAngle == 180)
+                            else if (wepAngle == 's')
                             {
                                 e.Graphics.DrawImage(torpedoSouth, loc(cellNum % 10, cellNum / 10, gridSize / 3));
                             }
-                            else if (weaponAngle == 90)
+                            else if (wepAngle == 'e')
                             {
                                 e.Graphics.DrawImage(torpedoEast, loc(cellNum % 10, cellNum / 10, gridSize / 3));
                             }
@@ -421,8 +443,8 @@ namespace Client
                     e.Graphics.DrawEllipse(new Pen(Brushes.Gold, 2), loc(col, row, gridSize / 1.5));
             }
             //Draw Enemy Ships
-            
-            /*if (playerLocations.Length != 0)
+            /**
+            if (playerLocations.Length != 0)
             {
                 String[] playerCells = playerLocations.Split(',');
                 for (int i = 0; i < playerCells.Length; i++)
@@ -434,22 +456,22 @@ namespace Client
                     {
                         if (playerAngle == 'n')
                         {
-                            e.Graphics.DrawImage(shipNorth, loc(cellNum % 10, cellNum / 10, shipNorth.Width / 2));
+                            e.Graphics.DrawImage(shipNorthEnemy, loc(cellNum % 10, cellNum / 10, shipNorthEnemy.Width / 2));
                         } else if (playerAngle == 's')
                         {
-                            e.Graphics.DrawImage(shipSouth, loc(cellNum % 10, cellNum / 10, shipSouth.Width / 2));
+                            e.Graphics.DrawImage(shipSouthEnemy, loc(cellNum % 10, cellNum / 10, shipSouthEnemy.Width / 2));
                         }
                         else if (playerAngle == 'e')
                         {
-                            e.Graphics.DrawImage(shipEast, loc(cellNum % 10, cellNum / 10, shipEast.Width / 2));
+                            e.Graphics.DrawImage(shipEastEnemy, loc(cellNum % 10, cellNum / 10, shipEastEnemy.Width / 2));
                         }
                         else
                         {
-                            e.Graphics.DrawImage(shipWest, loc(cellNum % 10, cellNum / 10, shipWest.Width / 2));
+                            e.Graphics.DrawImage(shipWestEnemy, loc(cellNum % 10, cellNum / 10, shipWestEnemy.Width / 2));
                         }
                     }
                 }
-            } */
+            } **/
         }
 
 
@@ -617,13 +639,14 @@ namespace Client
                 if (phasors >= 0)
                 {
                     client.Send("f:p");
-                    
+                    label10.Invoke(new Action(() => label10.Text = "" + phasors));
+                    progressBar3.Invoke(new Action(() => progressBar3.Value = phasors*2)); //phasor
                 }
 
             }
             else
             {
-                if (torpedos >= 0) 
+                if (torpedos >= 0)
                 {
                     client.Send("f:t");
                     progressBar2.Invoke(new Action(() => progressBar2.Value = torpedos*10)); //torpedo
