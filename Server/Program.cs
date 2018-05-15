@@ -104,43 +104,98 @@ namespace UPDServer {
                                     //Checks for moving to different sector
                                     if (p.Row == -1)
                                     {
-                                        p.Sector -= 16;
-                                        p.SectorStr = numToSectorID(p.Sector);
-                                        p.Row = 9;
-                                        sectorChanged = true;
-                                        Galaxy newSector = universe.getGalaxy(p.SectorStr);
-                                        sector.removePlayer(p.Name);
-                                        newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                        if (!p.SectorStr.Substring(1).Equals("0"))
+                                        {
+                                            p.Sector -= 16;
+                                            p.SectorStr = numToSectorID(p.Sector);
+                                            p.Row = 9;
+                                            sectorChanged = true;
+                                            Galaxy newSector = universe.getGalaxy(p.SectorStr);
+                                            sector.removePlayer(p.Name);
+                                            newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                        }
+                                        else
+                                        {
+                                            p.Sector = 240 + p.Sector;
+                                            p.SectorStr = numToSectorID(p.Sector);
+                                            p.Row = 9;
+                                            sectorChanged = true;
+                                            Galaxy newSector = universe.getGalaxy(p.SectorStr);
+                                            sector.removePlayer(p.Name);
+                                            newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                        }
                                     }
                                     else if (p.Row == 10)
                                     {
-                                        p.Sector += 16;
-                                        p.SectorStr = numToSectorID(p.Sector);
-                                        p.Row = 0;
-                                        sectorChanged = true;
-                                        Galaxy newSector = universe.getGalaxy(p.SectorStr);
-                                        sector.removePlayer(p.Name);
-                                        newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                        if (!p.SectorStr.Substring(1).Equals("15"))
+                                        {
+                                            p.Sector += 16;
+                                            p.SectorStr = numToSectorID(p.Sector);
+                                            p.Row = 0;
+                                            sectorChanged = true;
+                                            Galaxy newSector = universe.getGalaxy(p.SectorStr);
+                                            sector.removePlayer(p.Name);
+                                            newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                        }
+                                        else
+                                        {
+                                            p.Sector = p.Sector - 240;
+                                            p.SectorStr = numToSectorID(p.Sector);
+                                            p.Row = 0;
+                                            sectorChanged = true;
+                                            Galaxy newSector = universe.getGalaxy(p.SectorStr);
+                                            sector.removePlayer(p.Name);
+                                            newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                        }
                                     }
                                     else if (p.Column == -1)
                                     {
-                                        p.Sector--;
-                                        p.SectorStr = numToSectorID(p.Sector);
-                                        p.Column = 9;
-                                        sectorChanged = true;
-                                        Galaxy newSector = universe.getGalaxy(p.SectorStr);
-                                        sector.removePlayer(p.Name);
-                                        newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+
+                                        if (!p.SectorStr.Substring(0, 1).Equals("a"))
+                                        {
+                                            p.Sector--;
+                                            p.SectorStr = numToSectorID(p.Sector);
+                                            p.Column = 9;
+                                            sectorChanged = true;
+                                            Galaxy newSector = universe.getGalaxy(p.SectorStr);
+                                            sector.removePlayer(p.Name);
+                                            newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                        }
+                                        else
+                                        {
+                                            p.Sector += 15;
+                                            p.SectorStr = numToSectorID(p.Sector);
+                                            p.Column = 9;
+                                            sectorChanged = true;
+                                            Galaxy newSector = universe.getGalaxy(p.SectorStr);
+                                            sector.removePlayer(p.Name);
+                                            newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                        }
                                     }
                                     else if (p.Column == 10)
                                     {
-                                        p.Sector++;
-                                        p.SectorStr = numToSectorID(p.Sector);
-                                        p.Column = 0;
-                                        sectorChanged = true;
-                                        Galaxy newSector = universe.getGalaxy(p.SectorStr);
-                                        sector.removePlayer(p.Name);
-                                        newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                        
+                                        if(p.SectorStr.Substring(0,1).Equals("p"))
+                                        {
+                                            p.Sector++;
+                                            p.SectorStr = numToSectorID(p.Sector);
+                                            p.Column = 0;
+                                            sectorChanged = true;
+                                            Galaxy newSector = universe.getGalaxy(p.SectorStr);
+                                            sector.removePlayer(p.Name);
+                                            newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                        }
+                                        else
+                                        {
+                                            p.Sector -= 15;
+                                            p.SectorStr = numToSectorID(p.Sector);
+                                            p.Column = 0;
+                                            sectorChanged = true;
+                                            Galaxy newSector = universe.getGalaxy(p.SectorStr);
+                                            sector.removePlayer(p.Name);
+                                            newSector.updatePlayer(p.Name, (p.Row * 10 + p.Column % 10));
+                                        }
+
                                     }
                                     if (!sectorChanged)
                                     { // sector is of type Galaxy
@@ -229,6 +284,9 @@ namespace UPDServer {
                                             sectorChanged = true;
                                             break;
                                     }
+                                }else
+                                {
+                                    server.Reply("Out of fuel", received.Sender);
                                 }
                             
                             
